@@ -1,0 +1,976 @@
+2014-02-17 09:38:56,711 root:INFO Server starting
+2014-02-17 09:39:14,386 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,386 root:INFO Path:
+2014-02-17 09:39:14,386 root:INFO Query:
+2014-02-17 09:39:14,386 root:INFO {}
+2014-02-17 09:39:14,442 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,442 root:INFO Path:static/angular.js
+2014-02-17 09:39:14,442 root:INFO Query:
+2014-02-17 09:39:14,443 root:INFO {}
+2014-02-17 09:39:14,443 root:INFO [static]sending: static/angular.js
+2014-02-17 09:39:14,471 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,471 root:INFO Path:static/toaster.css
+2014-02-17 09:39:14,471 root:INFO Query:
+2014-02-17 09:39:14,471 root:INFO {}
+2014-02-17 09:39:14,471 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:39:14,515 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,515 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:39:14,516 root:INFO Query:
+2014-02-17 09:39:14,516 root:INFO {}
+2014-02-17 09:39:14,516 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:39:14,527 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,527 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,528 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,528 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,528 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:39:14,528 root:INFO Path:static/home.js
+2014-02-17 09:39:14,528 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:39:14,528 root:INFO Path:static/basic.css
+2014-02-17 09:39:14,528 root:INFO Query:
+2014-02-17 09:39:14,528 root:INFO Query:
+2014-02-17 09:39:14,528 root:INFO Query:
+2014-02-17 09:39:14,529 root:INFO Query:
+2014-02-17 09:39:14,529 root:INFO {}
+2014-02-17 09:39:14,529 root:INFO {}
+2014-02-17 09:39:14,529 root:INFO {}
+2014-02-17 09:39:14,529 root:INFO {}
+2014-02-17 09:39:14,529 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:39:14,529 root:INFO [static]sending: static/home.js
+2014-02-17 09:39:14,529 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:39:14,529 root:INFO [static]sending: static/basic.css
+2014-02-17 09:39:14,530 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,530 root:INFO Path:static/toaster.js
+2014-02-17 09:39:14,530 root:INFO Query:
+2014-02-17 09:39:14,531 root:INFO {}
+2014-02-17 09:39:14,532 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:39:14,619 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,619 root:INFO Path:static/templateMenu.html
+2014-02-17 09:39:14,619 root:INFO Query:
+2014-02-17 09:39:14,619 root:INFO {}
+2014-02-17 09:39:14,619 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:39:14,695 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:14,695 root:INFO Path:favicon.ico
+2014-02-17 09:39:14,696 root:INFO Query:
+2014-02-17 09:39:14,696 root:INFO {}
+2014-02-17 09:39:14,696 root:INFO response:
+2014-02-17 09:39:14,696 root:INFO ['https://localhost:4545/favicon.ico']
+2014-02-17 09:39:16,066 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,067 root:INFO Path:test_idp
+2014-02-17 09:39:16,067 root:INFO Query:
+2014-02-17 09:39:16,067 root:INFO {}
+2014-02-17 09:39:16,095 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,095 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:39:16,095 root:INFO Query:
+2014-02-17 09:39:16,095 root:INFO {}
+2014-02-17 09:39:16,095 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:39:16,097 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,098 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,098 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,098 root:INFO Path:static/basic.css
+2014-02-17 09:39:16,098 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:39:16,099 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,099 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:39:16,099 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,099 root:INFO Query:
+2014-02-17 09:39:16,099 root:INFO Query:
+2014-02-17 09:39:16,100 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:39:16,100 root:INFO Query:
+2014-02-17 09:39:16,100 root:INFO Path:static/angular.js
+2014-02-17 09:39:16,100 root:INFO {}
+2014-02-17 09:39:16,100 root:INFO {}
+2014-02-17 09:39:16,100 root:INFO Query:
+2014-02-17 09:39:16,100 root:INFO {}
+2014-02-17 09:39:16,100 root:INFO Query:
+2014-02-17 09:39:16,100 root:INFO [static]sending: static/basic.css
+2014-02-17 09:39:16,100 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:39:16,100 root:INFO {}
+2014-02-17 09:39:16,100 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:39:16,101 root:INFO {}
+2014-02-17 09:39:16,101 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:39:16,101 root:INFO [static]sending: static/angular.js
+2014-02-17 09:39:16,110 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,110 root:INFO Path:static/toaster.css
+2014-02-17 09:39:16,110 root:INFO Query:
+2014-02-17 09:39:16,110 root:INFO {}
+2014-02-17 09:39:16,110 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:39:16,112 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,112 root:INFO Path:static/test_idp.css
+2014-02-17 09:39:16,112 root:INFO Query:
+2014-02-17 09:39:16,112 root:INFO {}
+2014-02-17 09:39:16,112 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:39:16,113 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,113 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:39:16,114 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,114 root:INFO Query:
+2014-02-17 09:39:16,114 root:INFO Path:static/test_idp.js
+2014-02-17 09:39:16,114 root:INFO {}
+2014-02-17 09:39:16,114 root:INFO Query:
+2014-02-17 09:39:16,115 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:39:16,115 root:INFO {}
+2014-02-17 09:39:16,115 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:39:16,116 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,116 root:INFO Path:static/toaster.js
+2014-02-17 09:39:16,116 root:INFO Query:
+2014-02-17 09:39:16,116 root:INFO {}
+2014-02-17 09:39:16,116 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:39:16,127 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,127 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:39:16,127 root:INFO Query:
+2014-02-17 09:39:16,127 root:INFO {}
+2014-02-17 09:39:16,127 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:39:16,192 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,193 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,193 root:INFO Path:list_tests
+2014-02-17 09:39:16,193 root:INFO Path:static/templateMenu.html
+2014-02-17 09:39:16,193 root:INFO Query:
+2014-02-17 09:39:16,193 root:INFO Query:
+2014-02-17 09:39:16,193 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:39:16,193 root:INFO {}
+2014-02-17 09:39:16,193 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:39:16,647 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,647 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:39:16,648 root:INFO Query:
+2014-02-17 09:39:16,648 root:INFO {}
+2014-02-17 09:39:16,648 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:39:16,819 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:39:16,819 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:39:16,819 root:INFO Query:
+2014-02-17 09:39:16,819 root:INFO {}
+2014-02-17 09:39:16,819 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:49:09,625 root:INFO Server starting
+2014-02-17 09:49:17,707 root:INFO Server starting
+2014-02-17 09:49:20,407 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,407 root:INFO Path:test_idp
+2014-02-17 09:49:20,407 root:INFO Query:
+2014-02-17 09:49:20,407 root:INFO {}
+2014-02-17 09:49:20,463 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,463 root:INFO Path:static/angular.js
+2014-02-17 09:49:20,464 root:INFO Query:
+2014-02-17 09:49:20,464 root:INFO {}
+2014-02-17 09:49:20,464 root:INFO [static]sending: static/angular.js
+2014-02-17 09:49:20,475 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,475 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:49:20,475 root:INFO Query:
+2014-02-17 09:49:20,476 root:INFO {}
+2014-02-17 09:49:20,476 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:49:20,480 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,480 root:INFO Path:static/basic.css
+2014-02-17 09:49:20,480 root:INFO Query:
+2014-02-17 09:49:20,480 root:INFO {}
+2014-02-17 09:49:20,480 root:INFO [static]sending: static/basic.css
+2014-02-17 09:49:20,485 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,485 root:INFO Path:static/test_idp.css
+2014-02-17 09:49:20,485 root:INFO Query:
+2014-02-17 09:49:20,485 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,485 root:INFO {}
+2014-02-17 09:49:20,485 root:INFO Path:static/toaster.js
+2014-02-17 09:49:20,485 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:49:20,486 root:INFO Query:
+2014-02-17 09:49:20,486 root:INFO {}
+2014-02-17 09:49:20,486 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:49:20,488 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,488 root:INFO Path:static/toaster.css
+2014-02-17 09:49:20,488 root:INFO Query:
+2014-02-17 09:49:20,488 root:INFO {}
+2014-02-17 09:49:20,488 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:49:20,489 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,489 root:INFO Path:static/test_idp.js
+2014-02-17 09:49:20,489 root:INFO Query:
+2014-02-17 09:49:20,489 root:INFO {}
+2014-02-17 09:49:20,489 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:49:20,491 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,491 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:49:20,491 root:INFO Query:
+2014-02-17 09:49:20,491 root:INFO {}
+2014-02-17 09:49:20,491 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:49:20,492 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,492 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:49:20,492 root:INFO Query:
+2014-02-17 09:49:20,493 root:INFO {}
+2014-02-17 09:49:20,493 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:49:20,498 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,498 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,498 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:49:20,498 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:49:20,498 root:INFO Query:
+2014-02-17 09:49:20,498 root:INFO Query:
+2014-02-17 09:49:20,498 root:INFO {}
+2014-02-17 09:49:20,498 root:INFO {}
+2014-02-17 09:49:20,498 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:49:20,499 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:49:20,510 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,510 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:49:20,510 root:INFO Query:
+2014-02-17 09:49:20,510 root:INFO {}
+2014-02-17 09:49:20,510 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:49:20,608 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,608 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:20,608 root:INFO Path:static/templateMenu.html
+2014-02-17 09:49:20,608 root:INFO Path:list_tests
+2014-02-17 09:49:20,608 root:INFO Query:
+2014-02-17 09:49:20,608 root:INFO Query:
+2014-02-17 09:49:20,608 root:INFO {}
+2014-02-17 09:49:20,608 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:49:20,609 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:49:21,012 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:21,012 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:49:21,012 root:INFO Query:
+2014-02-17 09:49:21,012 root:INFO {}
+2014-02-17 09:49:21,013 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:49:21,177 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:21,177 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:49:21,177 root:INFO Query:
+2014-02-17 09:49:21,177 root:INFO {}
+2014-02-17 09:49:21,177 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:49:22,326 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,326 root:INFO Path:test_idp
+2014-02-17 09:49:22,326 root:INFO Query:
+2014-02-17 09:49:22,326 root:INFO {}
+2014-02-17 09:49:22,358 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,358 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:49:22,358 root:INFO Query:
+2014-02-17 09:49:22,358 root:INFO {}
+2014-02-17 09:49:22,358 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:49:22,359 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,359 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,359 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:49:22,360 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,360 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,360 root:INFO Path:static/basic.css
+2014-02-17 09:49:22,361 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,361 root:INFO Query:
+2014-02-17 09:49:22,361 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:49:22,361 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:49:22,361 root:INFO Query:
+2014-02-17 09:49:22,361 root:INFO Path:static/angular.js
+2014-02-17 09:49:22,361 root:INFO {}
+2014-02-17 09:49:22,361 root:INFO Query:
+2014-02-17 09:49:22,361 root:INFO Query:
+2014-02-17 09:49:22,362 root:INFO {}
+2014-02-17 09:49:22,362 root:INFO Query:
+2014-02-17 09:49:22,362 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:49:22,362 root:INFO {}
+2014-02-17 09:49:22,362 root:INFO {}
+2014-02-17 09:49:22,362 root:INFO [static]sending: static/basic.css
+2014-02-17 09:49:22,362 root:INFO {}
+2014-02-17 09:49:22,362 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:49:22,362 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:49:22,363 root:INFO [static]sending: static/angular.js
+2014-02-17 09:49:22,372 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,372 root:INFO Path:static/toaster.css
+2014-02-17 09:49:22,372 root:INFO Query:
+2014-02-17 09:49:22,372 root:INFO {}
+2014-02-17 09:49:22,372 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:49:22,374 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,374 root:INFO Path:static/test_idp.css
+2014-02-17 09:49:22,374 root:INFO Query:
+2014-02-17 09:49:22,374 root:INFO {}
+2014-02-17 09:49:22,374 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:49:22,375 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,375 root:INFO Path:static/test_idp.js
+2014-02-17 09:49:22,375 root:INFO Query:
+2014-02-17 09:49:22,375 root:INFO {}
+2014-02-17 09:49:22,375 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:49:22,376 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,376 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:49:22,376 root:INFO Query:
+2014-02-17 09:49:22,376 root:INFO {}
+2014-02-17 09:49:22,377 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:49:22,377 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,377 root:INFO Path:static/toaster.js
+2014-02-17 09:49:22,378 root:INFO Query:
+2014-02-17 09:49:22,378 root:INFO {}
+2014-02-17 09:49:22,378 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:49:22,389 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,389 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:49:22,389 root:INFO Query:
+2014-02-17 09:49:22,389 root:INFO {}
+2014-02-17 09:49:22,389 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:49:22,442 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,442 root:INFO Path:static/templateMenu.html
+2014-02-17 09:49:22,442 root:INFO Query:
+2014-02-17 09:49:22,442 root:INFO {}
+2014-02-17 09:49:22,442 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:49:22,449 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,450 root:INFO Path:list_tests
+2014-02-17 09:49:22,450 root:INFO Query:
+2014-02-17 09:49:22,450 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:49:22,495 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,495 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:49:22,495 root:INFO Query:
+2014-02-17 09:49:22,495 root:INFO {}
+2014-02-17 09:49:22,495 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:49:22,638 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:22,638 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:49:22,638 root:INFO Query:
+2014-02-17 09:49:22,638 root:INFO {}
+2014-02-17 09:49:22,638 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:49:23,711 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,711 root:INFO Path:test_idp
+2014-02-17 09:49:23,711 root:INFO Query:
+2014-02-17 09:49:23,711 root:INFO {}
+2014-02-17 09:49:23,737 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,737 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:49:23,737 root:INFO Query:
+2014-02-17 09:49:23,737 root:INFO {}
+2014-02-17 09:49:23,737 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:49:23,742 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,742 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,743 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,743 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,743 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:49:23,743 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:49:23,743 root:INFO Path:static/angular.js
+2014-02-17 09:49:23,743 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:49:23,743 root:INFO Query:
+2014-02-17 09:49:23,743 root:INFO Query:
+2014-02-17 09:49:23,744 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,744 root:INFO Query:
+2014-02-17 09:49:23,744 root:INFO Query:
+2014-02-17 09:49:23,744 root:INFO {}
+2014-02-17 09:49:23,744 root:INFO {}
+2014-02-17 09:49:23,744 root:INFO Path:static/basic.css
+2014-02-17 09:49:23,744 root:INFO {}
+2014-02-17 09:49:23,744 root:INFO {}
+2014-02-17 09:49:23,744 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:49:23,744 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:49:23,744 root:INFO Query:
+2014-02-17 09:49:23,744 root:INFO [static]sending: static/angular.js
+2014-02-17 09:49:23,745 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:49:23,745 root:INFO {}
+2014-02-17 09:49:23,746 root:INFO [static]sending: static/basic.css
+2014-02-17 09:49:23,749 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,750 root:INFO Path:static/toaster.css
+2014-02-17 09:49:23,750 root:INFO Query:
+2014-02-17 09:49:23,750 root:INFO {}
+2014-02-17 09:49:23,750 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:49:23,757 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,757 root:INFO Path:static/toaster.js
+2014-02-17 09:49:23,757 root:INFO Query:
+2014-02-17 09:49:23,757 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,758 root:INFO {}
+2014-02-17 09:49:23,758 root:INFO Path:static/test_idp.css
+2014-02-17 09:49:23,758 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:49:23,758 root:INFO Query:
+2014-02-17 09:49:23,758 root:INFO {}
+2014-02-17 09:49:23,758 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:49:23,759 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,759 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:49:23,759 root:INFO Query:
+2014-02-17 09:49:23,759 root:INFO {}
+2014-02-17 09:49:23,759 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:49:23,761 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,761 root:INFO Path:static/test_idp.js
+2014-02-17 09:49:23,761 root:INFO Query:
+2014-02-17 09:49:23,761 root:INFO {}
+2014-02-17 09:49:23,761 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:49:23,773 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,773 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:49:23,773 root:INFO Query:
+2014-02-17 09:49:23,773 root:INFO {}
+2014-02-17 09:49:23,773 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:49:23,849 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,849 root:INFO Path:static/templateMenu.html
+2014-02-17 09:49:23,849 root:INFO Query:
+2014-02-17 09:49:23,850 root:INFO {}
+2014-02-17 09:49:23,850 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:49:23,852 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,852 root:INFO Path:list_tests
+2014-02-17 09:49:23,852 root:INFO Query:
+2014-02-17 09:49:23,852 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:49:23,886 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:23,886 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:49:23,886 root:INFO Query:
+2014-02-17 09:49:23,886 root:INFO {}
+2014-02-17 09:49:23,886 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:49:24,016 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:49:24,016 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:49:24,016 root:INFO Query:
+2014-02-17 09:49:24,016 root:INFO {}
+2014-02-17 09:49:24,016 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:54:48,699 root:INFO Server starting
+2014-02-17 09:54:54,756 root:INFO Server starting
+2014-02-17 09:54:57,451 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,451 root:INFO Path:test_idp
+2014-02-17 09:54:57,451 root:INFO Query:
+2014-02-17 09:54:57,451 root:INFO {}
+2014-02-17 09:54:57,485 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,485 root:INFO Path:static/angular.js
+2014-02-17 09:54:57,486 root:INFO Query:
+2014-02-17 09:54:57,486 root:INFO {}
+2014-02-17 09:54:57,486 root:INFO [static]sending: static/angular.js
+2014-02-17 09:54:57,508 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,508 root:INFO Path:static/basic.css
+2014-02-17 09:54:57,508 root:INFO Query:
+2014-02-17 09:54:57,508 root:INFO {}
+2014-02-17 09:54:57,508 root:INFO [static]sending: static/basic.css
+2014-02-17 09:54:57,516 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,516 root:INFO Path:static/toaster.css
+2014-02-17 09:54:57,516 root:INFO Query:
+2014-02-17 09:54:57,516 root:INFO {}
+2014-02-17 09:54:57,516 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:54:57,519 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,520 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,520 root:INFO Path:static/test_idp.css
+2014-02-17 09:54:57,520 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:54:57,520 root:INFO Query:
+2014-02-17 09:54:57,520 root:INFO Query:
+2014-02-17 09:54:57,520 root:INFO {}
+2014-02-17 09:54:57,520 root:INFO {}
+2014-02-17 09:54:57,520 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:54:57,520 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:54:57,522 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,522 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:54:57,522 root:INFO Query:
+2014-02-17 09:54:57,523 root:INFO {}
+2014-02-17 09:54:57,523 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:54:57,524 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,524 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:54:57,524 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,524 root:INFO Query:
+2014-02-17 09:54:57,524 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:54:57,525 root:INFO {}
+2014-02-17 09:54:57,525 root:INFO Query:
+2014-02-17 09:54:57,525 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:54:57,525 root:INFO {}
+2014-02-17 09:54:57,525 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:54:57,527 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,527 root:INFO Path:static/test_idp.js
+2014-02-17 09:54:57,528 root:INFO Query:
+2014-02-17 09:54:57,528 root:INFO {}
+2014-02-17 09:54:57,528 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:54:57,532 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,533 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,533 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:54:57,533 root:INFO Path:static/toaster.js
+2014-02-17 09:54:57,533 root:INFO Query:
+2014-02-17 09:54:57,533 root:INFO Query:
+2014-02-17 09:54:57,533 root:INFO {}
+2014-02-17 09:54:57,533 root:INFO {}
+2014-02-17 09:54:57,533 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:54:57,533 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:54:57,544 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,544 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:54:57,545 root:INFO Query:
+2014-02-17 09:54:57,545 root:INFO {}
+2014-02-17 09:54:57,545 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:54:57,640 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,641 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:57,641 root:INFO Path:list_tests
+2014-02-17 09:54:57,641 root:INFO Path:static/templateMenu.html
+2014-02-17 09:54:57,641 root:INFO Query:
+2014-02-17 09:54:57,641 root:INFO Query:
+2014-02-17 09:54:57,641 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:54:57,641 root:INFO {}
+2014-02-17 09:54:57,641 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:54:58,048 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:58,048 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:54:58,048 root:INFO Query:
+2014-02-17 09:54:58,048 root:INFO {}
+2014-02-17 09:54:58,048 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:54:58,283 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:54:58,284 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:54:58,284 root:INFO Query:
+2014-02-17 09:54:58,284 root:INFO {}
+2014-02-17 09:54:58,284 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:55:30,408 root:INFO Server starting
+2014-02-17 09:55:35,885 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,885 root:INFO Path:test_idp
+2014-02-17 09:55:35,885 root:INFO Query:
+2014-02-17 09:55:35,886 root:INFO {}
+2014-02-17 09:55:35,940 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,940 root:INFO Path:static/angular.js
+2014-02-17 09:55:35,941 root:INFO Query:
+2014-02-17 09:55:35,941 root:INFO {}
+2014-02-17 09:55:35,941 root:INFO [static]sending: static/angular.js
+2014-02-17 09:55:35,950 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,951 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:55:35,951 root:INFO Query:
+2014-02-17 09:55:35,951 root:INFO {}
+2014-02-17 09:55:35,951 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:55:35,957 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,958 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:55:35,958 root:INFO Query:
+2014-02-17 09:55:35,958 root:INFO {}
+2014-02-17 09:55:35,958 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:55:35,964 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,964 root:INFO Path:static/basic.css
+2014-02-17 09:55:35,964 root:INFO Query:
+2014-02-17 09:55:35,964 root:INFO {}
+2014-02-17 09:55:35,965 root:INFO [static]sending: static/basic.css
+2014-02-17 09:55:35,969 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,969 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:55:35,969 root:INFO Query:
+2014-02-17 09:55:35,969 root:INFO {}
+2014-02-17 09:55:35,969 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:55:35,975 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,975 root:INFO Path:static/test_idp.css
+2014-02-17 09:55:35,976 root:INFO Query:
+2014-02-17 09:55:35,976 root:INFO {}
+2014-02-17 09:55:35,976 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:55:35,977 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,977 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:55:35,977 root:INFO Query:
+2014-02-17 09:55:35,977 root:INFO {}
+2014-02-17 09:55:35,978 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:55:35,981 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,982 root:INFO Path:static/toaster.css
+2014-02-17 09:55:35,982 root:INFO Query:
+2014-02-17 09:55:35,982 root:INFO {}
+2014-02-17 09:55:35,982 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:55:35,987 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,987 root:INFO Path:static/toaster.js
+2014-02-17 09:55:35,988 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,988 root:INFO Query:
+2014-02-17 09:55:35,988 root:INFO Path:static/test_idp.js
+2014-02-17 09:55:35,988 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:35,988 root:INFO {}
+2014-02-17 09:55:35,988 root:INFO Query:
+2014-02-17 09:55:35,989 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:55:35,989 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:55:35,989 root:INFO {}
+2014-02-17 09:55:35,989 root:INFO Query:
+2014-02-17 09:55:35,989 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:55:35,989 root:INFO {}
+2014-02-17 09:55:35,989 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:55:36,001 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:36,001 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:55:36,001 root:INFO Query:
+2014-02-17 09:55:36,001 root:INFO {}
+2014-02-17 09:55:36,001 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:55:36,100 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:36,100 root:INFO Path:static/templateMenu.html
+2014-02-17 09:55:36,101 root:INFO Query:
+2014-02-17 09:55:36,101 root:INFO {}
+2014-02-17 09:55:36,101 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:55:36,107 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:36,107 root:INFO Path:list_tests
+2014-02-17 09:55:36,107 root:INFO Query:
+2014-02-17 09:55:36,107 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:55:36,166 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:36,167 root:INFO Path:favicon.ico
+2014-02-17 09:55:36,167 root:INFO Query:
+2014-02-17 09:55:36,167 root:INFO {}
+2014-02-17 09:55:36,167 root:INFO response:
+2014-02-17 09:55:36,167 root:INFO ['https://localhost:5454/favicon.ico']
+2014-02-17 09:55:36,515 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:36,515 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:55:36,515 root:INFO Query:
+2014-02-17 09:55:36,515 root:INFO {}
+2014-02-17 09:55:36,515 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:55:36,789 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:55:36,789 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:55:36,790 root:INFO Query:
+2014-02-17 09:55:36,790 root:INFO {}
+2014-02-17 09:55:36,790 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:58:07,657 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,657 root:INFO Path:
+2014-02-17 09:58:07,657 root:INFO Query:
+2014-02-17 09:58:07,657 root:INFO {}
+2014-02-17 09:58:07,711 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,711 root:INFO Path:static/angular.js
+2014-02-17 09:58:07,711 root:INFO Query:
+2014-02-17 09:58:07,711 root:INFO {}
+2014-02-17 09:58:07,711 root:INFO [static]sending: static/angular.js
+2014-02-17 09:58:07,726 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,726 root:INFO Path:static/basic.css
+2014-02-17 09:58:07,726 root:INFO Query:
+2014-02-17 09:58:07,727 root:INFO {}
+2014-02-17 09:58:07,727 root:INFO [static]sending: static/basic.css
+2014-02-17 09:58:07,728 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,728 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:07,728 root:INFO Query:
+2014-02-17 09:58:07,728 root:INFO {}
+2014-02-17 09:58:07,728 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:07,733 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,733 root:INFO Path:static/toaster.css
+2014-02-17 09:58:07,733 root:INFO Query:
+2014-02-17 09:58:07,733 root:INFO {}
+2014-02-17 09:58:07,733 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:58:07,739 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,739 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:07,739 root:INFO Query:
+2014-02-17 09:58:07,740 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,740 root:INFO {}
+2014-02-17 09:58:07,740 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:58:07,740 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:07,740 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,740 root:INFO Query:
+2014-02-17 09:58:07,740 root:INFO Path:static/home.js
+2014-02-17 09:58:07,740 root:INFO {}
+2014-02-17 09:58:07,741 root:INFO Query:
+2014-02-17 09:58:07,741 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,741 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:58:07,741 root:INFO {}
+2014-02-17 09:58:07,741 root:INFO Path:static/toaster.js
+2014-02-17 09:58:07,741 root:INFO [static]sending: static/home.js
+2014-02-17 09:58:07,742 root:INFO Query:
+2014-02-17 09:58:07,742 root:INFO {}
+2014-02-17 09:58:07,742 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:58:07,828 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:07,828 root:INFO Path:static/templateMenu.html
+2014-02-17 09:58:07,828 root:INFO Query:
+2014-02-17 09:58:07,828 root:INFO {}
+2014-02-17 09:58:07,829 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:58:08,436 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,436 root:INFO Path:test_idp
+2014-02-17 09:58:08,436 root:INFO Query:
+2014-02-17 09:58:08,436 root:INFO {}
+2014-02-17 09:58:08,478 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,478 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:08,478 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,479 root:INFO Query:
+2014-02-17 09:58:08,479 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,479 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:58:08,479 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,479 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,479 root:INFO {}
+2014-02-17 09:58:08,480 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:58:08,480 root:INFO Query:
+2014-02-17 09:58:08,480 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:08,480 root:INFO Path:static/angular.js
+2014-02-17 09:58:08,480 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:08,480 root:INFO Query:
+2014-02-17 09:58:08,480 root:INFO {}
+2014-02-17 09:58:08,480 root:INFO Query:
+2014-02-17 09:58:08,480 root:INFO Query:
+2014-02-17 09:58:08,480 root:INFO {}
+2014-02-17 09:58:08,480 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:58:08,481 root:INFO {}
+2014-02-17 09:58:08,481 root:INFO {}
+2014-02-17 09:58:08,481 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:58:08,481 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:08,481 root:INFO [static]sending: static/angular.js
+2014-02-17 09:58:08,493 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,493 root:INFO Path:static/toaster.css
+2014-02-17 09:58:08,493 root:INFO Query:
+2014-02-17 09:58:08,493 root:INFO {}
+2014-02-17 09:58:08,493 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:58:08,493 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,494 root:INFO Path:static/test_idp.js
+2014-02-17 09:58:08,494 root:INFO Query:
+2014-02-17 09:58:08,494 root:INFO {}
+2014-02-17 09:58:08,494 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,495 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,495 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:58:08,495 root:INFO Path:static/basic.css
+2014-02-17 09:58:08,495 root:INFO Path:static/test_idp.css
+2014-02-17 09:58:08,495 root:INFO Query:
+2014-02-17 09:58:08,495 root:INFO Query:
+2014-02-17 09:58:08,495 root:INFO {}
+2014-02-17 09:58:08,496 root:INFO {}
+2014-02-17 09:58:08,496 root:INFO [static]sending: static/basic.css
+2014-02-17 09:58:08,496 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:58:08,506 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,506 root:INFO Path:static/toaster.js
+2014-02-17 09:58:08,506 root:INFO Query:
+2014-02-17 09:58:08,506 root:INFO {}
+2014-02-17 09:58:08,506 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:58:08,507 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,507 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:58:08,507 root:INFO Query:
+2014-02-17 09:58:08,507 root:INFO {}
+2014-02-17 09:58:08,507 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:58:08,519 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,519 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:58:08,519 root:INFO Query:
+2014-02-17 09:58:08,519 root:INFO {}
+2014-02-17 09:58:08,519 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:58:08,589 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,589 root:INFO Path:list_tests
+2014-02-17 09:58:08,589 root:INFO Query:
+2014-02-17 09:58:08,589 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:58:08,591 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,591 root:INFO Path:static/templateMenu.html
+2014-02-17 09:58:08,592 root:INFO Query:
+2014-02-17 09:58:08,592 root:INFO {}
+2014-02-17 09:58:08,592 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:58:08,623 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,623 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:58:08,623 root:INFO Query:
+2014-02-17 09:58:08,623 root:INFO {}
+2014-02-17 09:58:08,623 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:58:08,858 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:08,858 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:58:08,858 root:INFO Query:
+2014-02-17 09:58:08,858 root:INFO {}
+2014-02-17 09:58:08,858 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:58:10,676 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,676 root:INFO Path:
+2014-02-17 09:58:10,676 root:INFO Query:
+2014-02-17 09:58:10,676 root:INFO {}
+2014-02-17 09:58:10,720 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,720 root:INFO Path:static/basic.css
+2014-02-17 09:58:10,720 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,721 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,721 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,721 root:INFO Query:
+2014-02-17 09:58:10,721 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,721 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:10,722 root:INFO Path:static/angular.js
+2014-02-17 09:58:10,722 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:10,722 root:INFO {}
+2014-02-17 09:58:10,722 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:58:10,722 root:INFO Query:
+2014-02-17 09:58:10,722 root:INFO Query:
+2014-02-17 09:58:10,722 root:INFO Query:
+2014-02-17 09:58:10,722 root:INFO [static]sending: static/basic.css
+2014-02-17 09:58:10,722 root:INFO Query:
+2014-02-17 09:58:10,723 root:INFO {}
+2014-02-17 09:58:10,723 root:INFO {}
+2014-02-17 09:58:10,723 root:INFO {}
+2014-02-17 09:58:10,723 root:INFO {}
+2014-02-17 09:58:10,723 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:10,723 root:INFO [static]sending: static/angular.js
+2014-02-17 09:58:10,724 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:10,724 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:58:10,734 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,734 root:INFO Path:static/home.js
+2014-02-17 09:58:10,734 root:INFO Query:
+2014-02-17 09:58:10,735 root:INFO {}
+2014-02-17 09:58:10,735 root:INFO [static]sending: static/home.js
+2014-02-17 09:58:10,736 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,736 root:INFO Path:static/toaster.css
+2014-02-17 09:58:10,736 root:INFO Query:
+2014-02-17 09:58:10,736 root:INFO {}
+2014-02-17 09:58:10,736 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:58:10,745 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,746 root:INFO Path:static/toaster.js
+2014-02-17 09:58:10,746 root:INFO Query:
+2014-02-17 09:58:10,746 root:INFO {}
+2014-02-17 09:58:10,746 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:58:10,810 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:10,810 root:INFO Path:static/templateMenu.html
+2014-02-17 09:58:10,810 root:INFO Query:
+2014-02-17 09:58:10,810 root:INFO {}
+2014-02-17 09:58:10,810 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:58:11,828 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,828 root:INFO Path:test_idp
+2014-02-17 09:58:11,828 root:INFO Query:
+2014-02-17 09:58:11,828 root:INFO {}
+2014-02-17 09:58:11,860 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,860 root:INFO Path:static/angular.js
+2014-02-17 09:58:11,860 root:INFO Query:
+2014-02-17 09:58:11,860 root:INFO {}
+2014-02-17 09:58:11,860 root:INFO [static]sending: static/angular.js
+2014-02-17 09:58:11,868 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,868 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:11,868 root:INFO Query:
+2014-02-17 09:58:11,869 root:INFO {}
+2014-02-17 09:58:11,869 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:11,869 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,869 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:58:11,870 root:INFO Query:
+2014-02-17 09:58:11,870 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,870 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,870 root:INFO {}
+2014-02-17 09:58:11,870 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:58:11,870 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:11,870 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:58:11,871 root:INFO Query:
+2014-02-17 09:58:11,871 root:INFO Query:
+2014-02-17 09:58:11,871 root:INFO {}
+2014-02-17 09:58:11,871 root:INFO {}
+2014-02-17 09:58:11,871 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:58:11,871 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:11,883 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,884 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,884 root:INFO Path:static/test_idp.js
+2014-02-17 09:58:11,884 root:INFO Path:static/basic.css
+2014-02-17 09:58:11,884 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,885 root:INFO Query:
+2014-02-17 09:58:11,885 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,885 root:INFO Query:
+2014-02-17 09:58:11,885 root:INFO Path:static/test_idp.css
+2014-02-17 09:58:11,886 root:INFO {}
+2014-02-17 09:58:11,886 root:INFO Path:static/toaster.css
+2014-02-17 09:58:11,886 root:INFO {}
+2014-02-17 09:58:11,886 root:INFO Query:
+2014-02-17 09:58:11,886 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:58:11,886 root:INFO Query:
+2014-02-17 09:58:11,886 root:INFO [static]sending: static/basic.css
+2014-02-17 09:58:11,886 root:INFO {}
+2014-02-17 09:58:11,886 root:INFO {}
+2014-02-17 09:58:11,887 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:58:11,887 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:58:11,891 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,891 root:INFO Path:static/toaster.js
+2014-02-17 09:58:11,891 root:INFO Query:
+2014-02-17 09:58:11,891 root:INFO {}
+2014-02-17 09:58:11,892 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:58:11,898 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,898 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:58:11,898 root:INFO Query:
+2014-02-17 09:58:11,898 root:INFO {}
+2014-02-17 09:58:11,898 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:58:11,903 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,903 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:58:11,903 root:INFO Query:
+2014-02-17 09:58:11,903 root:INFO {}
+2014-02-17 09:58:11,903 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:58:11,953 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,953 root:INFO Path:list_tests
+2014-02-17 09:58:11,953 root:INFO Query:
+2014-02-17 09:58:11,953 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:58:11,958 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,958 root:INFO Path:static/templateMenu.html
+2014-02-17 09:58:11,958 root:INFO Query:
+2014-02-17 09:58:11,958 root:INFO {}
+2014-02-17 09:58:11,958 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:58:11,992 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:11,992 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:58:11,992 root:INFO Query:
+2014-02-17 09:58:11,992 root:INFO {}
+2014-02-17 09:58:11,992 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:58:12,208 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,208 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:58:12,208 root:INFO Query:
+2014-02-17 09:58:12,208 root:INFO {}
+2014-02-17 09:58:12,208 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:58:12,674 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,674 root:INFO Path:idp_config
+2014-02-17 09:58:12,674 root:INFO Query:
+2014-02-17 09:58:12,675 root:INFO {}
+2014-02-17 09:58:12,722 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,723 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,723 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:58:12,724 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,724 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,725 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,725 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:12,725 root:INFO Query:
+2014-02-17 09:58:12,725 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:58:12,725 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:12,725 root:INFO Path:static/angular.js
+2014-02-17 09:58:12,725 root:INFO Query:
+2014-02-17 09:58:12,725 root:INFO {}
+2014-02-17 09:58:12,725 root:INFO Query:
+2014-02-17 09:58:12,726 root:INFO Query:
+2014-02-17 09:58:12,726 root:INFO Query:
+2014-02-17 09:58:12,726 root:INFO {}
+2014-02-17 09:58:12,726 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:58:12,726 root:INFO {}
+2014-02-17 09:58:12,726 root:INFO {}
+2014-02-17 09:58:12,726 root:INFO {}
+2014-02-17 09:58:12,727 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:12,727 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:58:12,727 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:12,727 root:INFO [static]sending: static/angular.js
+2014-02-17 09:58:12,736 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,737 root:INFO Path:static/basic.css
+2014-02-17 09:58:12,737 root:INFO Query:
+2014-02-17 09:58:12,737 root:INFO {}
+2014-02-17 09:58:12,737 root:INFO [static]sending: static/basic.css
+2014-02-17 09:58:12,739 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,739 root:INFO Path:static/toaster.css
+2014-02-17 09:58:12,739 root:INFO Query:
+2014-02-17 09:58:12,739 root:INFO {}
+2014-02-17 09:58:12,739 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:58:12,740 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,740 root:INFO Path:static/idp_config.css
+2014-02-17 09:58:12,740 root:INFO Query:
+2014-02-17 09:58:12,740 root:INFO {}
+2014-02-17 09:58:12,741 root:INFO [static]sending: static/idp_config.css
+2014-02-17 09:58:12,742 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,742 root:INFO Path:static/idp_config.js
+2014-02-17 09:58:12,742 root:INFO Query:
+2014-02-17 09:58:12,742 root:INFO {}
+2014-02-17 09:58:12,742 root:INFO [static]sending: static/idp_config.js
+2014-02-17 09:58:12,748 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,748 root:INFO Path:static/toaster.js
+2014-02-17 09:58:12,748 root:INFO Query:
+2014-02-17 09:58:12,748 root:INFO {}
+2014-02-17 09:58:12,748 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:58:12,813 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,813 root:INFO Path:static/templateMenu.html
+2014-02-17 09:58:12,813 root:INFO Query:
+2014-02-17 09:58:12,813 root:INFO {}
+2014-02-17 09:58:12,813 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:58:12,824 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:12,824 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:58:12,824 root:INFO Query:
+2014-02-17 09:58:12,825 root:INFO {}
+2014-02-17 09:58:12,825 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:58:13,544 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,544 root:INFO Path:test_idp
+2014-02-17 09:58:13,544 root:INFO Query:
+2014-02-17 09:58:13,545 root:INFO {}
+2014-02-17 09:58:13,578 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,578 root:INFO Path:static/jquery.min.latest.js
+2014-02-17 09:58:13,578 root:INFO Query:
+2014-02-17 09:58:13,578 root:INFO {}
+2014-02-17 09:58:13,578 root:INFO [static]sending: static/jquery.min.latest.js
+2014-02-17 09:58:13,587 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,587 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,588 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,588 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,588 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,588 root:INFO Path:static/bootbox.min.js
+2014-02-17 09:58:13,588 root:INFO Path:static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:13,588 root:INFO Path:static/angular.js
+2014-02-17 09:58:13,588 root:INFO Path:static/basic.css
+2014-02-17 09:58:13,588 root:INFO Path:static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:13,589 root:INFO Query:
+2014-02-17 09:58:13,589 root:INFO Query:
+2014-02-17 09:58:13,589 root:INFO Query:
+2014-02-17 09:58:13,589 root:INFO Query:
+2014-02-17 09:58:13,589 root:INFO Query:
+2014-02-17 09:58:13,589 root:INFO {}
+2014-02-17 09:58:13,589 root:INFO {}
+2014-02-17 09:58:13,589 root:INFO {}
+2014-02-17 09:58:13,589 root:INFO {}
+2014-02-17 09:58:13,589 root:INFO {}
+2014-02-17 09:58:13,589 root:INFO [static]sending: static/bootbox.min.js
+2014-02-17 09:58:13,589 root:INFO [static]sending: static/bootstrap/js/bootstrap.min.js
+2014-02-17 09:58:13,590 root:INFO [static]sending: static/angular.js
+2014-02-17 09:58:13,590 root:INFO [static]sending: static/basic.css
+2014-02-17 09:58:13,590 root:INFO [static]sending: static/bootstrap/css/bootstrap.min.css
+2014-02-17 09:58:13,590 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,592 root:INFO Path:static/toaster.css
+2014-02-17 09:58:13,592 root:INFO Query:
+2014-02-17 09:58:13,592 root:INFO {}
+2014-02-17 09:58:13,592 root:INFO [static]sending: static/toaster.css
+2014-02-17 09:58:13,602 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,603 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,603 root:INFO Path:static/pitures/arrowDown.png
+2014-02-17 09:58:13,603 root:INFO Path:static/test_idp.css
+2014-02-17 09:58:13,603 root:INFO Query:
+2014-02-17 09:58:13,603 root:INFO Query:
+2014-02-17 09:58:13,604 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,604 root:INFO {}
+2014-02-17 09:58:13,604 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,604 root:INFO {}
+2014-02-17 09:58:13,604 root:INFO Path:static/test_idp.js
+2014-02-17 09:58:13,604 root:INFO [static]sending: static/pitures/arrowDown.png
+2014-02-17 09:58:13,604 root:INFO Path:static/toaster.js
+2014-02-17 09:58:13,604 root:INFO [static]sending: static/test_idp.css
+2014-02-17 09:58:13,605 root:INFO Query:
+2014-02-17 09:58:13,605 root:INFO Query:
+2014-02-17 09:58:13,605 root:INFO {}
+2014-02-17 09:58:13,605 root:INFO {}
+2014-02-17 09:58:13,606 root:INFO [static]sending: static/test_idp.js
+2014-02-17 09:58:13,606 root:INFO [static]sending: static/toaster.js
+2014-02-17 09:58:13,617 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,617 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:58:13,617 root:INFO Query:
+2014-02-17 09:58:13,617 root:INFO {}
+2014-02-17 09:58:13,618 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:58:13,684 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,684 root:INFO Path:static/templateMenu.html
+2014-02-17 09:58:13,684 root:INFO Query:
+2014-02-17 09:58:13,684 root:INFO {}
+2014-02-17 09:58:13,684 root:INFO [static]sending: static/templateMenu.html
+2014-02-17 09:58:13,685 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,685 root:INFO Path:list_tests
+2014-02-17 09:58:13,685 root:INFO Query:
+2014-02-17 09:58:13,685 root:INFO {'treeType': 'Bottom up'}
+2014-02-17 09:58:13,718 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,718 root:INFO Path:static/pitures/arrowRight.png
+2014-02-17 09:58:13,718 root:INFO Query:
+2014-02-17 09:58:13,718 root:INFO {}
+2014-02-17 09:58:13,718 root:INFO [static]sending: static/pitures/arrowRight.png
+2014-02-17 09:58:13,920 root:INFO CONTENT_TYPE:GET
+2014-02-17 09:58:13,920 root:INFO Path:static/bootstrap/fonts/glyphicons-halflings-regular.woff
+2014-02-17 09:58:13,920 root:INFO Query:
+2014-02-17 09:58:13,920 root:INFO {}
+2014-02-17 09:58:13,920 root:INFO [static]sending: static/bootstrap/fonts/glyphicons-halflings-regular.woff

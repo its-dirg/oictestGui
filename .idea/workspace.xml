@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="098c122e-75a5-4769-a521-06d0392aafec" name="Default" comment="" />
+    <ignored path="oictestGui.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/oictestGui$server.coverage" NAME="server Coverage Results" MODIFIED="1392627330094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="oictestGui" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="test_idp.mako" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mako/htdocs/test_idp.mako">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="4" selection-start="342" selection-end="361" vertical-scroll-proportion="-3.72" vertical-offset="39" max-vertical-offset="3420">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.mako" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mako/htdocs/home.mako">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="23" selection-start="237" selection-end="237" vertical-scroll-proportion="-6.875" vertical-offset="15" max-vertical-offset="735">
+              <folding>
+                <marker date="1392627608000" expanded="true" signature="387:812" placeholder="..." />
+                <marker date="1392627608000" expanded="false" signature="463:477" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="478:766" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="idp_config.mako" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="23" selection-start="398" selection-end="398" vertical-scroll-proportion="-8.75" vertical-offset="0" max-vertical-offset="2865">
+              <folding>
+                <marker date="1392627608000" expanded="true" signature="548:5942" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="605:5897" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="619:822" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="720:808" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="838:2043" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="868:1226" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="907:969" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="1010:1207" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="1258:1683" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="1297:1360" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="1401:1664" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="1715:2027" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="1754:1819" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="1860:2008" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="2288:5886" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="2307:3840" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="2341:2796" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="2384:2457" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="2502:2773" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="2831:3334" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="2885:2960" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="3005:3311" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="3537:3820" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="3591:3651" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="3696:3797" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="4278:5736" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="4301:5543" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="4387:4716" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="4434:4502" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="4551:4660" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="4755:5103" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="4802:4872" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="4921:5047" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="5189:5518" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="5236:5304" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="5353:5462" placeholder="..." />
+                <marker date="1392627608000" expanded="true" signature="5580:5717" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestHandler.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="356" column="19" selection-start="22192" selection-end="22199" vertical-scroll-proportion="0.4450262" vertical-offset="855" max-vertical-offset="2715">
+              <folding>
+                <element signature="e#642#2101#0" expanded="false" />
+                <element signature="e#642#892#1" expanded="false" />
+                <element signature="e#2139#2234#0" expanded="false" />
+                <element signature="e#2273#4206#0" expanded="false" />
+                <element signature="e#4284#5248#0" expanded="false" />
+                <element signature="e#5296#5550#0" expanded="false" />
+                <element signature="e#5594#16383#0" expanded="false" />
+                <element signature="e#16429#16527#0" expanded="false" />
+                <element signature="e#16579#16690#0" expanded="false" />
+                <element signature="e#16736#17171#0" expanded="false" />
+                <element signature="e#17220#17473#0" expanded="false" />
+                <element signature="e#17521#17774#0" expanded="false" />
+                <element signature="e#17816#19205#0" expanded="false" />
+                <element signature="e#19276#20507#0" expanded="false" />
+                <element signature="e#20564#20886#0" expanded="false" />
+                <element signature="e#20943#21320#0" expanded="false" />
+                <element signature="e#21369#21623#0" expanded="false" />
+                <element signature="e#23297#23606#0" expanded="false" />
+                <element signature="e#23654#24103#0" expanded="false" />
+                <element signature="e#24157#24450#0" expanded="false" />
+                <element signature="e#24504#25033#0" expanded="false" />
+                <element signature="e#25089#25609#0" expanded="false" />
+                <element signature="e#25658#25862#0" expanded="false" />
+                <element signature="e#25914#26305#0" expanded="false" />
+                <element signature="e#26354#26542#0" expanded="false" />
+                <element signature="e#26593#26855#0" expanded="false" />
+                <element signature="e#26928#27036#0" expanded="false" />
+                <element signature="e#27101#27714#0" expanded="false" />
+                <element signature="e#27773#28068#0" expanded="false" />
+                <element signature="e#28122#28445#0" expanded="false" />
+                <element signature="e#28503#28753#0" expanded="false" />
+                <element signature="e#28842#29889#0" expanded="false" />
+                <element signature="e#29943#30130#0" expanded="false" />
+                <element signature="e#30194#30468#0" expanded="false" />
+                <element signature="e#30513#31160#0" expanded="false" />
+                <element signature="e#31218#31513#0" expanded="false" />
+                <element signature="e#31599#32796#0" expanded="false" />
+                <element signature="e#32860#33572#0" expanded="false" />
+                <element signature="e#33615#33739#0" expanded="false" />
+                <element signature="e#33782#33899#0" expanded="false" />
+                <element signature="e#33941#34057#0" expanded="false" />
+                <element signature="e#34105#34248#0" expanded="false" />
+                <element signature="e#34317#34954#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/server_conf.py" />
+        <option value="$PROJECT_DIR$/mako/htdocs/test_idp.mako" />
+        <option value="$PROJECT_DIR$/mako/htdocs/home.mako" />
+        <option value="$PROJECT_DIR$/mako/htdocs/idp_config.mako" />
+        <option value="$PROJECT_DIR$/src/oictestGui/TestHandler.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="22" />
+    <option name="width" value="1920" />
+    <option name="height" value="1090" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mako" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mako" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="htdocs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../oictest" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="restartRequiresConfirmation" value="true" />
+  </component>
+  <component name="RunManager" selected="Python.server">
+    <configuration default="false" name="server" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server.py" />
+      <option name="PARAMETERS" value="server_conf" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Python.server" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Python.server" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="098c122e-75a5-4769-a521-06d0392aafec" name="Default" comment="" />
+      <created>1392625507255</created>
+      <updated>1392625507255</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="22" width="1920" height="1090" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32921812" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921812" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21086262" sideWeight="0.5" order="-1" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33024693" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/oictestGui/template_config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="611">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="1" selection-start="670" selection-end="670" vertical-scroll-proportion="0.47658864" vertical-offset="0" max-vertical-offset="598">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/dirg_util/session.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="30" selection-start="696" selection-end="696" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mako/modules/base.mako.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="52" selection-start="2492" selection-end="2494" vertical-scroll-proportion="0.33273703" vertical-offset="594" max-vertical-offset="2340">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server_conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="9" selection-start="82" selection-end="82" vertical-scroll-proportion="0.075250834" vertical-offset="0" max-vertical-offset="598">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="19" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.6270903" vertical-offset="105" max-vertical-offset="1305">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="23" selection-start="398" selection-end="398" vertical-scroll-proportion="-8.75" vertical-offset="0" max-vertical-offset="2865">
+          <folding>
+            <marker date="1392627608000" expanded="true" signature="548:5942" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="605:5897" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="619:822" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="720:808" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="838:2043" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="868:1226" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="907:969" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="1010:1207" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="1258:1683" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="1297:1360" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="1401:1664" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="1715:2027" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="1754:1819" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="1860:2008" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="2288:5886" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="2307:3840" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="2341:2796" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="2384:2457" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="2502:2773" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="2831:3334" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="2885:2960" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="3005:3311" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="3537:3820" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="3591:3651" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="3696:3797" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="4278:5736" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="4301:5543" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="4387:4716" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="4434:4502" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="4551:4660" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="4755:5103" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="4802:4872" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="4921:5047" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="5189:5518" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="5236:5304" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="5353:5462" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="5580:5717" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mako/htdocs/home.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="23" selection-start="237" selection-end="237" vertical-scroll-proportion="-6.875" vertical-offset="15" max-vertical-offset="735">
+          <folding>
+            <marker date="1392627608000" expanded="true" signature="387:812" placeholder="..." />
+            <marker date="1392627608000" expanded="false" signature="463:477" placeholder="..." />
+            <marker date="1392627608000" expanded="true" signature="478:766" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mako/htdocs/test_idp.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="4" selection-start="342" selection-end="361" vertical-scroll-proportion="-3.72" vertical-offset="39" max-vertical-offset="3420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="356" column="19" selection-start="22192" selection-end="22199" vertical-scroll-proportion="0.4450262" vertical-offset="855" max-vertical-offset="2715">
+          <folding>
+            <element signature="e#642#2101#0" expanded="false" />
+            <element signature="e#642#892#1" expanded="false" />
+            <element signature="e#2139#2234#0" expanded="false" />
+            <element signature="e#2273#4206#0" expanded="false" />
+            <element signature="e#4284#5248#0" expanded="false" />
+            <element signature="e#5296#5550#0" expanded="false" />
+            <element signature="e#5594#16383#0" expanded="false" />
+            <element signature="e#16429#16527#0" expanded="false" />
+            <element signature="e#16579#16690#0" expanded="false" />
+            <element signature="e#16736#17171#0" expanded="false" />
+            <element signature="e#17220#17473#0" expanded="false" />
+            <element signature="e#17521#17774#0" expanded="false" />
+            <element signature="e#17816#19205#0" expanded="false" />
+            <element signature="e#19276#20507#0" expanded="false" />
+            <element signature="e#20564#20886#0" expanded="false" />
+            <element signature="e#20943#21320#0" expanded="false" />
+            <element signature="e#21369#21623#0" expanded="false" />
+            <element signature="e#23297#23606#0" expanded="false" />
+            <element signature="e#23654#24103#0" expanded="false" />
+            <element signature="e#24157#24450#0" expanded="false" />
+            <element signature="e#24504#25033#0" expanded="false" />
+            <element signature="e#25089#25609#0" expanded="false" />
+            <element signature="e#25658#25862#0" expanded="false" />
+            <element signature="e#25914#26305#0" expanded="false" />
+            <element signature="e#26354#26542#0" expanded="false" />
+            <element signature="e#26593#26855#0" expanded="false" />
+            <element signature="e#26928#27036#0" expanded="false" />
+            <element signature="e#27101#27714#0" expanded="false" />
+            <element signature="e#27773#28068#0" expanded="false" />
+            <element signature="e#28122#28445#0" expanded="false" />
+            <element signature="e#28503#28753#0" expanded="false" />
+            <element signature="e#28842#29889#0" expanded="false" />
+            <element signature="e#29943#30130#0" expanded="false" />
+            <element signature="e#30194#30468#0" expanded="false" />
+            <element signature="e#30513#31160#0" expanded="false" />
+            <element signature="e#31218#31513#0" expanded="false" />
+            <element signature="e#31599#32796#0" expanded="false" />
+            <element signature="e#32860#33572#0" expanded="false" />
+            <element signature="e#33615#33739#0" expanded="false" />
+            <element signature="e#33782#33899#0" expanded="false" />
+            <element signature="e#33941#34057#0" expanded="false" />
+            <element signature="e#34105#34248#0" expanded="false" />
+            <element signature="e#34317#34954#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+
