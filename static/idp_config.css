@@ -43,3 +43,17 @@ input {
     top: 0px;
     right: 0px;
 }
+
+#modalErrorReportContent{
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+#infoText{
+    padding: 20px;
+}
+
+#advancedFieldTable {
+    height:85vh;
+    overflow: scroll;
+}​

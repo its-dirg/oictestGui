@@ -56,14 +56,32 @@ app.factory('configFileFactory', function ($http) {
     };
 });
 
-app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionConfigFactory, uploadMetadataFactory, configFileFactory, toaster) {
+app.factory('advancedFieldsFactory', function ($http) {
+
+    return {
+        getAdvancedConfigFields: function () {
+            return $http.get("/get_advanced_config_fields");
+        }
+    };
+});
+
+app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionConfigFactory, uploadMetadataFactory, configFileFactory, advancedFieldsFactory, toaster) {
 
     $scope.basicConfig;
     $scope.convertedInteractionList;
+    $scope.advancedConfigFieldsList;
+    var advancedConfigFields;
 
     var getBasicConfigSuccessCallback = function (data, status, headers, config) {
         $scope.basicConfig = data;
         //alert("Basic config successfully LOADED")
+    };
+
+    var getAdvancedConfigSuccessCallback = function (data, status, headers, config) {
+        //alert("getAdvancedConfigSuccessCallback");
+        advancedConfigFields = data;
+        $scope.advancedConfigFieldsList = Object.keys(data).sort();
+        $scope.$apply();
     };
 
     var postBasicConfigSuccessCallback = function (data, status, headers, config) {
@@ -98,8 +116,6 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     };
 
     var updateConfigFields = function(){
-        //TODO remove this
-        $scope.basicConfig = {"entity_id": ""}
 
         //Since no info is stored on the server in the a session it's not necessary to show this info before now
         basicConfigFactory.getBasicConfig().success(getBasicConfigSuccessCallback).error(errorCallback);
@@ -159,8 +175,32 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         bootbox.alert(data.ExceptionMessage);
     };
 
+    $scope.showModalWindowAddConfigFields = function(){
+         advancedFieldsFactory.getAdvancedConfigFields().success(getAdvancedConfigSuccessCallback).error(errorCallback);
+
+        $("#modalWindowAddConfigFields").modal('toggle');
+
+    }
+
     $scope.test = function () {
         alert("test");
+    };
+
+    $scope.summitAdvancedConfigFields = function () {
+
+        checkedCheckboxes = []
+
+        $('input:checkbox:checked').each(function(i){
+            checkedCheckboxes.push($(this).val());
+        });
+
+        for(var i = 0; i < checkedCheckboxes.length; i++){
+            alert(checkedCheckboxes[i] +" : "+ advancedConfigFields[checkedCheckboxes[i]]);
+        }
+
+        //Add list and new textfields
+
+        $("#modalWindowAddConfigFields").modal('toggle');
     };
 
     $scope.addInteraction = function () {

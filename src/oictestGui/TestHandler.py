@@ -16,6 +16,15 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from oic.oic.message import ProviderConfigurationResponse
+from oic.oauth2.message import REQUIRED_LIST_OF_SP_SEP_STRINGS
+from oic.oauth2.message import SINGLE_OPTIONAL_STRING
+from oic.oauth2.message import OPTIONAL_LIST_OF_STRINGS
+from oic.oauth2.message import SINGLE_REQUIRED_STRING
+from oic.oauth2.message import OPTIONAL_LIST_OF_SP_SEP_STRINGS
+from oic.oauth2.message import SINGLE_OPTIONAL_INT
+from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
+
 __author__ = 'haho0032'
 
 class Test:
@@ -62,6 +71,7 @@ class Test:
             "does_config_file_exist": None,
             "temp_get_metadata": None,
             "post_metadata_url": None,
+            "get_advanced_config_fields": None,
 
             #Calles from home
             "" : "home.mako"
@@ -116,10 +126,50 @@ class Test:
             return self.handleGetMetadata()
         elif path == "post_metadata_url":
             return self.handlePostMetadataUrl()
+        elif path == "get_advanced_config_fields":
+            return self.handleGetAdvancedConfigFields()
 
         #Calls made from home
         elif path == "":
             return self.handleHomePage(self.urls[path])
+
+    def convertAdvancedConfigFieldsDictonary(self, advancedConfigFields):
+
+        newDict = {}
+
+        for key in advancedConfigFields:
+            if (advancedConfigFields[key] == REQUIRED_LIST_OF_SP_SEP_STRINGS):
+                newDict[key] = "REQUIRED_LIST_OF_SP_SEP_STRINGS"
+
+            elif (advancedConfigFields[key] == SINGLE_OPTIONAL_STRING):
+                newDict[key] = "SINGLE_OPTIONAL_STRING"
+
+            elif (advancedConfigFields[key] == OPTIONAL_LIST_OF_STRINGS):
+                newDict[key] = "OPTIONAL_LIST_OF_STRINGS"
+
+            elif (advancedConfigFields[key] == SINGLE_REQUIRED_STRING):
+                newDict[key] = "SINGLE_REQUIRED_STRING"
+
+            elif (advancedConfigFields[key] == OPTIONAL_LIST_OF_SP_SEP_STRINGS):
+                newDict[key] = "OPTIONAL_LIST_OF_SP_SEP_STRINGS"
+
+            elif (advancedConfigFields[key] == SINGLE_OPTIONAL_INT):
+                newDict[key] = "SINGLE_OPTIONAL_INT"
+
+            elif (advancedConfigFields[key] == REQUIRED_LIST_OF_STRINGS):
+                newDict[key] = "REQUIRED_LIST_OF_STRINGS"
+
+        return newDict
+
+    def handleGetAdvancedConfigFields(self):
+
+        advancedConfigFields = ProviderConfigurationResponse.c_param
+
+        convertedAdvancedConfigFields = self.convertAdvancedConfigFieldsDictonary(advancedConfigFields)
+
+        print convertedAdvancedConfigFields
+
+        return self.returnJSON(json.dumps(convertedAdvancedConfigFields))
 
     #TODO enter Dirgs mail settings
     def handlePostErrorReport(self):
@@ -274,7 +324,7 @@ class Test:
         controlType = interactionParameters['controlType']
 
         configFileAsString = self.session[self.CONFIG_KEY]
-        configFileAsDict = ast.literal_eval(configFileAsString)
+        configFileAsDict = json.loads(configFileAsString)
 
         #create the new interaction object based on the parameters
         if password == None and username == None:
@@ -347,11 +397,10 @@ class Test:
             testid = None
 
         if self.checkIfIncommingTestIsLeagal(testToRun):
-
             try:
                 targetStringContent = self.session[self.CONFIG_KEY]
-                targetDict = ast.literal_eval(targetStringContent)
-            except ValueError:
+                targetDict = json.loads(targetStringContent)
+            except TypeError:
                 return self.serviceError("No configurations available. Add configurations and try again")
 
             outfile = tempfile.NamedTemporaryFile()
@@ -360,9 +409,7 @@ class Test:
             outfile.flush()
 
             #Directs to the folder containing the saml2test config file
-            ok, p_out, p_err = self.runScript([self.OICC,'-J', outfile.name, '-d', testToRun], "./saml2test")
-
-            -H localhost -J localhost.json -d -i 'mj-00'
+            ok, p_out, p_err = self.runScript([self.OICC,'-H', "localhost", '-J', outfile.name, '-d', '-i', testToRun], "./oictest")
 
             outfile.close()
 
@@ -384,9 +431,12 @@ class Test:
     def handleGetBasicConfig(self):
         if self.CONFIG_KEY in self.session:
             configString = self.session[self.CONFIG_KEY]
-            configDict = ast.literal_eval(configString)
+            try:
+                configDict = json.loads(configString)
+            except ValueError:
+                return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
 
-        basicConfig = {"entity_id": configDict['entity_id'], "name_format": configDict['name_format']}
+        basicConfig = {"provider": configDict['provider'], "features": configDict['features'], "versions": configDict['versions'], "client": configDict['client']}
 
         return self.returnJSON(json.dumps(basicConfig))
 
@@ -406,10 +456,12 @@ class Test:
 
 
     def handleGetInteractionConfig(self):
-
         if self.CONFIG_KEY in self.session:
             configString = self.session[self.CONFIG_KEY]
-            configDict = ast.literal_eval(configString)
+            try:
+                configDict = json.loads(configString)
+            except ValueError:
+                return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
 
         interactionConfigList = self.createInteractionConfigList(configDict)
 
@@ -424,7 +476,7 @@ class Test:
             interactionConfigList.append(entry['entry'])
 
         configString = self.session[self.CONFIG_KEY]
-        configDict = ast.literal_eval(configString)
+        configDict = json.loads(configString)
 
         configDict["interaction"] = interactionConfigList
         self.session[self.CONFIG_KEY] = json.dumps(configDict)
@@ -530,7 +582,7 @@ class Test:
         childTestsList = []
         rootTestsList = []
         for item in allTests:
-            if not ('depend' in item):
+            if not ('depends' in item):
                 newDict = self.createNewTestDict(item)
                 rootTestsList.append(newDict)
             else:
@@ -555,7 +607,7 @@ class Test:
 
             for leaf in leafTestList:
                 for child in childTestsList:
-                    parentList = child['depend']
+                    parentList = child['depends']
 
                     for parent in parentList:
                         parent = str(parent)
@@ -634,7 +686,7 @@ class Test:
 
             for parent in parentList:
                 for child in childTestsList:
-                    parentID = child['depend']
+                    parentID = child['depends']
 
                     if len(parentID) == 1:
                         parentID = str(parentID[0])

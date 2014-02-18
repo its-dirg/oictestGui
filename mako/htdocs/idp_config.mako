@@ -79,37 +79,29 @@
         <!-- HIDE EVERY THING UNDER THIS LINE UNTIL DATA IS STORED IN THE SESSION -->
 
 <!-- ################################################################################################# -->
-        <div ng-show="basicConfig">
-            <form>
+
+        <div ng-show="basicConfig" >
+            <button class="btn btn-primary btn-sm" ng-click="showModalWindowAddConfigFields();">Add new config fields</button>
+            <br>
+
+             <form>
                 <div class="row">
                     <div class="col-lg-2">
-                        Upload metadata file:
+                        <span>Label:</span>
                     </div>
 
-                    <div class="col-lg-10">
-                        <input type="file" name="file" id="metadataFile">
-                        <button class="btn btn-primary btn-sm" ng-click="uploadMetadataFile();">Upload</button>
-                        <br>
-                        <br>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-2" id="label">
-                        Upload metadata by url:
+                    <div class="col-lg-9">
+                        <input type="text" value="">
                     </div>
 
-                    <div class="col-lg-10">
-                        <input type="text" value="https://localhost:4545/temp_get_metadata" id="metadataUrl">
-                        <button class="btn btn-primary btn-sm" ng-click="uploadMetadataUrl();">Upload</button>
-                        <br>
-                        <br>
+                    <div class="col-lg-1">
+                        <button class="btn btn-primary btn-sm" ng-click="test();">+</button>
                     </div>
                 </div>
+            </form>
 
-                <hr>
-<!-- ################################################################################################# -->
-
+            <!--
+            <form>
                 <div class="row" ng-repeat="(key, data) in basicConfig">
                     <div class="col-lg-2" id="label">
                         {{key}}:
@@ -120,6 +112,9 @@
                     </div>
                 </div>
             </form>
+            -->
+
+
 
             <button class="btn btn-primary btn-sm" ng-click="saveBasicConfig();">Save configurations</button>
 
@@ -179,6 +174,30 @@
 </%block>
 
 <%block name="footer">
+    </div>
+
+            <!-- Modal window for error report-->
+    <div class="modal fade" id="modalWindowAddConfigFields" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="infoText">
+                    Mark the fields you want to show on the config page
+                </div>
+
+
+                <div id="advancedFieldTable">
+                    <table class="table table-striped">
+                        <tr ng-repeat="fieldName in advancedConfigFieldsList">
+                            <td><input type="checkbox" value="{{fieldName}}"></td>
+                            <td>{{fieldName}}</td>
+                        <tr>
+                    </table>
+                </div>
+
+                <button class="btn btn-primary btn-sm" ng-click="summitAdvancedConfigFields();">Update fields</button>
+
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript" src="/static/idp_config.js"></script>

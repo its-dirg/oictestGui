@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 9
-_modified_time = 1392299614.709035
+_modified_time = 1392707301.774483
 _enable_loop = True
 _template_filename = 'mako/htdocs/home.mako'
 _template_uri = 'home.mako'
@@ -110,7 +110,7 @@ def render_title(context,**pageargs):
             return render_title(context)
         __M_writer = context.writer()
         # SOURCE LINE 12
-        __M_writer(u'\n    Saml2test application\n')
+        __M_writer(u'\n    oictest application\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
