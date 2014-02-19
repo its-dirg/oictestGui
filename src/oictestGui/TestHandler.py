@@ -448,7 +448,7 @@ class Test:
         targetDict = json.loads(targetStringContent)
 
         targetDict["provider"] = self.parameters['basic_config_summary']
-        targetAsString = str(targetDict)
+        targetAsString = json.dumps(targetDict)
 
         self.session[self.CONFIG_KEY] = targetAsString
 
@@ -534,7 +534,7 @@ class Test:
 
     def handleDownloadConfigFile(self):
         configString = self.session[self.CONFIG_KEY]
-        configDict = ast.literal_eval(configString)
+        configDict = json.loads(configString)
         fileDict = json.dumps({"configDict": configDict})
 
         print "Download target: " + self.session[self.CONFIG_KEY]

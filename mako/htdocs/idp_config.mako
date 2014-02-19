@@ -118,7 +118,7 @@
 
 
 
-            <button class="btn btn-primary btn-sm" ng-click="saveBasicConfig();">Save configurations</button>
+            <button class="btn btn-primary btn-sm" ng-click="postBasicConfig();">Save configurations</button>
 
             <hr>
 <!-- ################################################################################################# -->

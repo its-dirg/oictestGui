@@ -76,14 +76,18 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     var checkedAttributes;
 
     var checkAttributeCheckboxedDownloadedFromServer = function (storedAttributes) {
+
         $('input:checkbox').each(function () {
             $(this).prop('checked', false);
             for (var i = 0; i < storedAttributes.length; i++) {
                 if ($(this).val() == storedAttributes[i]) {
+
                     $(this).prop('checked', true);
                 }
             }
         });
+
+        checkedAttributes = storedAttributes;
     }
 
     var calculateIndexOfElement = function (currentConfigFieldViewElement) {
@@ -99,9 +103,15 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
         currentConfigFieldViewElement['value'] = data['provider'][currnetStroredAttribute][0];
 
+        var index = calculateIndexOfElement(currentConfigFieldViewElement);
+
         for (var i = 1; i < configValueList.length; i++) {
-            var index = calculateIndexOfElement(currentConfigFieldViewElement);
-            $scope.addElementToList(index, currentConfigFieldViewElement, configValueList[i]);
+
+            //TODO Något skumt, när man har två ConfigFieldViewElement med samma id så får applikationen frispel
+
+            alert(currentConfigFieldViewElement['id']);
+
+            $scope.addElementToList(index, currentConfigFieldViewElement['id']+i, configValueList[i]);
         }
     }
 
@@ -346,11 +356,11 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         $scope.$apply();
     }
 
-    $scope.saveBasicConfig = function(){
+    $scope.postBasicConfig = function(){
 
         var basicConfigSummaryDictionary = {};
 
-        for (var i=0; i< checkedAttributes.length; i++){
+        for (var i = 0; i < checkedAttributes.length; i++){
 
             var currentAttribute = checkedAttributes[i];
             var currentFieldType = advancedConfigFieldsTypeDictionary[currentAttribute];
@@ -463,6 +473,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     }
 
     $scope.reloadConfigFile = function(){
+        alert("reloadConfigFile");
         configFileFactory.doesConfigFileExist().success(reloadDoesConfigFileExistSuccessCallback).error(errorCallback);
     }
     
