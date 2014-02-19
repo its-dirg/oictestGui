@@ -85,7 +85,7 @@
             <br>
 
              <form>
-                <div class="row" ng-repeat="row in currentConfigFields">
+                <div class="row" ng-repeat="row in configFieldsViewList">
                     <div class="col-lg-2">
                         <span>{{row.label}}</span>
                     </div>
@@ -189,7 +189,7 @@
 
                 <div id="advancedFieldTable">
                     <table class="table table-striped">
-                        <tr ng-repeat="fieldName in advancedConfigFieldsList">
+                        <tr ng-repeat="fieldName in configFieldsKeyList">
                             <td><input type="checkbox" value="{{fieldName}}"></td>
                             <td>{{fieldName}}</td>
                         <tr>

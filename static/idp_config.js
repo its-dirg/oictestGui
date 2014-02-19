@@ -69,23 +69,79 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
     $scope.basicConfig;
     $scope.convertedInteractionList;
-    $scope.advancedConfigFieldsList;
-    $scope.currentConfigFields
+    $scope.configFieldsKeyList;
+    $scope.configFieldsViewList
 
     var advancedConfigFieldsTypeDictionary;
     var checkedAttributes;
 
+    var checkAttributeCheckboxedDownloadedFromServer = function (storedAttributes) {
+        $('input:checkbox').each(function () {
+            $(this).prop('checked', false);
+            for (var i = 0; i < storedAttributes.length; i++) {
+                if ($(this).val() == storedAttributes[i]) {
+                    $(this).prop('checked', true);
+                }
+            }
+        });
+    }
+
+    var calculateIndexOfElement = function (currentConfigFieldViewElement) {
+        for (var i = 0; i < $scope.configFieldsViewList.length; i++) {
+            if ($scope.configFieldsViewList[i] == currentConfigFieldViewElement) {
+                return i;
+            }
+        }
+    }
+
+    var insertAttributeList = function(data, currnetStroredAttribute, currentConfigFieldViewElement) {
+        configValueList = data['provider'][currnetStroredAttribute]
+
+        currentConfigFieldViewElement['value'] = data['provider'][currnetStroredAttribute][0];
+
+        for (var i = 1; i < configValueList.length; i++) {
+            var index = calculateIndexOfElement(currentConfigFieldViewElement);
+            $scope.addElementToList(index, currentConfigFieldViewElement, configValueList[i]);
+        }
+    }
+
     var getBasicConfigSuccessCallback = function (data, status, headers, config) {
+
         $scope.basicConfig = data;
         //alert("Basic config successfully LOADED")
 
-        //Get all keys from data and add them to checkedAttributes add generate fields
+        var storedAttributes = Object.keys(data['provider']).sort();
+
+        generateBasicConfigInputeFields(storedAttributes);
+
+        //Add the values to the textfield
+        for (var j = 0; j < $scope.configFieldsViewList.length; j++){
+
+            var currentConfigFieldViewElement = $scope.configFieldsViewList[j];
+
+            for (var k = 0; k < storedAttributes.length; k++){
+                var currnetStroredAttribute = storedAttributes[k];
+
+                if (currentConfigFieldViewElement['id'] == currnetStroredAttribute){
+
+                    var fieldType = advancedConfigFieldsTypeDictionary[currnetStroredAttribute];
+
+                    if (isListField(fieldType)) {
+                        insertAttributeList(data, currnetStroredAttribute, currentConfigFieldViewElement);
+                    } else{
+                        currentConfigFieldViewElement['value'] = data['provider'][currnetStroredAttribute];
+                    }
+                }
+            }
+        }
+
+        checkAttributeCheckboxedDownloadedFromServer(storedAttributes);
     };
 
     var getAdvancedConfigSuccessCallback = function (data, status, headers, config) {
         //alert("getAdvancedConfigSuccessCallback");
         advancedConfigFieldsTypeDictionary = data;
-        $scope.advancedConfigFieldsList = Object.keys(data).sort();
+        $scope.configFieldsKeyList = Object.keys(data).sort();
         $scope.$apply();
     };
 
@@ -181,8 +237,6 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     };
 
     $scope.showModalWindowAddConfigFields = function(){
-         advancedFieldsFactory.getAdvancedConfigFields().success(getAdvancedConfigSuccessCallback).error(errorCallback);
-
         $("#modalWindowAddConfigFields").modal('toggle');
 
     }
@@ -203,6 +257,22 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         }
     };
 
+    var generateBasicConfigInputeFields = function (attributesToAdd) {
+        $scope.configFieldsViewList = []
+
+        for (var i = 0; i < attributesToAdd.length; i++) {
+            //alert(attributesToAdd[i] +" : "+ advancedConfigFieldsTypeDictionary[attributesToAdd[i]]);
+
+            var currentFieldType = advancedConfigFieldsTypeDictionary[attributesToAdd[i]];
+
+            if (isListField(currentFieldType)) {
+                $scope.configFieldsViewList.push({"id": attributesToAdd[i], "label": attributesToAdd[i], "value": "", "isList": true});
+            } else {
+                $scope.configFieldsViewList.push({"id": attributesToAdd[i], "label": attributesToAdd[i], "value": "", "isList": false});
+            }
+        }
+    }
+
     $scope.summitAdvancedConfigFields = function () {
 
         checkedAttributes = []
@@ -211,19 +281,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
             checkedAttributes.push($(this).val());
         });
 
-        $scope.currentConfigFields = []
-
-        for(var i = 0; i < checkedAttributes.length; i++){
-            //alert(checkedAttributes[i] +" : "+ advancedConfigFieldsTypeDictionary[checkedAttributes[i]]);
-
-            var currentFieldType = advancedConfigFieldsTypeDictionary[checkedAttributes[i]];
-
-            if (isListField(currentFieldType)){
-                $scope.currentConfigFields.push({"id": checkedAttributes[i], "label": checkedAttributes[i], "value": "", "isList": true});
-            }else{
-                $scope.currentConfigFields.push({"id": checkedAttributes[i], "label": checkedAttributes[i], "value": "", "isList": false});
-            }
-        }
+        generateBasicConfigInputeFields(checkedAttributes);
 
         $("#modalWindowAddConfigFields").modal('toggle');
     };
@@ -319,11 +377,15 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     }
 
     $scope.addElementToList = function(index, label){
-        $scope.currentConfigFields.splice(index+1 ,0, {"id": label, "label": "", "value": "", "isListElement": true});
+        $scope.configFieldsViewList.splice(index+1 ,0, {"id": label, "label": "", "value": "", "isListElement": true});
+    }
+
+    $scope.addElementToList = function(index, label, value){
+        $scope.configFieldsViewList.splice(index+1 ,0, {"id": label, "label": "", "value": value, "isListElement": true});
     }
 
     $scope.removeElementFromList = function(index){
-        $scope.currentConfigFields.splice(index ,1);
+        $scope.configFieldsViewList.splice(index ,1);
     }
 
     $scope.saveInteractionConfig = function(){
@@ -431,6 +493,10 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
         uploadMetadataFactory.postMetadataUrl(metadataUrl).success(postMetadataUrlSuccessCallback).error(errorCallback);
     }
+
+    //Execute when loading page
+    advancedFieldsFactory.getAdvancedConfigFields().success(getAdvancedConfigSuccessCallback).error(errorCallback);
+
 });
 
 //Loads the menu from a given template file and inserts it it to the <div menu> tag

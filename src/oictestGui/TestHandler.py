@@ -159,6 +159,8 @@ class Test:
             elif (advancedConfigFields[key] == REQUIRED_LIST_OF_STRINGS):
                 newDict[key] = "REQUIRED_LIST_OF_STRINGS"
 
+        newDict['dynamic'] = "SINGLE_OPTIONAL_STRING"
+
         return newDict
 
     def handleGetAdvancedConfigFields(self):
@@ -167,7 +169,7 @@ class Test:
 
         convertedAdvancedConfigFields = self.convertAdvancedConfigFieldsDictonary(advancedConfigFields)
 
-        print convertedAdvancedConfigFields
+        print "Get advanced config fields: " + json.dumps(convertedAdvancedConfigFields)
 
         return self.returnJSON(json.dumps(convertedAdvancedConfigFields))
 
