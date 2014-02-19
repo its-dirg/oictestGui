@@ -6,8 +6,8 @@ app.factory('basicConfigFactory', function ($http) {
         getBasicConfig: function () {
             return $http.get("/get_basic_config");
         },
-        postBasicConfig: function (name_format, entityID) {
-            return $http.post("/post_basic_config", {"name_format": name_format, "entityID": entityID});
+        postBasicConfig: function (basicConfigSummaryDictionary) {
+            return $http.post("/post_basic_config", {"basic_config_summary": basicConfigSummaryDictionary});
         }
     };
 });
@@ -70,16 +70,21 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     $scope.basicConfig;
     $scope.convertedInteractionList;
     $scope.advancedConfigFieldsList;
-    var advancedConfigFields;
+    $scope.currentConfigFields
+
+    var advancedConfigFieldsTypeDictionary;
+    var checkedAttributes;
 
     var getBasicConfigSuccessCallback = function (data, status, headers, config) {
         $scope.basicConfig = data;
         //alert("Basic config successfully LOADED")
+
+        //Get all keys from data and add them to checkedAttributes add generate fields
     };
 
     var getAdvancedConfigSuccessCallback = function (data, status, headers, config) {
         //alert("getAdvancedConfigSuccessCallback");
-        advancedConfigFields = data;
+        advancedConfigFieldsTypeDictionary = data;
         $scope.advancedConfigFieldsList = Object.keys(data).sort();
         $scope.$apply();
     };
@@ -186,19 +191,39 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         alert("test");
     };
 
+    var isListField = function(currentFieldType){
+        if (currentFieldType == "SINGLE_OPTIONAL_STRING"){
+            return false;
+        }else if (currentFieldType == "SINGLE_REQUIRED_STRING"){
+            return false;
+        }else if (currentFieldType == "SINGLE_OPTIONAL_INT"){
+            return false;
+        }else{
+            return true;
+        }
+    };
+
     $scope.summitAdvancedConfigFields = function () {
 
-        checkedCheckboxes = []
+        checkedAttributes = []
 
         $('input:checkbox:checked').each(function(i){
-            checkedCheckboxes.push($(this).val());
+            checkedAttributes.push($(this).val());
         });
 
-        for(var i = 0; i < checkedCheckboxes.length; i++){
-            alert(checkedCheckboxes[i] +" : "+ advancedConfigFields[checkedCheckboxes[i]]);
-        }
+        $scope.currentConfigFields = []
 
-        //Add list and new textfields
+        for(var i = 0; i < checkedAttributes.length; i++){
+            //alert(checkedAttributes[i] +" : "+ advancedConfigFieldsTypeDictionary[checkedAttributes[i]]);
+
+            var currentFieldType = advancedConfigFieldsTypeDictionary[checkedAttributes[i]];
+
+            if (isListField(currentFieldType)){
+                $scope.currentConfigFields.push({"id": checkedAttributes[i], "label": checkedAttributes[i], "value": "", "isList": true});
+            }else{
+                $scope.currentConfigFields.push({"id": checkedAttributes[i], "label": checkedAttributes[i], "value": "", "isList": false});
+            }
+        }
 
         $("#modalWindowAddConfigFields").modal('toggle');
     };
@@ -264,10 +289,41 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     }
 
     $scope.saveBasicConfig = function(){
-        var name_format = $('#name_format').val();
-        var entityID = $('#entity_id').val();
 
-        basicConfigFactory.postBasicConfig(name_format, entityID).success(postBasicConfigSuccessCallback).error(errorCallback);
+        var basicConfigSummaryDictionary = {};
+
+        for (var i=0; i< checkedAttributes.length; i++){
+
+            var currentAttribute = checkedAttributes[i];
+            var currentFieldType = advancedConfigFieldsTypeDictionary[currentAttribute];
+
+            if (isListField(currentFieldType)){
+                basicConfigSummaryDictionary[currentAttribute] = [];
+            }else{
+                basicConfigSummaryDictionary[currentAttribute] = "";
+            }
+
+            $("." + checkedAttributes[i]).each(function(){
+                var currentFieldValue =  $(this).val();
+
+                if (isListField(currentFieldType)){
+                    basicConfigSummaryDictionary[currentAttribute].push(currentFieldValue);
+                }else{
+                    basicConfigSummaryDictionary[currentAttribute] = currentFieldValue;
+                }
+
+            });
+        }
+
+        basicConfigFactory.postBasicConfig(basicConfigSummaryDictionary).success(postBasicConfigSuccessCallback).error(errorCallback);
+    }
+
+    $scope.addElementToList = function(index, label){
+        $scope.currentConfigFields.splice(index+1 ,0, {"id": label, "label": "", "value": "", "isListElement": true});
+    }
+
+    $scope.removeElementFromList = function(index){
+        $scope.currentConfigFields.splice(index ,1);
     }
 
     $scope.saveInteractionConfig = function(){

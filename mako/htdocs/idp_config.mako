@@ -85,18 +85,20 @@
             <br>
 
              <form>
-                <div class="row">
+                <div class="row" ng-repeat="row in currentConfigFields">
                     <div class="col-lg-2">
-                        <span>Label:</span>
+                        <span>{{row.label}}</span>
                     </div>
 
                     <div class="col-lg-9">
-                        <input type="text" value="">
+                        <input type="text" value="{{row.value}}" class="{{row.id}}">
                     </div>
 
                     <div class="col-lg-1">
-                        <button class="btn btn-primary btn-sm" ng-click="test();">+</button>
+                        <button ng-show="row.isList == true" class="btn btn-default btn-sm" ng-click="addElementToList($index, row.label);">+</button>
+                        <button ng-show="row.isListElement == true" class="btn btn-danger btn-sm" ng-click="removeElementFromList($index);">X</button>
                     </div>
+
                 </div>
             </form>
 

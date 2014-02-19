@@ -436,17 +436,16 @@ class Test:
             except ValueError:
                 return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
 
-        basicConfig = {"provider": configDict['provider'], "features": configDict['features'], "versions": configDict['versions'], "client": configDict['client']}
+        basicConfig = {"provider": configDict['provider']}
 
         return self.returnJSON(json.dumps(basicConfig))
 
 
     def handlePostBasicConfig(self):
         targetStringContent = self.session[self.CONFIG_KEY]
-        targetDict = ast.literal_eval(targetStringContent)
+        targetDict = json.loads(targetStringContent)
 
-        targetDict["entity_id"] = self.parameters['entityID']
-        targetDict["name_format"] = self.parameters['name_format']
+        targetDict["provider"] = self.parameters['basic_config_summary']
         targetAsString = str(targetDict)
 
         self.session[self.CONFIG_KEY] = targetAsString
