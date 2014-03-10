@@ -30,7 +30,8 @@
 
     <div id="content">
 
-        <h2>IDP configuration:
+        <h2>
+            OC configuration:
             <button class="btn btn-primary btn-sm" ng-click="reloadConfigFile();">
                 <span class="glyphicon glyphicon-refresh"></span>
             </button>
@@ -43,7 +44,7 @@
                 </div>
 
                 <div class="col-lg-10">
-                    <button class="btn btn-primary btn-sm" ng-click="createNewConfigFile();">Create configurations</button>
+                    <button class="btn btn-primary btn-sm" ng-click="createNewConfigFile();">Setup new configurations</button>
                     <br>
                     <br>
                 </div>
@@ -81,7 +82,19 @@
 <!-- ################################################################################################# -->
 
         <div ng-show="basicConfig" >
-            <button class="btn btn-primary btn-sm" ng-click="showModalWindowAddConfigFields();">Add new config fields</button>
+
+            <h3>
+                Provider configuration:
+            </h3>
+
+            <select id="providerType">
+                <option value="default">Select provider type</option>
+                <option value="static" ng-click="updateRequiredProviderTypeFields()">Static provider</option>
+                <option value="dynamic" ng-click="updateRequiredProviderTypeFields()">Dynamic provider</option>
+            </select>
+            <br>
+
+            <button class="btn btn-primary btn-sm" ng-click="showModalWindowAddConfigFields();">Add new provider config fields</button>
             <br>
 
              <form>
@@ -121,9 +134,52 @@
             <button class="btn btn-primary btn-sm" ng-click="postBasicConfig();">Save configurations</button>
 
             <hr>
+
+<!-- ################################################################################################# -->
+            <h3>
+                Required information:
+            </h3>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    Do you application support dynamic client registration?
+                </div>
+                <div class="col-lg-8">
+                    <select id="dynamicRegistration">'
+                        <option value="default">-</option>
+                        <option value="yes" ng-click="updateRequiredDynamicClientRegistrationFields()">Yes</option>
+                        <option value="no" ng-click="updateRequiredDynamicClientRegistrationFields()">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div ng-show="supportsDynamicClientRegistration == false" >
+                <div class="row">
+                    <div class="col-lg-4">
+                        Client_id:
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        Client_secret:
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text">
+                    </div>
+                </div>
+            </div>
+            <hr>
+
 <!-- ################################################################################################# -->
 
-            Interaction: <button class="btn btn-default btn-sm" ng-click="addInteraction();">+</button>
+            <h3>
+                Interaction:
+                <button class="btn btn-default btn-sm" ng-click="addInteraction();">+</button>
+            </h3>
 
             <div class="block" ng-repeat="entry in convertedInteractionList" id="{{entry.id}}">
                 <form>
@@ -178,14 +234,10 @@
 <%block name="footer">
     </div>
 
-            <!-- Modal window for error report-->
     <div class="modal fade" id="modalWindowAddConfigFields" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div id="infoText">
-                    Mark the fields you want to show on the config page
-                </div>
-
+                Mark the fields you want to show on the config page
 
                 <div id="advancedFieldTable">
                     <table class="table table-striped">
@@ -197,6 +249,40 @@
                 </div>
 
                 <button class="btn btn-primary btn-sm" ng-click="summitAdvancedConfigFields();">Update fields</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalWindowSetupNewConfigFields" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                Select provider type:
+
+                <form action="">
+                    <input type="radio" name="providerType" value="static"  ng-click="updateRequiredProviderTypeFields();">Static
+                    <input type="radio" name="providerType" value="dynamic" ng-click="updateRequiredProviderTypeFields();">Dynamic
+                </form>
+                <br>
+
+                Do you application support dynamic client registration?
+
+                <form action="">
+                    <input type="radio" name="dynamicRegistration" value="yes" ng-click="updateRequiredDynamicClientRegistrationFields();">Yes
+                    <input type="radio" name="dynamicRegistration" value="no" ng-click="updateRequiredDynamicClientRegistrationFields();">No
+                </form>
+
+                <br>
+
+                <div ng-show="supportsDynamicClientRegistration == false" >
+                    Client_id:
+                    <input type="text">
+
+                    Client_secret:
+                    <input type="text">
+                </div>
+
+                <button class="btn btn-primary btn-sm" ng-click="test();">Create configuration</button>
 
             </div>
         </div>

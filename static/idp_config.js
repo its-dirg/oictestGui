@@ -45,7 +45,8 @@ app.factory('configFileFactory', function ($http) {
             return $http.post("/upload_config_file", {"configFileContent": configFileContent});
         },
 
-        createNewConfigFile: function () {
+        sendCreateNewConfigFileRequest: function () {
+            console.log(">>>sendCreateNewConfigFileRequest");
             return $http.get("/create_new_config_file");
         },
 
@@ -107,7 +108,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
         for (var i = 1; i < configValueList.length; i++) {
 
-            //TODO Något skumt, när man har två ConfigFieldViewElement med samma id så får applikationen frispel
+            //TODO Något skumt, när man har två ConfigFieldViewElement med samma id så får applikationen frispel. Hamnar i någon slags oändlig loop, verkar ha något med refferenser att göra?
 
             alert(currentConfigFieldViewElement['id']);
 
@@ -124,7 +125,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
         generateBasicConfigInputeFields(storedAttributes);
 
-        //Add the values to the textfield
+        //Add the values to the list
         for (var j = 0; j < $scope.configFieldsViewList.length; j++){
 
             var currentConfigFieldViewElement = $scope.configFieldsViewList[j];
@@ -200,6 +201,12 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
     var createNewConfigFileSuccessCallback = function (data, status, headers, config) {
         //alert("New Target json successfully CREATED");
+
+        console.log(">>>New Target json successfully CREATED")
+
+        updateConfigFields();
+        $scope.$apply();
+
     };
 
     var showNoConfigAvailable = function(){
@@ -229,6 +236,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     };
 
     var getInteractionConfigSuccessCallback = function (data, status, headers, config) {
+
         $scope.convertedInteractionList = data;
         $scope.originalInteractionList = angular.copy(data);
 
@@ -248,7 +256,6 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
     $scope.showModalWindowAddConfigFields = function(){
         $("#modalWindowAddConfigFields").modal('toggle');
-
     }
 
     $scope.test = function () {
@@ -478,6 +485,8 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     }
     
     $scope.createNewConfigFile = function(){
+        console.log(">>>createNewConfigFile");
+
         bootbox.dialog({
             message: "All your existing configurations which is not downloaded will be overwritten. Are you sure you want to create a new configuration?",
             title: "Create new file",
@@ -490,13 +499,43 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
                     label: "Yes",
                     className: "btn-primary",
                     callback: function () {
-                        configFileFactory.createNewConfigFile().success(createNewConfigFileSuccessCallback).error(errorCallback);
-                        updateConfigFields();
+                        //setup new configuration
+                        //showSetupNewConfigurationDialog();
+
+                        configFileFactory.sendCreateNewConfigFileRequest().success(createNewConfigFileSuccessCallback).error(errorCallback);
                         $scope.$apply();
                     }
                 }
             }
         });
+    }
+
+    $scope.isStaticProvider = false;
+    $scope.supportsDynamicClientRegistration = true;
+
+    $scope.updateRequiredProviderTypeFields = function(){
+        //var selectedValue = $('input[name="providerType"]:checked').val();
+
+        var selectedValue = $('#providerType option:selected').val();
+
+        if (selectedValue == "static"){
+            $scope.isStaticProvider = true;
+        }
+    }
+
+    $scope.updateRequiredDynamicClientRegistrationFields = function(){
+        var selectedValue = $('#dynamicRegistration option:selected').val();
+
+        if (selectedValue == "no"){
+            $scope.supportsDynamicClientRegistration = false;
+        }
+        else{
+            $scope.supportsDynamicClientRegistration = true;
+        }
+    }
+
+    var showSetupNewConfigurationDialog = function(){
+        $("#modalWindowSetupNewConfigFields").modal('toggle');
     }
 
     $scope.uploadMetadataUrl = function(){
@@ -514,9 +553,6 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 app.directive('menu', function($http) {
     return {
         restrict: 'A',
-        templateUrl: '/static/templateMenu.html',
-        link: function(scope, element, attrs) {
-            scope.fetchMenu();
-        }
+        templateUrl: '/static/templateMenu.html'
     }
 });

@@ -435,12 +435,12 @@ class Test:
             configString = self.session[self.CONFIG_KEY]
             try:
                 configDict = json.loads(configString)
+                basicConfig = {"provider": configDict['provider']}
+                return self.returnJSON(json.dumps(basicConfig))
             except ValueError:
                 return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
+        return self.serviceError("No file saved in this current session")
 
-        basicConfig = {"provider": configDict['provider']}
-
-        return self.returnJSON(json.dumps(basicConfig))
 
 
     def handlePostBasicConfig(self):
@@ -461,12 +461,11 @@ class Test:
             configString = self.session[self.CONFIG_KEY]
             try:
                 configDict = json.loads(configString)
+                interactionConfigList = self.createInteractionConfigList(configDict)
+                return self.returnJSON(json.dumps(interactionConfigList))
             except ValueError:
                 return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
-
-        interactionConfigList = self.createInteractionConfigList(configDict)
-
-        return self.returnJSON(json.dumps(interactionConfigList))
+        return self.serviceError("No file saved in this current session")
 
 
     def handlePostInteractionConfig(self):
@@ -516,8 +515,8 @@ class Test:
 
         try:
             configString = templateFile.read()
-            configDict = ast.literal_eval(configString)
-            self.session[self.CONFIG_KEY] = str(configDict)
+            configDict = json.loads(configString)
+            self.session[self.CONFIG_KEY] = json.dumps(configDict)
         finally:
             templateFile.close()
 

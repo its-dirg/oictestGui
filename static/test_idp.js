@@ -736,9 +736,6 @@ app.directive('menu', function($http) {
     return {
         restrict: 'A',
         templateUrl: '/static/templateMenu.html',
-        link: function(scope, element, attrs) {
-            scope.fetchMenu();
-        }
     }
 });
 
