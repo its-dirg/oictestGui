@@ -37,43 +37,28 @@
             </button>
         </h2>
 
-        <form>
-            <div class="row">
-                <div class="col-lg-2">
-                    Create new config:
-                </div>
-
-                <div class="col-lg-10">
-                    <button class="btn btn-primary btn-sm" ng-click="createNewConfigFile();">Setup new configurations</button>
-                    <br>
-                    <br>
-                </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <button class="btn btn-primary btn-sm" ng-click="createNewConfigFile();">
+                    <span class="glyphicon glyphicon-file"></span>
+                    Create new configurations
+                </button>
             </div>
 
-             <div class="row">
-                <div class="col-lg-2">
-                    Upload config file:
-                </div>
-
-                <div class="col-lg-10">
-
-                    <input type="file" name="file" id="targetFile">
-                    <button class="btn btn-primary btn-sm" ng-click="uploadConfigFile();">Upload configurations</button>
-                    <br>
-                    <br>
-                </div>
+            <div class="col-sm-4">
+                <button class="btn btn-primary btn-sm" ng-click="showModalUploadConfigWindow();">
+                    <span class="glyphicon glyphicon-open"></span>
+                    Upload configurations
+                </button>
             </div>
 
-             <div class="row">
-                <div class="col-lg-2">
-                    Download config file:
-                </div>
-
-                <div class="col-lg-10">
-                    <button class="btn btn-primary btn-sm" ng-click="downloadConfigFile();">Download configurations</button>
-                </div>
+         <div class="col-sm-4">
+                <button class="btn btn-primary btn-sm" ng-click="downloadConfigFile();">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                    Download configurations
+                </button>
             </div>
-        </form>
+        </div>
 
         <hr>
 
@@ -88,49 +73,33 @@
             </h3>
 
             <select id="providerType">
-                <option value="default">Select provider type</option>
-                <option value="static" ng-click="updateRequiredProviderTypeFields()">Static provider</option>
-                <option value="dynamic" ng-click="updateRequiredProviderTypeFields()">Dynamic provider</option>
+                <option value="default" ng-click="updateProviderConfigurationBySelecedProviderType()">- Select provider type -</option>
+                <option value="static" ng-click="updateProviderConfigurationBySelecedProviderType()">Static provider</option>
+                <option value="dynamic" ng-click="updateProviderConfigurationBySelecedProviderType()">Dynamic provider</option>
             </select>
             <br>
 
-            <button class="btn btn-primary btn-sm" ng-click="showModalWindowAddConfigFields();">Add new provider config fields</button>
+            <button class="btn btn-default btn-sm" ng-click="showModalWindowAddConfigFields();" ng-show="isStaticProvider == true">Add new provider config fields</button>
+
+            <div class="row" ng-repeat="row in configFieldsViewList">
+                <div class="col-sm-4">
+                    <span>{{row.label}}</span>
+                </div>
+
+                <div class="col-sm-7">
+                    <form>
+                    <input type="text" value="{{row.value}}" class="{{row.id}}">
+                    </form>
+                </div>
+
+                <div class="col-sm-1">
+                    <button ng-show="row.isList == true" class="btn btn-default btn-sm" ng-click="addElementToList($index, row.label);">+</button>
+                    <button ng-show="row.isListElement == true" class="btn btn-danger btn-sm" ng-click="removeElementFromList($index);">X</button>
+                </div>
+
+            </div>
+
             <br>
-
-             <form>
-                <div class="row" ng-repeat="row in configFieldsViewList">
-                    <div class="col-lg-2">
-                        <span>{{row.label}}</span>
-                    </div>
-
-                    <div class="col-lg-9">
-                        <input type="text" value="{{row.value}}" class="{{row.id}}">
-                    </div>
-
-                    <div class="col-lg-1">
-                        <button ng-show="row.isList == true" class="btn btn-default btn-sm" ng-click="addElementToList($index, row.label);">+</button>
-                        <button ng-show="row.isListElement == true" class="btn btn-danger btn-sm" ng-click="removeElementFromList($index);">X</button>
-                    </div>
-
-                </div>
-            </form>
-
-            <!--
-            <form>
-                <div class="row" ng-repeat="(key, data) in basicConfig">
-                    <div class="col-lg-2" id="label">
-                        {{key}}:
-                    </div>
-
-                    <div class="col-lg-10">
-                        <input type="text" value="{{data}}" id="{{key}}">
-                    </div>
-                </div>
-            </form>
-            -->
-
-
-
             <button class="btn btn-primary btn-sm" ng-click="postBasicConfig();">Save configurations</button>
 
             <hr>
@@ -141,33 +110,39 @@
             </h3>
 
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-sm-4">
                     Do you application support dynamic client registration?
                 </div>
-                <div class="col-lg-8">
+                <div class="col-sm-8">
                     <select id="dynamicRegistration">'
                         <option value="default">-</option>
                         <option value="yes" ng-click="updateRequiredDynamicClientRegistrationFields()">Yes</option>
                         <option value="no" ng-click="updateRequiredDynamicClientRegistrationFields()">No</option>
                     </select>
+
+
+
+     <%doc>               <select ng-model="color" ng-options="c.option for c in supportsDynamicClientRegistrationOptions">
+                        <option value="">-</option>
+                    </select></%doc>
                 </div>
             </div>
 
             <div ng-show="supportsDynamicClientRegistration == false" >
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-sm-4">
                         Client_id:
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-sm-8">
                         <input type="text">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-sm-4">
                         Client_secret:
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-sm-8">
                         <input type="text">
                     </div>
                 </div>
@@ -185,33 +160,33 @@
                 <form>
 
                     <div class="row" ng-repeat="(key, data) in entry.entry.matches">
-                        <div class="col-lg-2">
+                        <div class="col-sm-2">
                             {{key}}:
                         </div>
 
-                        <div class="col-lg-10">
+                        <div class="col-sm-10">
                             <input type="text" value="{{data}}" id="{{key}}">
                         </div>
                         <br>
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-2">
+                        <div class="col-sm-2">
                             page-type:
                         </div>
 
-                        <div class="col-lg-10">
+                        <div class="col-sm-10">
                             <input type="text" value="{{entry.entry.pagetype}}" id="pagetype">
                         </div>
                         <br>
                     </div>
 
                     <div class="row" ng-repeat="(key, data) in entry.entry.control">
-                        <div class="col-lg-2">
+                        <div class="col-sm-2">
                             {{key}}:
                         </div>
 
-                        <div class="col-lg-10">
+                        <div class="col-sm-10">
                             <input type="text" value="{{data}}" id="{{key}}">
                         </div>
                         <br>
@@ -233,7 +208,6 @@
 
 <%block name="footer">
     </div>
-
     <div class="modal fade" id="modalWindowAddConfigFields" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -253,37 +227,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalWindowSetupNewConfigFields" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalWindowUploadConfigurationFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-
-                Select provider type:
-
-                <form action="">
-                    <input type="radio" name="providerType" value="static"  ng-click="updateRequiredProviderTypeFields();">Static
-                    <input type="radio" name="providerType" value="dynamic" ng-click="updateRequiredProviderTypeFields();">Dynamic
-                </form>
-                <br>
-
-                Do you application support dynamic client registration?
-
-                <form action="">
-                    <input type="radio" name="dynamicRegistration" value="yes" ng-click="updateRequiredDynamicClientRegistrationFields();">Yes
-                    <input type="radio" name="dynamicRegistration" value="no" ng-click="updateRequiredDynamicClientRegistrationFields();">No
-                </form>
-
-                <br>
-
-                <div ng-show="supportsDynamicClientRegistration == false" >
-                    Client_id:
-                    <input type="text">
-
-                    Client_secret:
-                    <input type="text">
-                </div>
-
-                <button class="btn btn-primary btn-sm" ng-click="test();">Create configuration</button>
-
+                <input type="file" name="file" id="targetFile">
+                <button class="btn btn-primary btn-sm" ng-click="uploadConfigFile();">Upload configurations</button>
             </div>
         </div>
     </div>

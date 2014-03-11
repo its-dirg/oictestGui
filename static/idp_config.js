@@ -46,7 +46,6 @@ app.factory('configFileFactory', function ($http) {
         },
 
         sendCreateNewConfigFileRequest: function () {
-            console.log(">>>sendCreateNewConfigFileRequest");
             return $http.get("/create_new_config_file");
         },
 
@@ -110,7 +109,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
             //TODO Något skumt, när man har två ConfigFieldViewElement med samma id så får applikationen frispel. Hamnar i någon slags oändlig loop, verkar ha något med refferenser att göra?
 
-            alert(currentConfigFieldViewElement['id']);
+            //alert(currentConfigFieldViewElement['id']);
 
             $scope.addElementToList(index, currentConfigFieldViewElement['id']+i, configValueList[i]);
         }
@@ -150,10 +149,14 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     };
 
     var getAdvancedConfigSuccessCallback = function (data, status, headers, config) {
-        //alert("getAdvancedConfigSuccessCallback");
         advancedConfigFieldsTypeDictionary = data;
         $scope.configFieldsKeyList = Object.keys(data).sort();
-        $scope.$apply();
+
+        //Removing dynamic since it shouldn't be in the list over static provider fields
+        var index = $scope.configFieldsKeyList.indexOf("dynamic");
+        $scope.configFieldsKeyList.splice(index ,1);
+
+        //$scope.$apply();
     };
 
     var postBasicConfigSuccessCallback = function (data, status, headers, config) {
@@ -196,16 +199,15 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
     var uploadConfigFileSuccessCallback = function (data, status, headers, config) {
         alert("Target json successfully UPLOADED");
+        $("#modalWindowUploadConfigurationFile").modal('toggle');
         updateConfigFields();
     };
 
     var createNewConfigFileSuccessCallback = function (data, status, headers, config) {
         //alert("New Target json successfully CREATED");
 
-        console.log(">>>New Target json successfully CREATED")
-
         updateConfigFields();
-        $scope.$apply();
+        //$scope.$apply();
 
     };
 
@@ -258,6 +260,10 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         $("#modalWindowAddConfigFields").modal('toggle');
     }
 
+    $scope.showModalUploadConfigWindow = function(){
+        $("#modalWindowUploadConfigurationFile").modal('toggle');
+    }
+
     $scope.test = function () {
         alert("test");
     };
@@ -274,8 +280,25 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         }
     };
 
+    var updateSelectedDropDownListValue = function(attributesToAdd) {
+        //Sets the drop-down list to the appropriate value based on the textfields in the uploaded configuration file
+        if (attributesToAdd.length > 0) {
+
+            var isDynamicProvider = $.inArray('dynamic', attributesToAdd) > -1;
+
+            if (isDynamicProvider) {
+                $("#providerType").val("dynamic");
+            }
+            else {
+                $("#providerType").val("static");
+            }
+        }
+    }
+
     var generateBasicConfigInputeFields = function (attributesToAdd) {
-        $scope.configFieldsViewList = []
+        clearProviderConfigFieldsViewList();
+
+        updateSelectedDropDownListValue(attributesToAdd);
 
         for (var i = 0; i < attributesToAdd.length; i++) {
             //alert(attributesToAdd[i] +" : "+ advancedConfigFieldsTypeDictionary[attributesToAdd[i]]);
@@ -288,6 +311,16 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
                 $scope.configFieldsViewList.push({"id": attributesToAdd[i], "label": attributesToAdd[i], "value": "", "isList": false});
             }
         }
+    }
+
+    var clearProviderConfigFieldsViewList = function(){
+        $scope.configFieldsViewList = [];
+    }
+
+    var resetProviderConfigBlock= function(){
+        $scope.configFieldsViewList = [];
+        $scope.isStaticProvider = false;
+        $("#providerType").val("default");
     }
 
     $scope.summitAdvancedConfigFields = function () {
@@ -470,7 +503,6 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
             reader.readAsText(file, "UTF-8");
             reader.onload = function (evt) {
                 configFileFactory.uploadConfigFile(evt.target.result).success(uploadConfigFileSuccessCallback).error(errorCallback);
-                //Has to be done since this code is executed outside of
                 $scope.$apply();
             }
             reader.onerror = function (evt) {
@@ -483,10 +515,8 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         alert("reloadConfigFile");
         configFileFactory.doesConfigFileExist().success(reloadDoesConfigFileExistSuccessCallback).error(errorCallback);
     }
-    
-    $scope.createNewConfigFile = function(){
-        console.log(">>>createNewConfigFile");
 
+    $scope.createNewConfigFile = function () {
         bootbox.dialog({
             message: "All your existing configurations which is not downloaded will be overwritten. Are you sure you want to create a new configuration?",
             title: "Create new file",
@@ -499,9 +529,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
                     label: "Yes",
                     className: "btn-primary",
                     callback: function () {
-                        //setup new configuration
-                        //showSetupNewConfigurationDialog();
-
+                        resetProviderConfigBlock();
                         configFileFactory.sendCreateNewConfigFileRequest().success(createNewConfigFileSuccessCallback).error(errorCallback);
                         $scope.$apply();
                     }
@@ -513,13 +541,21 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     $scope.isStaticProvider = false;
     $scope.supportsDynamicClientRegistration = true;
 
-    $scope.updateRequiredProviderTypeFields = function(){
-        //var selectedValue = $('input[name="providerType"]:checked').val();
-
+    $scope.updateProviderConfigurationBySelecedProviderType = function(){
         var selectedValue = $('#providerType option:selected').val();
 
+        //Show dynamic input fields or add static input fields based on seleced value in drop down
         if (selectedValue == "static"){
+            clearProviderConfigFieldsViewList();
             $scope.isStaticProvider = true;
+
+        }else if (selectedValue == "dynamic"){
+            generateBasicConfigInputeFields(['dynamic']);
+            $scope.isStaticProvider = false;
+
+        }else{
+            generateBasicConfigInputeFields([]);
+            $scope.isStaticProvider = false;
         }
     }
 
@@ -529,13 +565,12 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         if (selectedValue == "no"){
             $scope.supportsDynamicClientRegistration = false;
         }
+        else if (selectedValue == "yes"){
+            $scope.supportsDynamicClientRegistration = true;
+        }
         else{
             $scope.supportsDynamicClientRegistration = true;
         }
-    }
-
-    var showSetupNewConfigurationDialog = function(){
-        $("#modalWindowSetupNewConfigFields").modal('toggle');
     }
 
     $scope.uploadMetadataUrl = function(){
@@ -546,6 +581,12 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
     //Execute when loading page
     advancedFieldsFactory.getAdvancedConfigFields().success(getAdvancedConfigSuccessCallback).error(errorCallback);
+
+    $scope.containsRegistrationEndpointTextField = function(){
+        return $.inArray('registration_endpoint', checkedAttributes) > -1;
+    }
+
+    /*$scope.supportsDynamicClientRegistrationOptions = [{"option" : "yes"}, {"option" : "no"}]*/
 
 });
 
