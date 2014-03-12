@@ -217,11 +217,11 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
     };
 
     var updateConfigFields = function(){
-
         //Since no info is stored on the server in the a session it's not necessary to show this info before now
         providerConfigFactory.getProviderConfig().success(getProviderConfigSuccessCallback).error(errorCallback);
         interactionConfigFactory.getInteractionConfig().success(getInteractionConfigSuccessCallback).error(errorCallback);
         requiredInformationConfigFactory.getRequiredInformationConfig().success(getRequiredInformationSuccessCallback).error(errorCallback);
+
     }
 
     var uploadConfigFileSuccessCallback = function (data, status, headers, config) {
@@ -507,16 +507,41 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
 
     }
 
+    var hasEnteredRequeredInformation = function(){
+        var selectedProviderType = $('#providerType option:selected').val();
+        var selectedDynamicRegistration = $('#dynamicRegistration option:selected').val();
+
+        if(selectedProviderType == "default" || selectedDynamicRegistration == "default"){
+            return false;
+        }
+        else if(selectedDynamicRegistration == "false"){
+
+            var clientId = $('#requiredInformationClientIdTextField').val();
+            var clientSecret = $('#requiredInformationClientSecretTextField').val();
+
+            if (clientId == "" || clientSecret == ""){
+                return false;
+            }
+        }
+        return true;
+    }
+
     $scope.saveConfigurations = function(){
-        //postInteractionConfig();
-        //postProviderConfig();
 
-        var selectedValue = $('#dynamicRegistration option:selected').val();
-        var clientId = $('#requiredInformationClientIdTextField').val();
-        var clientSecret = $('#requiredInformationClientSecretTextField').val();
+        if (hasEnteredRequeredInformation()){
+            //postInteractionConfig();
+            //postProviderConfig();
 
-        var requiredInformationSummary = {"supportsDynamciClientRegistration": selectedValue, "client_id": clientId, "client_secret": clientSecret}
-        requiredInformationConfigFactory.postRequiredInformationConfig(requiredInformationSummary).success(postRequiredInformationSuccessCallback).error(errorCallback);
+            var selectedValue = $('#dynamicRegistration option:selected').val();
+            var clientId = $('#requiredInformationClientIdTextField').val();
+            var clientSecret = $('#requiredInformationClientSecretTextField').val();
+
+            var requiredInformationSummary = {"supportsDynamciClientRegistration": selectedValue, "client_id": clientId, "client_secret": clientSecret}
+            requiredInformationConfigFactory.postRequiredInformationConfig(requiredInformationSummary).success(postRequiredInformationSuccessCallback).error(errorCallback);
+
+        }else{
+            alert("Please enter all the required information")
+        }
     }
 
     $scope.uploadMetadataFile = function(){

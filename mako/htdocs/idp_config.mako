@@ -32,7 +32,7 @@
 
         <h2>
             OC configuration:
-            <button class="btn btn-primary btn-sm" ng-click="reloadConfigFile();">
+            <button class="btn btn-default btn-sm" ng-click="reloadConfigFile();">
                 <span class="glyphicon glyphicon-refresh"></span>
             </button>
         </h2>
@@ -112,12 +112,10 @@
                 </div>
                 <div class="col-sm-8">
                     <select id="dynamicRegistration">'
-                        <option value="default">-</option>
+                        <option value="default" ng-click="updateRequiredDynamicClientRegistrationFields()">-</option>
                         <option value="true" ng-click="updateRequiredDynamicClientRegistrationFields()">Yes</option>
                         <option value="false" ng-click="updateRequiredDynamicClientRegistrationFields()">No</option>
                     </select>
-
-
 
      <%doc>               <select ng-model="color" ng-options="c.option for c in supportsDynamicClientRegistrationOptions">
                         <option value="">-</option>

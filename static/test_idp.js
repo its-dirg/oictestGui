@@ -338,7 +338,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '750px');
 
-        $('#modalIframeContent').append("<h1>Information</h1><span>In order to use this application you need to log in to the IDP. The information will be stored which means that you only have to do this once  </span>");
+        $('#modalIframeContent').append("<h1>Information</h1><span>In order to use this application you need to log in to the IDP. Information, like username and password, will be stored on the server which means that you only have to do this once  </span>");
         $('#modalIframeContent').append(iframe);
 
         iframe.contentWindow.document.open();
