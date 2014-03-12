@@ -66,7 +66,7 @@
 
 <!-- ################################################################################################# -->
 
-        <div ng-show="basicConfig" >
+        <div ng-show="providerConfigurations" >
 
             <h3>
                 Provider configuration:
@@ -99,9 +99,6 @@
 
             </div>
 
-            <br>
-            <button class="btn btn-primary btn-sm" ng-click="postBasicConfig();">Save configurations</button>
-
             <hr>
 
 <!-- ################################################################################################# -->
@@ -111,13 +108,13 @@
 
             <div class="row">
                 <div class="col-sm-4">
-                    Do you application support dynamic client registration?
+                    Do your application support dynamic client registration?
                 </div>
                 <div class="col-sm-8">
                     <select id="dynamicRegistration">'
                         <option value="default">-</option>
-                        <option value="yes" ng-click="updateRequiredDynamicClientRegistrationFields()">Yes</option>
-                        <option value="no" ng-click="updateRequiredDynamicClientRegistrationFields()">No</option>
+                        <option value="true" ng-click="updateRequiredDynamicClientRegistrationFields()">Yes</option>
+                        <option value="false" ng-click="updateRequiredDynamicClientRegistrationFields()">No</option>
                     </select>
 
 
@@ -134,7 +131,7 @@
                         Client_id:
                     </div>
                     <div class="col-sm-8">
-                        <input type="text">
+                        <input type="text" id="requiredInformationClientIdTextField">
                     </div>
                 </div>
 
@@ -143,7 +140,7 @@
                         Client_secret:
                     </div>
                     <div class="col-sm-8">
-                        <input type="text">
+                        <input type="text" id="requiredInformationClientSecretTextField">
                     </div>
                 </div>
             </div>
@@ -201,7 +198,7 @@
 
             <br>
 
-            <button class="btn btn-primary btn-sm" ng-click="saveInteractionConfig();">Save configurations</button>
+            <button class="btn btn-primary btn-sm" ng-click="saveConfigurations();">Save configurations</button>
         </div>
     </div>
 </%block>

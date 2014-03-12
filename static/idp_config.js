@@ -1,13 +1,24 @@
 
 var app = angular.module('main', ['toaster'])
 
-app.factory('basicConfigFactory', function ($http) {
+app.factory('providerConfigFactory', function ($http) {
     return {
-        getBasicConfig: function () {
-            return $http.get("/get_basic_config");
+        getProviderConfig: function () {
+            return $http.get("/get_provider_config");
         },
-        postBasicConfig: function (basicConfigSummaryDictionary) {
-            return $http.post("/post_basic_config", {"basic_config_summary": basicConfigSummaryDictionary});
+        postProviderConfig: function (providerConfigSummaryDictionary) {
+            return $http.post("/post_provider_config", {"provider_config_summary": providerConfigSummaryDictionary});
+        }
+    };
+});
+
+app.factory('requiredInformationConfigFactory', function ($http) {
+    return {
+        getRequiredInformationConfig: function () {
+            return $http.get("/get_required_information_config");
+        },
+        postRequiredInformationConfig: function (requiredInformationConfigSummaryDictionary) {
+            return $http.post("/post_required_information_config", {"provider_required_information_summary": requiredInformationConfigSummaryDictionary});
         }
     };
 });
@@ -65,15 +76,15 @@ app.factory('advancedFieldsFactory', function ($http) {
     };
 });
 
-app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionConfigFactory, uploadMetadataFactory, configFileFactory, advancedFieldsFactory, toaster) {
+app.controller('IndexCtrl', function ($scope, providerConfigFactory, interactionConfigFactory, uploadMetadataFactory, configFileFactory, advancedFieldsFactory, toaster, requiredInformationConfigFactory) {
 
-    $scope.basicConfig;
+    $scope.providerConfigurations;
     $scope.convertedInteractionList;
     $scope.configFieldsKeyList;
     $scope.configFieldsViewList
 
-    var advancedConfigFieldsTypeDictionary;
-    var checkedAttributes;
+    var staticProviderConfigFieldsTypeDictionary;
+    var selectedStaticProviderConfigFields;
 
     var checkAttributeCheckboxedDownloadedFromServer = function (storedAttributes) {
 
@@ -81,13 +92,12 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
             $(this).prop('checked', false);
             for (var i = 0; i < storedAttributes.length; i++) {
                 if ($(this).val() == storedAttributes[i]) {
-
                     $(this).prop('checked', true);
                 }
             }
         });
 
-        checkedAttributes = storedAttributes;
+        selectedStaticProviderConfigFields = storedAttributes;
     }
 
     var calculateIndexOfElement = function (currentConfigFieldViewElement) {
@@ -115,14 +125,14 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         }
     }
 
-    var getBasicConfigSuccessCallback = function (data, status, headers, config) {
+    var getProviderConfigSuccessCallback = function (data, status, headers, config) {
 
-        $scope.basicConfig = data;
+        $scope.providerConfigurations = data;
         //alert("Basic config successfully LOADED")
 
         var storedAttributes = Object.keys(data['provider']).sort();
 
-        generateBasicConfigInputeFields(storedAttributes);
+        generateProviderConfigInputeFields(storedAttributes);
 
         //Add the values to the list
         for (var j = 0; j < $scope.configFieldsViewList.length; j++){
@@ -134,7 +144,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
                 if (currentConfigFieldViewElement['id'] == currnetStroredAttribute){
 
-                    var fieldType = advancedConfigFieldsTypeDictionary[currnetStroredAttribute];
+                    var fieldType = staticProviderConfigFieldsTypeDictionary[currnetStroredAttribute];
 
                     if (isListField(fieldType)) {
                         insertAttributeList(data, currnetStroredAttribute, currentConfigFieldViewElement);
@@ -149,7 +159,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     };
 
     var getAdvancedConfigSuccessCallback = function (data, status, headers, config) {
-        advancedConfigFieldsTypeDictionary = data;
+        staticProviderConfigFieldsTypeDictionary = data;
         $scope.configFieldsKeyList = Object.keys(data).sort();
 
         //Removing dynamic since it shouldn't be in the list over static provider fields
@@ -159,12 +169,28 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         //$scope.$apply();
     };
 
-    var postBasicConfigSuccessCallback = function (data, status, headers, config) {
-        alert("Basic config successfully SAVED");
+    var postProviderConfigSuccessCallback = function (data, status, headers, config) {
+        alert("Provider config successfully SAVED");
     };
 
     var postMetadataFileSuccessCallback = function (data, status, headers, config) {
         alert("Metadata file successfully SAVED");
+    };
+
+    var postRequiredInformationSuccessCallback = function (data, status, headers, config) {
+        alert("Required information successfully SAVED");
+    };
+
+    var getRequiredInformationSuccessCallback = function (data, status, headers, config) {
+        var selectedValue = data['supportsDynamciClientRegistration'];
+        var client_id = data['client_id'];
+        var client_secret = data['client_secret'];
+
+        $("#dynamicRegistration").val(selectedValue);
+        $('#requiredInformationClientIdTextField').val(client_id);
+        $('#requiredInformationClientSecretTextField').val(client_secret);
+
+        $scope.supportsDynamicClientRegistration = selectedValue != "false";
     };
 
     var postMetadataUrlSuccessCallback = function (data, status, headers, config) {
@@ -182,7 +208,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         a.click();
         document.body.removeChild(a)
 
-        e.preventDefault();
+        //e.preventDefault();
         //alert("Target json successfully DOWNLOADED");
     };
 
@@ -193,8 +219,9 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     var updateConfigFields = function(){
 
         //Since no info is stored on the server in the a session it's not necessary to show this info before now
-        basicConfigFactory.getBasicConfig().success(getBasicConfigSuccessCallback).error(errorCallback);
+        providerConfigFactory.getProviderConfig().success(getProviderConfigSuccessCallback).error(errorCallback);
         interactionConfigFactory.getInteractionConfig().success(getInteractionConfigSuccessCallback).error(errorCallback);
+        requiredInformationConfigFactory.getRequiredInformationConfig().success(getRequiredInformationSuccessCallback).error(errorCallback);
     }
 
     var uploadConfigFileSuccessCallback = function (data, status, headers, config) {
@@ -295,20 +322,20 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         }
     }
 
-    var generateBasicConfigInputeFields = function (attributesToAdd) {
+    var generateProviderConfigInputeFields = function (configFieldsToAdd) {
         clearProviderConfigFieldsViewList();
 
-        updateSelectedDropDownListValue(attributesToAdd);
+        updateSelectedDropDownListValue(configFieldsToAdd);
 
-        for (var i = 0; i < attributesToAdd.length; i++) {
-            //alert(attributesToAdd[i] +" : "+ advancedConfigFieldsTypeDictionary[attributesToAdd[i]]);
+        for (var i = 0; i < configFieldsToAdd.length; i++) {
+            //alert(configFieldsToAdd[i] +" : "+ staticProviderConfigFieldsTypeDictionary[configFieldsToAdd[i]]);
 
-            var currentFieldType = advancedConfigFieldsTypeDictionary[attributesToAdd[i]];
+            var currentFieldType = staticProviderConfigFieldsTypeDictionary[configFieldsToAdd[i]];
 
             if (isListField(currentFieldType)) {
-                $scope.configFieldsViewList.push({"id": attributesToAdd[i], "label": attributesToAdd[i], "value": "", "isList": true});
+                $scope.configFieldsViewList.push({"id": configFieldsToAdd[i], "label": configFieldsToAdd[i], "value": "", "isList": true});
             } else {
-                $scope.configFieldsViewList.push({"id": attributesToAdd[i], "label": attributesToAdd[i], "value": "", "isList": false});
+                $scope.configFieldsViewList.push({"id": configFieldsToAdd[i], "label": configFieldsToAdd[i], "value": "", "isList": false});
             }
         }
     }
@@ -325,13 +352,13 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
     $scope.summitAdvancedConfigFields = function () {
 
-        checkedAttributes = []
+        selectedStaticProviderConfigFields = []
 
         $('input:checkbox:checked').each(function(i){
-            checkedAttributes.push($(this).val());
+            selectedStaticProviderConfigFields.push($(this).val());
         });
 
-        generateBasicConfigInputeFields(checkedAttributes);
+        generateProviderConfigInputeFields(selectedStaticProviderConfigFields);
 
         $("#modalWindowAddConfigFields").modal('toggle');
     };
@@ -396,34 +423,43 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         $scope.$apply();
     }
 
-    $scope.postBasicConfig = function(){
+    var createStaticProviderSummaryDictionary = function (providerConfigSummaryDictionary) {
+        for (var i = 0; i < selectedStaticProviderConfigFields.length; i++) {
 
-        var basicConfigSummaryDictionary = {};
+            var currentConfigField = selectedStaticProviderConfigFields[i];
+            var currentConfigFieldType = staticProviderConfigFieldsTypeDictionary[currentConfigField];
 
-        for (var i = 0; i < checkedAttributes.length; i++){
-
-            var currentAttribute = checkedAttributes[i];
-            var currentFieldType = advancedConfigFieldsTypeDictionary[currentAttribute];
-
-            if (isListField(currentFieldType)){
-                basicConfigSummaryDictionary[currentAttribute] = [];
-            }else{
-                basicConfigSummaryDictionary[currentAttribute] = "";
+            if (isListField(currentConfigFieldType)) {
+                providerConfigSummaryDictionary[currentConfigField] = [];
+            } else {
+                providerConfigSummaryDictionary[currentConfigField] = "";
             }
 
-            $("." + checkedAttributes[i]).each(function(){
-                var currentFieldValue =  $(this).val();
+            $("." + selectedStaticProviderConfigFields[i]).each(function () {
+                var currentFieldValue = $(this).val();
 
-                if (isListField(currentFieldType)){
-                    basicConfigSummaryDictionary[currentAttribute].push(currentFieldValue);
-                }else{
-                    basicConfigSummaryDictionary[currentAttribute] = currentFieldValue;
+                if (isListField(currentConfigFieldType)) {
+                    providerConfigSummaryDictionary[currentConfigField].push(currentFieldValue);
+                } else {
+                    providerConfigSummaryDictionary[currentConfigField] = currentFieldValue;
                 }
 
             });
         }
+        return providerConfigSummaryDictionary;
+    }
 
-        basicConfigFactory.postBasicConfig(basicConfigSummaryDictionary).success(postBasicConfigSuccessCallback).error(errorCallback);
+    var postProviderConfig = function(){
+        var providerConfigSummaryDictionary = {};
+
+        if ($scope.isStaticProvider){
+            providerConfigSummaryDictionary = createStaticProviderSummaryDictionary(providerConfigSummaryDictionary);
+        }else{
+            var dynamicTextFieldValue = $(".dynamic").first().val();
+            providerConfigSummaryDictionary['dynamic'] = dynamicTextFieldValue;
+        }
+
+        providerConfigFactory.postProviderConfig(providerConfigSummaryDictionary).success(postProviderConfigSuccessCallback).error(errorCallback);
     }
 
     $scope.addElementToList = function(index, label){
@@ -438,7 +474,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
         $scope.configFieldsViewList.splice(index ,1);
     }
 
-    $scope.saveInteractionConfig = function(){
+    var postInteractionConfig = function(){
 
         $(".block").each(function() {
 
@@ -469,6 +505,18 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
 
         interactionConfigFactory.postInteractionConfig($scope.originalInteractionList).success(postInteractionConfigSuccessCallback).error(errorCallback);
 
+    }
+
+    $scope.saveConfigurations = function(){
+        //postInteractionConfig();
+        //postProviderConfig();
+
+        var selectedValue = $('#dynamicRegistration option:selected').val();
+        var clientId = $('#requiredInformationClientIdTextField').val();
+        var clientSecret = $('#requiredInformationClientSecretTextField').val();
+
+        var requiredInformationSummary = {"supportsDynamciClientRegistration": selectedValue, "client_id": clientId, "client_secret": clientSecret}
+        requiredInformationConfigFactory.postRequiredInformationConfig(requiredInformationSummary).success(postRequiredInformationSuccessCallback).error(errorCallback);
     }
 
     $scope.uploadMetadataFile = function(){
@@ -550,11 +598,11 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
             $scope.isStaticProvider = true;
 
         }else if (selectedValue == "dynamic"){
-            generateBasicConfigInputeFields(['dynamic']);
+            generateProviderConfigInputeFields(['dynamic']);
             $scope.isStaticProvider = false;
 
         }else{
-            generateBasicConfigInputeFields([]);
+            generateProviderConfigInputeFields([]);
             $scope.isStaticProvider = false;
         }
     }
@@ -562,15 +610,7 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     $scope.updateRequiredDynamicClientRegistrationFields = function(){
         var selectedValue = $('#dynamicRegistration option:selected').val();
 
-        if (selectedValue == "no"){
-            $scope.supportsDynamicClientRegistration = false;
-        }
-        else if (selectedValue == "yes"){
-            $scope.supportsDynamicClientRegistration = true;
-        }
-        else{
-            $scope.supportsDynamicClientRegistration = true;
-        }
+        $scope.supportsDynamicClientRegistration = selectedValue != "false";
     }
 
     $scope.uploadMetadataUrl = function(){
@@ -583,11 +623,8 @@ app.controller('IndexCtrl', function ($scope, basicConfigFactory, interactionCon
     advancedFieldsFactory.getAdvancedConfigFields().success(getAdvancedConfigSuccessCallback).error(errorCallback);
 
     $scope.containsRegistrationEndpointTextField = function(){
-        return $.inArray('registration_endpoint', checkedAttributes) > -1;
+        return $.inArray('registration_endpoint', selectedStaticProviderConfigFields) > -1;
     }
-
-    /*$scope.supportsDynamicClientRegistrationOptions = [{"option" : "yes"}, {"option" : "no"}]*/
-
 });
 
 //Loads the menu from a given template file and inserts it it to the <div menu> tag

@@ -60,8 +60,8 @@ class Test:
 
             #Calles from config
             "idp_config" : "idp_config.mako",
-            "get_basic_config" : None,
-            "post_basic_config" : None,
+            "get_provider_config" : None,
+            "post_provider_config" : None,
             "get_interaction_config" : None,
             "post_interaction_config" : None,
             "post_metadata_file" : None,
@@ -72,6 +72,8 @@ class Test:
             "temp_get_metadata": None,
             "post_metadata_url": None,
             "get_advanced_config_fields": None,
+            "get_required_information_config": None,
+            "post_required_information_config": None,
 
             #Calles from home
             "" : "home.mako"
@@ -104,10 +106,10 @@ class Test:
         #Calles from config_idp
         elif path == "idp_config":
             return self.handleConfigIDP(self.urls[path])
-        elif path == "get_basic_config":
-            return self.handleGetBasicConfig()
-        elif path == "post_basic_config":
-            return self.handlePostBasicConfig()
+        elif path == "get_provider_config":
+            return self.handleGetProviderConfig()
+        elif path == "post_provider_config":
+            return self.handlePostProviderConfig()
         elif path == "get_interaction_config":
             return self.handleGetInteractionConfig()
         elif path == "post_interaction_config":
@@ -128,10 +130,44 @@ class Test:
             return self.handlePostMetadataUrl()
         elif path == "get_advanced_config_fields":
             return self.handleGetAdvancedConfigFields()
+        elif path == "get_required_information_config":
+            return self.handleGetRequiredInformationConfig()
+        elif path == "post_required_information_config":
+            return self.handlePostRequiredInformationConfig()
 
         #Calls made from home
         elif path == "":
             return self.handleHomePage(self.urls[path])
+
+    def handleGetRequiredInformationConfig(self):
+        configString = self.session[self.CONFIG_KEY]
+        configDict = json.loads(configString)
+
+        try:
+            supportsDynamciClientRegistration = configDict['client']['supports_dynamc_client_registration']
+            client_id = configDict['client']['client_id']
+            client_secret = configDict['client']['client_secret']
+
+            reqiuredInformationDictonary = {"supportsDynamciClientRegistration": supportsDynamciClientRegistration, "client_id": client_id, "client_secret": client_secret}
+        except KeyError:
+            reqiuredInformationDictonary = {"supportsDynamciClientRegistration": "-", "client_id": "", "client_secret": ""}
+
+        return self.returnJSON(json.dumps(reqiuredInformationDictonary))
+
+    def handlePostRequiredInformationConfig(self):
+        configString = self.session[self.CONFIG_KEY]
+        configDict = json.loads(configString)
+
+        requiredInformationSummaryDictonay = self.parameters['provider_required_information_summary']
+
+        configDict['client']['client_id'] = requiredInformationSummaryDictonay['client_id']
+        configDict['client']['client_secret'] = requiredInformationSummaryDictonay['client_secret']
+        configDict['client']['supports_dynamc_client_registration'] = requiredInformationSummaryDictonay['supportsDynamciClientRegistration']
+
+        self.session[self.CONFIG_KEY] = json.dumps(configDict)
+
+        return self.returnJSON({"asd": 1})
+
 
     def convertAdvancedConfigFieldsDictonary(self, advancedConfigFields):
 
@@ -430,24 +466,24 @@ class Test:
 
         return self.serviceError("The test is not valid")
 
-    def handleGetBasicConfig(self):
+    def handleGetProviderConfig(self):
         if self.CONFIG_KEY in self.session:
             configString = self.session[self.CONFIG_KEY]
             try:
                 configDict = json.loads(configString)
-                basicConfig = {"provider": configDict['provider']}
-                return self.returnJSON(json.dumps(basicConfig))
+                providerConfig = {"provider": configDict['provider']}
+                return self.returnJSON(json.dumps(providerConfig))
             except ValueError:
                 return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
         return self.serviceError("No file saved in this current session")
 
 
 
-    def handlePostBasicConfig(self):
+    def handlePostProviderConfig(self):
         targetStringContent = self.session[self.CONFIG_KEY]
         targetDict = json.loads(targetStringContent)
 
-        targetDict["provider"] = self.parameters['basic_config_summary']
+        targetDict["provider"] = self.parameters['provider_config_summary']
         targetAsString = json.dumps(targetDict)
 
         self.session[self.CONFIG_KEY] = targetAsString
