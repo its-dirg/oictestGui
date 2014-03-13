@@ -76,15 +76,36 @@ app.factory('advancedFieldsFactory', function ($http) {
     };
 });
 
-app.controller('IndexCtrl', function ($scope, providerConfigFactory, interactionConfigFactory, uploadMetadataFactory, configFileFactory, advancedFieldsFactory, toaster, requiredInformationConfigFactory) {
+app.factory('opConfigurationFactory', function ($http) {
+    return {
+        getOpConfig: function () {
+            return $http.get("/get_op_config");
+        }
+    };
+});
+
+app.controller('IndexCtrl', function ($scope, providerConfigFactory, interactionConfigFactory, uploadMetadataFactory, configFileFactory, advancedFieldsFactory, toaster, requiredInformationConfigFactory, opConfigurationFactory) {
 
     $scope.providerConfigurations;
     $scope.convertedInteractionList;
     $scope.configFieldsKeyList;
     $scope.configFieldsViewList
+    $scope.opConfig = {};
 
     var staticProviderConfigFieldsTypeDictionary;
     var selectedStaticProviderConfigFields;
+
+    $scope.switchBetweenProviderConfigElement = function(){
+
+        if ($scope.opConfig.fetchInfoFromServerDropDown.value == "static"){
+            $scope.opConfig.fetchStaticInfoFromServer.showInputFields = true;
+            $scope.opConfig.fetchDynamicInfoFromServer.showInputFields = false;
+        }
+        if ($scope.opConfig.fetchInfoFromServerDropDown.value == "dynamic"){
+            $scope.opConfig.fetchDynamicInfoFromServer.showInputFields = true;
+            $scope.opConfig.fetchStaticInfoFromServer.showInputFields = false;
+        }
+    }
 
     var checkAttributeCheckboxedDownloadedFromServer = function (storedAttributes) {
 
@@ -167,6 +188,10 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
         $scope.configFieldsKeyList.splice(index ,1);
 
         //$scope.$apply();
+    };
+
+    var getOpConfigurationSuccessCallback = function (data, status, headers, config) {
+        $scope.opConfig = data;
     };
 
     var postProviderConfigSuccessCallback = function (data, status, headers, config) {
@@ -463,7 +488,9 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
     }
 
     $scope.addElementToList = function(index, label){
-        $scope.configFieldsViewList.splice(index+1 ,0, {"id": label, "label": "", "value": "", "isListElement": true});
+        //$scope.configFieldsViewList.splice(index+1 ,0, {"id": label, "label": "", "value": "", "isListElement": true});
+        $scope.opConfig.fetchStaticInfoFromServer.inputFields[index].splice(index+1 ,0, {"id": label, "label": "", "value": "", "isListElement": true})
+        //Add new list element to my new data structure and make in appear in the GUI
     }
 
     $scope.addElementToList = function(index, label, value){
@@ -529,8 +556,8 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
     $scope.saveConfigurations = function(){
 
         if (hasEnteredRequeredInformation()){
-            //postInteractionConfig();
-            //postProviderConfig();
+            postInteractionConfig();
+            postProviderConfig();
 
             var selectedValue = $('#dynamicRegistration option:selected').val();
             var clientId = $('#requiredInformationClientIdTextField').val();
@@ -650,6 +677,8 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
     $scope.containsRegistrationEndpointTextField = function(){
         return $.inArray('registration_endpoint', selectedStaticProviderConfigFields) > -1;
     }
+
+    opConfigurationFactory.getOpConfig().success(getOpConfigurationSuccessCallback).error(errorCallback);
 });
 
 //Loads the menu from a given template file and inserts it it to the <div menu> tag

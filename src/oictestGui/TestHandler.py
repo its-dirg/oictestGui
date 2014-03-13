@@ -74,6 +74,7 @@ class Test:
             "get_advanced_config_fields": None,
             "get_required_information_config": None,
             "post_required_information_config": None,
+            "get_op_config": None,
 
             #Calles from home
             "" : "home.mako"
@@ -135,9 +136,65 @@ class Test:
         elif path == "post_required_information_config":
             return self.handlePostRequiredInformationConfig()
 
+        elif path == "get_op_config":
+            return self.handleGetOpConfigurations()
+
         #Calls made from home
         elif path == "":
             return self.handleHomePage(self.urls[path])
+
+    def isList(self, fieldType):
+
+        if (fieldType == REQUIRED_LIST_OF_SP_SEP_STRINGS):
+            return True
+        elif (fieldType== OPTIONAL_LIST_OF_STRINGS):
+            return True
+        elif (fieldType == OPTIONAL_LIST_OF_SP_SEP_STRINGS):
+            return True
+        elif (fieldType == REQUIRED_LIST_OF_STRINGS):
+            return True
+
+        return False
+
+    def generateStaticInputFields(self):
+
+        staticProviderConfigKeyList = ProviderConfigurationResponse.c_param.keys()
+        staticProviderConfigKeyList.sort()
+        staticProviderConfigFieldsDict = ProviderConfigurationResponse.c_param
+
+        staticProviderConfigFieldsList = []
+
+        for staticFieldLabel in staticProviderConfigKeyList:
+            staticFieldType = staticProviderConfigFieldsDict[staticFieldLabel]
+            configField = {"label" : staticFieldLabel, "value": "", "show": False, "isList": self.isList(staticFieldType)}
+            staticProviderConfigFieldsList.append(configField)
+
+        return staticProviderConfigFieldsList
+
+    def createNewConfigurationDict(self):
+        staticInputFieldsList = self.generateStaticInputFields();
+        configurationDict = {
+            "fetchInfoFromServerDropDown": {
+                "name": "How does the application fetch information from the server?",
+                "value": "",
+                "values": [{"type": "dynamic", "name": "dynmic"},
+                           {"type": "static", "name": "static"}]
+            },
+            "fetchStaticInfoFromServer": {"showInputFields": False, "inputFields": staticInputFieldsList},
+            "fetchDynamicInfoFromServer": {"showInputFields": False,
+                                  "inputFields": {"label": "dynamic", "value": "", "show": False, "isList": False}}
+        }
+        return configurationDict
+
+    def handleGetOpConfigurations(self):
+
+        try:
+            configString = self.session[self.CONFIG_KEY]
+            configurationDict = json.loads(configString)
+        except TypeError:
+            configurationDict = self.createNewConfigurationDict()
+
+        return self.returnJSON(json.dumps(configurationDict))
 
     def handleGetRequiredInformationConfig(self):
         configString = self.session[self.CONFIG_KEY]

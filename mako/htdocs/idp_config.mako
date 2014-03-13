@@ -65,21 +65,97 @@
         <!-- HIDE EVERY THING UNDER THIS LINE UNTIL DATA IS STORED IN THE SESSION -->
 
 <!-- ################################################################################################# -->
+            <h3>
+                Provider configuration:
+            </h3>
 
-        <div ng-show="providerConfigurations" >
+            <span>
+                How does the application fetch information from the server?
+            </span>
+
+            <select ng-model="opConfig.fetchInfoFromServerDropDown.value"
+                    ng-options="v.type as v.name for v in opConfig.fetchInfoFromServerDropDown.values"
+                    ng-change="switchBetweenProviderConfigElement();">
+            </select>
+
+            <br>
+
+            <button class="btn btn-default btn-sm"
+                    ng-click="showModalWindowAddConfigFields();"
+                    ng-show="opConfig.fetchStaticInfoFromServer.showInputFields == true">
+                Add new provider config fields
+            </button>
+
+            <div class="row" ng-show="opConfig.fetchDynamicInfoFromServer.showInputFields == true">
+                <div class="col-sm-4">
+                    <span>{{opConfig.fetchDynamicInfoFromServer.inputFields.label}}</span>
+                </div>
+
+                <div class="col-sm-8">
+                    <form>
+                    <input type="text" value="{{opConfig.fetchDynamicInfoFromServer.inputFields.value}}">
+                    </form>
+                </div>
+            </div>
+
+            <div ng-show="opConfig.fetchStaticInfoFromServer.showInputFields == true">
+                <div class="row"
+                     ng-repeat="inputField in opConfig.fetchStaticInfoFromServer.inputFields"
+                     ng-show="inputField.show == true">
+
+                    <div class="col-sm-4">
+                        <span>{{inputField.label}}</span>
+                    </div>
+
+                    <div class="col-sm-7">
+                        <form>
+                        <input type="text" ng-model="inputField.value">
+                        </form>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <button ng-show="inputField.isList == true" class="btn btn-default btn-sm" ng-click="addElementToList($index, row.label);">+</button>
+                        <button ng-show="inputField.isListElement == true" class="btn btn-danger btn-sm" ng-click="removeElementFromList($index);">X</button>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+<%doc>        <div ng-show="providerConfigurations" >
 
             <h3>
                 Provider configuration:
             </h3>
 
-            <select id="providerType">
-                <option value="default" ng-click="updateProviderConfigurationBySelecedProviderType()">- Select provider type -</option>
-                <option value="static" ng-click="updateProviderConfigurationBySelecedProviderType()">Static provider</option>
-                <option value="dynamic" ng-click="updateProviderConfigurationBySelecedProviderType()">Dynamic provider</option>
-            </select>
+            <span>
+                How does the application fetch information from the server?
+            </span>
+
+            <select ng-model="fetchInfo.value" ng-options="v.type as v.name for v in fetchInfo.values"></select>
+
             <br>
 
-            <button class="btn btn-default btn-sm" ng-click="showModalWindowAddConfigFields();" ng-show="isStaticProvider == true">Add new provider config fields</button>
+            <button class="btn btn-default btn-sm" ng-click="showModalWindowAddConfigFields();" ng-show="fetchInfo.value == 'static'">Add new provider config fields</button>
+
+            <button class="btn btn-default btn-sm" ng-click="getSelectedValue();">print</button>
+
+            <div class="row" ng>
+                <div class="col-sm-4">
+                    <span>{{row.label}}</span>
+                </div>
+
+                <div class="col-sm-7">
+                    <form>
+                    <input type="text" value="{{row.value}}" class="{{row.id}}">
+                    </form>
+                </div>
+
+                <div class="col-sm-1">
+                    <button ng-show="row.isList == true" class="btn btn-default btn-sm" ng-click="addElementToList($index, row.label);">+</button>
+                    <button ng-show="row.isListElement == true" class="btn btn-danger btn-sm" ng-click="removeElementFromList($index);">X</button>
+                </div>
+            </div>
 
             <div class="row" ng-repeat="row in configFieldsViewList">
                 <div class="col-sm-4">
@@ -96,7 +172,6 @@
                     <button ng-show="row.isList == true" class="btn btn-default btn-sm" ng-click="addElementToList($index, row.label);">+</button>
                     <button ng-show="row.isListElement == true" class="btn btn-danger btn-sm" ng-click="removeElementFromList($index);">X</button>
                 </div>
-
             </div>
 
             <hr>
@@ -117,9 +192,9 @@
                         <option value="false" ng-click="updateRequiredDynamicClientRegistrationFields()">No</option>
                     </select>
 
-     <%doc>               <select ng-model="color" ng-options="c.option for c in supportsDynamicClientRegistrationOptions">
+     </%doc><%doc>               <select ng-model="color" ng-options="c.option for c in supportsDynamicClientRegistrationOptions">
                         <option value="">-</option>
-                    </select></%doc>
+                    </select></%doc><%doc>
                 </div>
             </div>
 
@@ -194,15 +269,12 @@
                 </div>
             </div>
 
-            <br>
+            <br></%doc>
 
             <button class="btn btn-primary btn-sm" ng-click="saveConfigurations();">Save configurations</button>
         </div>
     </div>
-</%block>
 
-<%block name="footer">
-    </div>
     <div class="modal fade" id="modalWindowAddConfigFields" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -210,9 +282,9 @@
 
                 <div id="advancedFieldTable">
                     <table class="table table-striped">
-                        <tr ng-repeat="fieldName in configFieldsKeyList">
-                            <td><input type="checkbox" value="{{fieldName}}"></td>
-                            <td>{{fieldName}}</td>
+                        <tr ng-repeat="inputField in opConfig.fetchStaticInfoFromServer.inputFields">
+                            <td><input type="checkbox" ng-model="inputField.show"></td>
+                            <td>{{inputField.label}}</td>
                         <tr>
                     </table>
                 </div>
@@ -221,6 +293,12 @@
             </div>
         </div>
     </div>
+
+</%block>
+
+<%block name="footer">
+    </div>
+
 
     <div class="modal fade" id="modalWindowUploadConfigurationFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
