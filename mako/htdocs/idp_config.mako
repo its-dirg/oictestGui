@@ -94,7 +94,7 @@
 
                 <div class="col-sm-8">
                     <form>
-                        <input type="text" value="{{opConfig.fetchDynamicInfoFromServer.inputField.values}}">
+                        <input type="text" ng-model="opConfig.fetchDynamicInfoFromServer.inputField.value">
                     </form>
                 </div>
             </div>
@@ -140,9 +140,9 @@
 
                 <div class="row">
                     <div class="col-sm-12">
-                <span>
-                    Do your application support dynamic client registration?
-                </span>
+                        <span>
+                            {{opConfig.requiredInfoDropDown.label}}
+                        </span>
 
                         <select ng-model="opConfig.requiredInfoDropDown.value"
                                 ng-options="v.type as v.name for v in opConfig.requiredInfoDropDown.values">
@@ -216,21 +216,23 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalWindowUploadConfigurationFile" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <input type="file" name="file" id="targetFile">
+            <button class="btn btn-primary btn-sm" ng-click="uploadConfigFile();">Upload configurations</button>
+        </div>
+    </div>
+</div>
+
 </%block>
 
 <%block name="footer">
     </div>
 
 
-    <div class="modal fade" id="modalWindowUploadConfigurationFile" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <input type="file" name="file" id="targetFile">
-                <button class="btn btn-primary btn-sm" ng-click="uploadConfigFile();">Upload configurations</button>
-            </div>
-        </div>
-    </div>
+
 
     <script type="text/javascript" src="/static/idp_config.js"></script>
     ${parent.footer()}

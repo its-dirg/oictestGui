@@ -38,16 +38,17 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
 
         if ($scope.opConfig.fetchInfoFromServerDropDown.value == "static"){
             $scope.opConfig.fetchStaticInfoFromServer.showInputFields = true;
-            $scope.opConfig.fetchDynamicInfoFromServer.showInputFields = false;
+            $scope.opConfig.fetchDynamicInfoFromServer.showInputField = false;
         }
         if ($scope.opConfig.fetchInfoFromServerDropDown.value == "dynamic"){
-            $scope.opConfig.fetchDynamicInfoFromServer.showInputFields = true;
+            $scope.opConfig.fetchDynamicInfoFromServer.showInputField = true;
             $scope.opConfig.fetchStaticInfoFromServer.showInputFields = false;
         }
     }
 
     var getOpConfigurationSuccessCallback = function (data, status, headers, config) {
         $scope.opConfig = data;
+        console.log($scope.opConfig.fetchDynamicInfoFromServer.inputField.label)
     };
 
     var postRequiredInformationSuccessCallback = function (data, status, headers, config) {
@@ -86,7 +87,6 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
     };
 
     var updateConfigFields = function(){
-        //Since no info is stored on the server in the a session it's not necessary to show this info before now
         opConfigurationFactory.getOpConfig().success(getOpConfigurationSuccessCallback).error(errorCallback);
     }
 

@@ -181,30 +181,90 @@ class Test:
                            {"type": "static", "name": "static"}]
             },
             "fetchStaticInfoFromServer": {"showInputFields": False, "inputFields": staticInputFieldsList},
-            "fetchDynamicInfoFromServer": {"showInputFields": False,
+            "fetchDynamicInfoFromServer": {"showInputField": False,
                                   "inputField": {"label": "dynamic", "value": "", "show": False, "isList": False}},
             "requiredInfoDropDown": {
-                "name": "Do your application support dynamic client registration?",
+                "label": "Do your application support dynamic client registration?",
                 "value": "",
                 "values": [{"type": "yes", "name": "yes"},
                            {"type": "no", "name": "no"}]
             },
             "requiredInfoTextFields":[
-                {"label": "Client id", "textFieldContent": ""},
-                {"label": "Client secret", "textFieldContent": ""}],
+                {"id": "client_id", "label": "Client id", "textFieldContent": ""},
+                {"id": "client_secret", "label": "Client secret", "textFieldContent": ""}],
             "interactionsBlocks": []
         }
         return configurationDict
+
+    def containElements(self, any_structure):
+        if any_structure:
+            return True
+        else:
+            return False
+
+    def convertDynamicProviderData(self, configFileDict, configStructureDict):
+        configStructureDict["fetchInfoFromServerDropDown"]["value"] = "dynamic"
+        configStructureDict["fetchDynamicInfoFromServer"]["showInputField"] = True
+        configStructureDict["fetchDynamicInfoFromServer"]["inputField"]["value"] = configFileDict["provider"]["dynamic"]
+
+        return configStructureDict
+
+    def convertRequiredInfo(self, configFileDict, configStructureDict):
+        if "client_id" in configFileDict["client"]:
+            configStructureDict["requiredInfoDropDown"]["value"] = "no"
+
+            for textFiled in configStructureDict["requiredInfoTextFields"]:
+                if textFiled["id"] == "client_id":
+                    textFiled["textFieldContent"] = configFileDict["client"]["client_id"]
+
+        if "client_secret" in configFileDict["client"]:
+            configStructureDict["requiredInfoDropDown"]["value"] = "no"
+
+            for textFiled in configStructureDict["requiredInfoTextFields"]:
+                if textFiled["id"] == "client_secret":
+                    textFiled["textFieldContent"] = configFileDict["client"]["client_secret"]
+        return configStructureDict
+
+
+    def convertInteractionBlocks(self, configFileDict, configStructureDict):
+
+        numberOfBlocks = len(configStructureDict["interactionsBlocks"])
+
+        if "interaction" in configFileDict:
+            for interactionBlock in configFileDict["interaction"]:
+                url = interactionBlock["matches"].get("url", "")
+                title = interactionBlock["matches"].get("title", "")
+                pageType = interactionBlock.get("page-type", "")
+                set = interactionBlock["control"].get("set", {})
+                type = interactionBlock["control"].get("type", "")
+                index = interactionBlock["control"].get("index", 0)
+
+                newInteractionBlock = {"id": numberOfBlocks, "inputFields": [
+                                {"label": "title", "textFieldContent": title},
+                                {"label": "url", "textFieldContent": url},
+                                {"label": "pageType", "textFieldContent": pageType},
+                                {"label": "index", "textFieldContent": index},
+                                {"label": "set", "textFieldContent": set},
+                                {"label": "type", "textFieldContent": type}
+                            ]}
+
+                configStructureDict["interactionsBlocks"].append(newInteractionBlock)
+
+        return configStructureDict
 
     def convertToConfigDataStructure(self, configFileDict):
         configStructureDict = self.createNewConfigurationDict()
 
         if "dynamic" in configFileDict["provider"]:
-            configStructureDict["fetchInfoFromServerDropDown"]["value"] = "dynamic"
-            configStructureDict["fetchDynamicInfoFromServer"]["showInputFields"] = True
-            configStructureDict["fetchDynamicInfoFromServer"]["inputField"] = configFileDict["provider"]["dynamic"]
+            configStructureDict = self.convertDynamicProviderData(configFileDict, configStructureDict)
+            configStructureDict = self.convertRequiredInfo(configFileDict, configStructureDict)
+            configStructureDict = self.convertInteractionBlocks(configFileDict, configStructureDict)
 
-        return dict
+        elif self.containElements(configFileDict["provider"]):
+            #Now we know it's an static provider
+            return
+
+        return configStructureDict
 
     def handleGetOpConfigurations(self):
 
@@ -212,8 +272,8 @@ class Test:
             configString = self.session[self.CONFIG_FILE_KEY]
             try:
                 configDict = json.loads(configString)
-                configurationDict = self.convertToConfigDataStructure(configDict)
-                return self.returnJSON(json.dumps(configurationDict))
+                configStructureDict = self.convertToConfigDataStructure(configDict)
+                return self.returnJSON(json.dumps(configStructureDict))
             except ValueError:
                 return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
         return self.serviceError("No file saved in this current session")
