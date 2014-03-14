@@ -31,7 +31,7 @@ class Test:
     OICC = '/usr/local/bin/oicc.py'
     #Only used to check to check for new config files this which does nothing useful at the moment
     #CONFIG_FILE_PATH = 'saml2test/configFiles/'
-    CONFIG_KEY = "target"
+    CONFIG_FILE_KEY = "target"
 
     def __init__(self, environ, start_response, session, logger, lookup, config, parameters, cache):
         """
@@ -166,7 +166,7 @@ class Test:
 
         for staticFieldLabel in staticProviderConfigKeyList:
             staticFieldType = staticProviderConfigFieldsDict[staticFieldLabel]
-            configField = {"label" : staticFieldLabel, "value": "", "show": False, "isList": self.isList(staticFieldType)}
+            configField = {"id": staticFieldLabel, "label": staticFieldLabel, "values": [{"index": 0, "textFieldContent": ""}], "show": False, "isList": self.isList(staticFieldType)}
             staticProviderConfigFieldsList.append(configField)
 
         return staticProviderConfigFieldsList
@@ -182,22 +182,46 @@ class Test:
             },
             "fetchStaticInfoFromServer": {"showInputFields": False, "inputFields": staticInputFieldsList},
             "fetchDynamicInfoFromServer": {"showInputFields": False,
-                                  "inputFields": {"label": "dynamic", "value": "", "show": False, "isList": False}}
+                                  "inputField": {"label": "dynamic", "value": "", "show": False, "isList": False}},
+            "requiredInfoDropDown": {
+                "name": "Do your application support dynamic client registration?",
+                "value": "",
+                "values": [{"type": "yes", "name": "yes"},
+                           {"type": "no", "name": "no"}]
+            },
+            "requiredInfoTextFields":[
+                {"label": "Client id", "textFieldContent": ""},
+                {"label": "Client secret", "textFieldContent": ""}],
+            "interactionsBlocks": []
         }
         return configurationDict
 
+    def convertToConfigDataStructure(self, configFileDict):
+        configStructureDict = self.createNewConfigurationDict()
+
+        if "dynamic" in configFileDict["provider"]:
+            configStructureDict["fetchInfoFromServerDropDown"]["value"] = "dynamic"
+            configStructureDict["fetchDynamicInfoFromServer"]["showInputFields"] = True
+            configStructureDict["fetchDynamicInfoFromServer"]["inputField"] = configFileDict["provider"]["dynamic"]
+
+        return dict
+
     def handleGetOpConfigurations(self):
 
-        try:
-            configString = self.session[self.CONFIG_KEY]
-            configurationDict = json.loads(configString)
-        except TypeError:
-            configurationDict = self.createNewConfigurationDict()
+        if self.CONFIG_FILE_KEY in self.session:
+            configString = self.session[self.CONFIG_FILE_KEY]
+            try:
+                configDict = json.loads(configString)
+                configurationDict = self.convertToConfigDataStructure(configDict)
+                return self.returnJSON(json.dumps(configurationDict))
+            except ValueError:
+                return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
+        return self.serviceError("No file saved in this current session")
 
-        return self.returnJSON(json.dumps(configurationDict))
+
 
     def handleGetRequiredInformationConfig(self):
-        configString = self.session[self.CONFIG_KEY]
+        configString = self.session[self.CONFIG_FILE_KEY]
         configDict = json.loads(configString)
 
         try:
@@ -212,7 +236,7 @@ class Test:
         return self.returnJSON(json.dumps(reqiuredInformationDictonary))
 
     def handlePostRequiredInformationConfig(self):
-        configString = self.session[self.CONFIG_KEY]
+        configString = self.session[self.CONFIG_FILE_KEY]
         configDict = json.loads(configString)
 
         requiredInformationSummaryDictonay = self.parameters['provider_required_information_summary']
@@ -221,7 +245,7 @@ class Test:
         configDict['client']['client_secret'] = requiredInformationSummaryDictonay['client_secret']
         configDict['client']['supports_dynamc_client_registration'] = requiredInformationSummaryDictonay['supportsDynamciClientRegistration']
 
-        self.session[self.CONFIG_KEY] = json.dumps(configDict)
+        self.session[self.CONFIG_FILE_KEY] = json.dumps(configDict)
 
         return self.returnJSON({"asd": 1})
 
@@ -304,7 +328,7 @@ class Test:
         metadata = urllib2.urlopen(metadataUrl).read()
         self.addMetdataToSession(metadata)
 
-        print "Post metadata url: " + self.session[self.CONFIG_KEY]
+        print "Post metadata url: " + self.session[self.CONFIG_FILE_KEY]
         return self.returnJSON({"asd": 1})
 
 
@@ -313,7 +337,7 @@ class Test:
 
 
     def doesConfigFileExist(self):
-        if self.CONFIG_KEY in self.session:
+        if self.CONFIG_FILE_KEY in self.session:
             return True
         else:
             return False
@@ -418,7 +442,7 @@ class Test:
         pageType = interactionParameters['pageType']
         controlType = interactionParameters['controlType']
 
-        configFileAsString = self.session[self.CONFIG_KEY]
+        configFileAsString = self.session[self.CONFIG_FILE_KEY]
         configFileAsDict = json.loads(configFileAsString)
 
         #create the new interaction object based on the parameters
@@ -447,7 +471,7 @@ class Test:
 
         configFileAsDict['interaction'].extend(newInteraction)
 
-        self.session[self.CONFIG_KEY] = json.dumps(configFileAsDict)
+        self.session[self.CONFIG_FILE_KEY] = json.dumps(configFileAsDict)
 
 
     def handlePostFinalInteractionData(self):
@@ -475,10 +499,10 @@ class Test:
 
 
     def handleResetInteraction(self):
-        targetStringContent = self.session[self.CONFIG_KEY]
+        targetStringContent = self.session[self.CONFIG_FILE_KEY]
         targetDict = ast.literal_eval(targetStringContent)
         targetDict['interaction'] = []
-        self.session[self.CONFIG_KEY] = str(targetDict)
+        self.session[self.CONFIG_FILE_KEY] = str(targetDict)
 
         return self.returnHTML("<h1>Data</h1>")
 
@@ -493,7 +517,7 @@ class Test:
 
         if self.checkIfIncommingTestIsLeagal(testToRun):
             try:
-                targetStringContent = self.session[self.CONFIG_KEY]
+                targetStringContent = self.session[self.CONFIG_FILE_KEY]
                 targetDict = json.loads(targetStringContent)
             except TypeError:
                 return self.serviceError("No configurations available. Add configurations and try again")
@@ -524,8 +548,8 @@ class Test:
         return self.serviceError("The test is not valid")
 
     def handleGetProviderConfig(self):
-        if self.CONFIG_KEY in self.session:
-            configString = self.session[self.CONFIG_KEY]
+        if self.CONFIG_FILE_KEY in self.session:
+            configString = self.session[self.CONFIG_FILE_KEY]
             try:
                 configDict = json.loads(configString)
                 providerConfig = {"provider": configDict['provider']}
@@ -534,24 +558,22 @@ class Test:
                 return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
         return self.serviceError("No file saved in this current session")
 
-
-
     def handlePostProviderConfig(self):
-        targetStringContent = self.session[self.CONFIG_KEY]
+        targetStringContent = self.session[self.CONFIG_FILE_KEY]
         targetDict = json.loads(targetStringContent)
 
         targetDict["provider"] = self.parameters['provider_config_summary']
         targetAsString = json.dumps(targetDict)
 
-        self.session[self.CONFIG_KEY] = targetAsString
+        self.session[self.CONFIG_FILE_KEY] = targetAsString
 
-        print "Post basic config: " + self.session[self.CONFIG_KEY]
+        print "Post basic config: " + self.session[self.CONFIG_FILE_KEY]
         return self.returnJSON({"asd": 1})
 
 
     def handleGetInteractionConfig(self):
-        if self.CONFIG_KEY in self.session:
-            configString = self.session[self.CONFIG_KEY]
+        if self.CONFIG_FILE_KEY in self.session:
+            configString = self.session[self.CONFIG_FILE_KEY]
             try:
                 configDict = json.loads(configString)
                 interactionConfigList = self.createInteractionConfigList(configDict)
@@ -568,13 +590,13 @@ class Test:
         for entry in interactionList:
             interactionConfigList.append(entry['entry'])
 
-        configString = self.session[self.CONFIG_KEY]
+        configString = self.session[self.CONFIG_FILE_KEY]
         configDict = json.loads(configString)
 
         configDict["interaction"] = interactionConfigList
-        self.session[self.CONFIG_KEY] = json.dumps(configDict)
+        self.session[self.CONFIG_FILE_KEY] = json.dumps(configDict)
 
-        print "Post interaction config: " + self.session[self.CONFIG_KEY]
+        print "Post interaction config: " + self.session[self.CONFIG_FILE_KEY]
         return self.returnJSON({"asd": 1})
 
 
@@ -583,7 +605,7 @@ class Test:
             metadata = metadata.replace('\n', "")
             metadata = metadata.replace('\"', "\'")
 
-            configString = self.session[self.CONFIG_KEY]
+            configString = self.session[self.CONFIG_FILE_KEY]
             configDict = ast.literal_eval(configString)
 
             configDict["metadata"] = ""
@@ -591,7 +613,7 @@ class Test:
             newConfigString = json.dumps(configDict)
             newConfigString = newConfigString.replace("\"metadata\": \"\"", "\"metadata\": \"" + metadata + "\"")
 
-            self.session[self.CONFIG_KEY] = newConfigString
+            self.session[self.CONFIG_FILE_KEY] = newConfigString
 
 
     def handlePostMetadataFile(self):
@@ -599,7 +621,7 @@ class Test:
 
         self.addMetdataToSession(metadata)
 
-        print "Post metadata file: " + self.session[self.CONFIG_KEY]
+        print "Post metadata file: " + self.session[self.CONFIG_FILE_KEY]
         return self.returnJSON({"asd": 1})
 
 
@@ -609,27 +631,27 @@ class Test:
         try:
             configString = templateFile.read()
             configDict = json.loads(configString)
-            self.session[self.CONFIG_KEY] = json.dumps(configDict)
+            self.session[self.CONFIG_FILE_KEY] = json.dumps(configDict)
         finally:
             templateFile.close()
 
-        print "Create: " + self.session[self.CONFIG_KEY]
+        print "Create: " + self.session[self.CONFIG_FILE_KEY]
         return self.returnJSON({"asd": 1})
 
 
     def handleUploadConfigFile(self):
-        self.session[self.CONFIG_KEY] = str(self.parameters['configFileContent'])
+        self.session[self.CONFIG_FILE_KEY] = str(self.parameters['configFileContent'])
 
-        print "Upload target: " + self.session[self.CONFIG_KEY]
+        print "Upload target: " + self.session[self.CONFIG_FILE_KEY]
         return self.returnJSON({"target": "asd"})
 
 
     def handleDownloadConfigFile(self):
-        configString = self.session[self.CONFIG_KEY]
+        configString = self.session[self.CONFIG_FILE_KEY]
         configDict = json.loads(configString)
         fileDict = json.dumps({"configDict": configDict})
 
-        print "Download target: " + self.session[self.CONFIG_KEY]
+        print "Download target: " + self.session[self.CONFIG_FILE_KEY]
         return self.returnJSON(fileDict)
 
 

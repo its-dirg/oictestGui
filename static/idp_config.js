@@ -1,50 +1,6 @@
 
 var app = angular.module('main', ['toaster'])
 
-app.factory('providerConfigFactory', function ($http) {
-    return {
-        getProviderConfig: function () {
-            return $http.get("/get_provider_config");
-        },
-        postProviderConfig: function (providerConfigSummaryDictionary) {
-            return $http.post("/post_provider_config", {"provider_config_summary": providerConfigSummaryDictionary});
-        }
-    };
-});
-
-app.factory('requiredInformationConfigFactory', function ($http) {
-    return {
-        getRequiredInformationConfig: function () {
-            return $http.get("/get_required_information_config");
-        },
-        postRequiredInformationConfig: function (requiredInformationConfigSummaryDictionary) {
-            return $http.post("/post_required_information_config", {"provider_required_information_summary": requiredInformationConfigSummaryDictionary});
-        }
-    };
-});
-
-app.factory('interactionConfigFactory', function ($http) {
-    return {
-        getInteractionConfig: function () {
-            return $http.get("/get_interaction_config");
-        },
-        postInteractionConfig: function (interactionList) {
-            return $http.post("/post_interaction_config", {"interactionList": interactionList});
-        }
-    };
-});
-
-app.factory('uploadMetadataFactory', function ($http) {
-    return {
-        postMetadataFile: function (metadataFile) {
-            return $http.post("/post_metadata_file", {"metadataFile": metadataFile});
-        },
-        postMetadataUrl: function (metadataUrl) {
-            return $http.post("/post_metadata_url", {"metadataUrl": metadataUrl});
-        }
-    };
-});
-
 app.factory('configFileFactory', function ($http) {
     return {
 
@@ -56,7 +12,7 @@ app.factory('configFileFactory', function ($http) {
             return $http.post("/upload_config_file", {"configFileContent": configFileContent});
         },
 
-        sendCreateNewConfigFileRequest: function () {
+        createNewConfigFile: function () {
             return $http.get("/create_new_config_file");
         },
 
@@ -64,15 +20,6 @@ app.factory('configFileFactory', function ($http) {
             return $http.get("/does_config_file_exist");
         }
 
-    };
-});
-
-app.factory('advancedFieldsFactory', function ($http) {
-
-    return {
-        getAdvancedConfigFields: function () {
-            return $http.get("/get_advanced_config_fields");
-        }
     };
 });
 
@@ -84,16 +31,8 @@ app.factory('opConfigurationFactory', function ($http) {
     };
 });
 
-app.controller('IndexCtrl', function ($scope, providerConfigFactory, interactionConfigFactory, uploadMetadataFactory, configFileFactory, advancedFieldsFactory, toaster, requiredInformationConfigFactory, opConfigurationFactory) {
-
-    $scope.providerConfigurations;
-    $scope.convertedInteractionList;
-    $scope.configFieldsKeyList;
-    $scope.configFieldsViewList
-    $scope.opConfig = {};
-
-    var staticProviderConfigFieldsTypeDictionary;
-    var selectedStaticProviderConfigFields;
+app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConfigurationFactory) {
+    $scope.opConfig;
 
     $scope.switchBetweenProviderConfigElement = function(){
 
@@ -107,99 +46,8 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
         }
     }
 
-    var checkAttributeCheckboxedDownloadedFromServer = function (storedAttributes) {
-
-        $('input:checkbox').each(function () {
-            $(this).prop('checked', false);
-            for (var i = 0; i < storedAttributes.length; i++) {
-                if ($(this).val() == storedAttributes[i]) {
-                    $(this).prop('checked', true);
-                }
-            }
-        });
-
-        selectedStaticProviderConfigFields = storedAttributes;
-    }
-
-    var calculateIndexOfElement = function (currentConfigFieldViewElement) {
-        for (var i = 0; i < $scope.configFieldsViewList.length; i++) {
-            if ($scope.configFieldsViewList[i] == currentConfigFieldViewElement) {
-                return i;
-            }
-        }
-    }
-
-    var insertAttributeList = function(data, currnetStroredAttribute, currentConfigFieldViewElement) {
-        configValueList = data['provider'][currnetStroredAttribute]
-
-        currentConfigFieldViewElement['value'] = data['provider'][currnetStroredAttribute][0];
-
-        var index = calculateIndexOfElement(currentConfigFieldViewElement);
-
-        for (var i = 1; i < configValueList.length; i++) {
-
-            //TODO Något skumt, när man har två ConfigFieldViewElement med samma id så får applikationen frispel. Hamnar i någon slags oändlig loop, verkar ha något med refferenser att göra?
-
-            //alert(currentConfigFieldViewElement['id']);
-
-            $scope.addElementToList(index, currentConfigFieldViewElement['id']+i, configValueList[i]);
-        }
-    }
-
-    var getProviderConfigSuccessCallback = function (data, status, headers, config) {
-
-        $scope.providerConfigurations = data;
-        //alert("Basic config successfully LOADED")
-
-        var storedAttributes = Object.keys(data['provider']).sort();
-
-        generateProviderConfigInputeFields(storedAttributes);
-
-        //Add the values to the list
-        for (var j = 0; j < $scope.configFieldsViewList.length; j++){
-
-            var currentConfigFieldViewElement = $scope.configFieldsViewList[j];
-
-            for (var k = 0; k < storedAttributes.length; k++){
-                var currnetStroredAttribute = storedAttributes[k];
-
-                if (currentConfigFieldViewElement['id'] == currnetStroredAttribute){
-
-                    var fieldType = staticProviderConfigFieldsTypeDictionary[currnetStroredAttribute];
-
-                    if (isListField(fieldType)) {
-                        insertAttributeList(data, currnetStroredAttribute, currentConfigFieldViewElement);
-                    } else{
-                        currentConfigFieldViewElement['value'] = data['provider'][currnetStroredAttribute];
-                    }
-                }
-            }
-        }
-
-        checkAttributeCheckboxedDownloadedFromServer(storedAttributes);
-    };
-
-    var getAdvancedConfigSuccessCallback = function (data, status, headers, config) {
-        staticProviderConfigFieldsTypeDictionary = data;
-        $scope.configFieldsKeyList = Object.keys(data).sort();
-
-        //Removing dynamic since it shouldn't be in the list over static provider fields
-        var index = $scope.configFieldsKeyList.indexOf("dynamic");
-        $scope.configFieldsKeyList.splice(index ,1);
-
-        //$scope.$apply();
-    };
-
     var getOpConfigurationSuccessCallback = function (data, status, headers, config) {
         $scope.opConfig = data;
-    };
-
-    var postProviderConfigSuccessCallback = function (data, status, headers, config) {
-        alert("Provider config successfully SAVED");
-    };
-
-    var postMetadataFileSuccessCallback = function (data, status, headers, config) {
-        alert("Metadata file successfully SAVED");
     };
 
     var postRequiredInformationSuccessCallback = function (data, status, headers, config) {
@@ -216,10 +64,6 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
         $('#requiredInformationClientSecretTextField').val(client_secret);
 
         $scope.supportsDynamicClientRegistration = selectedValue != "false";
-    };
-
-    var postMetadataUrlSuccessCallback = function (data, status, headers, config) {
-        alert("Metadata url successfully SAVED");
     };
 
     var downloadConfigFileSuccessCallback = function (data, status, headers, config) {
@@ -243,10 +87,7 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
 
     var updateConfigFields = function(){
         //Since no info is stored on the server in the a session it's not necessary to show this info before now
-        providerConfigFactory.getProviderConfig().success(getProviderConfigSuccessCallback).error(errorCallback);
-        interactionConfigFactory.getInteractionConfig().success(getInteractionConfigSuccessCallback).error(errorCallback);
-        requiredInformationConfigFactory.getRequiredInformationConfig().success(getRequiredInformationSuccessCallback).error(errorCallback);
-
+        opConfigurationFactory.getOpConfig().success(getOpConfigurationSuccessCallback).error(errorCallback);
     }
 
     var uploadConfigFileSuccessCallback = function (data, status, headers, config) {
@@ -289,21 +130,6 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
 
     };
 
-    var getInteractionConfigSuccessCallback = function (data, status, headers, config) {
-
-        $scope.convertedInteractionList = data;
-        $scope.originalInteractionList = angular.copy(data);
-
-        for (var i = 0; i < data.length; i++){
-           $scope.convertedInteractionList[i]['entry']['pagetype'] = data[i]['entry']['page-type']
-        }
-        //alert("interaction successfully LOADED");
-    };
-
-    var postInteractionConfigSuccessCallback = function (data, status, headers, config) {
-        alert("interaction successfully SAVED");
-    };
-
     var errorCallback = function (data, status, headers, config) {
         bootbox.alert(data.ExceptionMessage);
     };
@@ -320,98 +146,23 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
         alert("test");
     };
 
-    var isListField = function(currentFieldType){
-        if (currentFieldType == "SINGLE_OPTIONAL_STRING"){
-            return false;
-        }else if (currentFieldType == "SINGLE_REQUIRED_STRING"){
-            return false;
-        }else if (currentFieldType == "SINGLE_OPTIONAL_INT"){
-            return false;
-        }else{
-            return true;
-        }
+    $scope.addInteractionBlock = function () {
+
+        var numberOfBlocks = $scope.opConfig.interactionsBlocks.length
+
+        var newInteractionBlock = {"id": numberOfBlocks, "inputFields": [
+                        {"label": "title", "textFieldContent": ""},
+                        {"label": "url", "textFieldContent": ""},
+                        {"label": "pageType", "textFieldContent": ""},
+                        {"label": "index", "textFieldContent": ""},
+                        {"label": "set", "textFieldContent": ""},
+                        {"label": "type", "textFieldContent": ""}
+                    ]}
+
+        $scope.opConfig.interactionsBlocks.push(newInteractionBlock);
     };
 
-    var updateSelectedDropDownListValue = function(attributesToAdd) {
-        //Sets the drop-down list to the appropriate value based on the textfields in the uploaded configuration file
-        if (attributesToAdd.length > 0) {
-
-            var isDynamicProvider = $.inArray('dynamic', attributesToAdd) > -1;
-
-            if (isDynamicProvider) {
-                $("#providerType").val("dynamic");
-            }
-            else {
-                $("#providerType").val("static");
-            }
-        }
-    }
-
-    var generateProviderConfigInputeFields = function (configFieldsToAdd) {
-        clearProviderConfigFieldsViewList();
-
-        updateSelectedDropDownListValue(configFieldsToAdd);
-
-        for (var i = 0; i < configFieldsToAdd.length; i++) {
-            //alert(configFieldsToAdd[i] +" : "+ staticProviderConfigFieldsTypeDictionary[configFieldsToAdd[i]]);
-
-            var currentFieldType = staticProviderConfigFieldsTypeDictionary[configFieldsToAdd[i]];
-
-            if (isListField(currentFieldType)) {
-                $scope.configFieldsViewList.push({"id": configFieldsToAdd[i], "label": configFieldsToAdd[i], "value": "", "isList": true});
-            } else {
-                $scope.configFieldsViewList.push({"id": configFieldsToAdd[i], "label": configFieldsToAdd[i], "value": "", "isList": false});
-            }
-        }
-    }
-
-    var clearProviderConfigFieldsViewList = function(){
-        $scope.configFieldsViewList = [];
-    }
-
-    var resetProviderConfigBlock= function(){
-        $scope.configFieldsViewList = [];
-        $scope.isStaticProvider = false;
-        $("#providerType").val("default");
-    }
-
-    $scope.summitAdvancedConfigFields = function () {
-
-        selectedStaticProviderConfigFields = []
-
-        $('input:checkbox:checked').each(function(i){
-            selectedStaticProviderConfigFields.push($(this).val());
-        });
-
-        generateProviderConfigInputeFields(selectedStaticProviderConfigFields);
-
-        $("#modalWindowAddConfigFields").modal('toggle');
-    };
-
-    $scope.addInteraction = function () {
-
-        nextIndex = $scope.convertedInteractionList.length
-
-        entry = {"id": nextIndex,
-                 "entry": {
-                            "matches": {
-                                "url": "",
-                                "title": "Empty"
-                            },
-                            "pagetype": "",
-                            "control": {
-                                "index": "0",
-                                "type": "",
-                                "set": {}
-                            }
-                        }
-                }
-
-        $scope.convertedInteractionList.push(entry);
-        $scope.originalInteractionList.push(entry);
-    };
-
-    $scope.tryToRemoveInteraction = function (index) {
+    $scope.tryToRemoveInteractionBlock = function (blockId) {
         bootbox.dialog({
             message: "Du you really want to remove this interaction?",
             title: "Interaction information required",
@@ -424,114 +175,38 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
                     label: "Yes",
                     className: "btn-primary",
                     callback: function () {
-                        removeInteraction(index);
+                        removeInteractionBlock(blockId);
+                        //Manually updating the view since it's the code is executed in a callback function
+                        $scope.$apply();
                     }
                 }
             }
         });
     }
 
-    var removeInteraction = function (index) {
-        var interactionList = $scope.convertedInteractionList
+    var removeInteractionBlock = function (blockId) {
+        var interactionList = $scope.opConfig.interactionsBlocks
         var indexToRemove;
 
         for (var i = 0; i < interactionList.length; i++){
-            if (interactionList[i].id == index){
+            if (interactionList[i].id == blockId){
                 indexToRemove = i;
                 break;
             }
         }
 
-        $scope.convertedInteractionList.splice(indexToRemove, 1);
-        $scope.originalInteractionList.splice(indexToRemove, 1);
-        //Manually updating the view since it's the code is executed in a callback function
-        $scope.$apply();
-    }
-
-    var createStaticProviderSummaryDictionary = function (providerConfigSummaryDictionary) {
-        for (var i = 0; i < selectedStaticProviderConfigFields.length; i++) {
-
-            var currentConfigField = selectedStaticProviderConfigFields[i];
-            var currentConfigFieldType = staticProviderConfigFieldsTypeDictionary[currentConfigField];
-
-            if (isListField(currentConfigFieldType)) {
-                providerConfigSummaryDictionary[currentConfigField] = [];
-            } else {
-                providerConfigSummaryDictionary[currentConfigField] = "";
-            }
-
-            $("." + selectedStaticProviderConfigFields[i]).each(function () {
-                var currentFieldValue = $(this).val();
-
-                if (isListField(currentConfigFieldType)) {
-                    providerConfigSummaryDictionary[currentConfigField].push(currentFieldValue);
-                } else {
-                    providerConfigSummaryDictionary[currentConfigField] = currentFieldValue;
-                }
-
-            });
-        }
-        return providerConfigSummaryDictionary;
-    }
-
-    var postProviderConfig = function(){
-        var providerConfigSummaryDictionary = {};
-
-        if ($scope.isStaticProvider){
-            providerConfigSummaryDictionary = createStaticProviderSummaryDictionary(providerConfigSummaryDictionary);
-        }else{
-            var dynamicTextFieldValue = $(".dynamic").first().val();
-            providerConfigSummaryDictionary['dynamic'] = dynamicTextFieldValue;
-        }
-
-        providerConfigFactory.postProviderConfig(providerConfigSummaryDictionary).success(postProviderConfigSuccessCallback).error(errorCallback);
+        $scope.opConfig.interactionsBlocks.splice(indexToRemove, 1);
     }
 
     $scope.addElementToList = function(index, label){
-        //$scope.configFieldsViewList.splice(index+1 ,0, {"id": label, "label": "", "value": "", "isListElement": true});
-        $scope.opConfig.fetchStaticInfoFromServer.inputFields[index].splice(index+1 ,0, {"id": label, "label": "", "value": "", "isListElement": true})
-        //Add new list element to my new data structure and make in appear in the GUI
+        var currentInputField = $scope.opConfig.fetchStaticInfoFromServer.inputFields[index];
+        var newConfigTextField = {"index": currentInputField.values.length, "textFieldContent": ""};
+        $scope.opConfig.fetchStaticInfoFromServer.inputFields[index].values.splice(currentInputField.values.length ,0, newConfigTextField);
     }
 
-    $scope.addElementToList = function(index, label, value){
-        $scope.configFieldsViewList.splice(index+1 ,0, {"id": label, "label": "", "value": value, "isListElement": true});
-    }
-
-    $scope.removeElementFromList = function(index){
-        $scope.configFieldsViewList.splice(index ,1);
-    }
-
-    var postInteractionConfig = function(){
-
-        $(".block").each(function() {
-
-            var thisBlockId = $(this).attr('id');
-
-            var newUrl = $(this).find("#url").val();
-            var newTitle = $(this).find("#title").val();
-            var newPageType = $(this).find("#pagetype").val();
-            var newType = $(this).find("#type").val();
-            var newIndex = $(this).find("#index").val();
-            var newSet = $(this).find("#set").val();
-
-            for (var i = 0; i < $scope.originalInteractionList.length; i++){
-                if ($scope.originalInteractionList[i].id == thisBlockId){
-
-                    $scope.originalInteractionList[i]['entry']['matches']['url'] = newUrl;
-                    $scope.originalInteractionList[i]['entry']['matches']['title'] = newTitle;
-                    $scope.originalInteractionList[i]['entry']['page-type'] = newPageType;
-                    $scope.originalInteractionList[i]['entry']['control']['type'] = newType;
-                    $scope.originalInteractionList[i]['entry']['control']['index'] = newIndex;
-                    $scope.originalInteractionList[i]['entry']['control']['set'] = JSON.parse(newSet);
-
-                    break;
-                }
-            }
-
-        });
-
-        interactionConfigFactory.postInteractionConfig($scope.originalInteractionList).success(postInteractionConfigSuccessCallback).error(errorCallback);
-
+    $scope.removeElementFromList = function(staticProviderConfigFieldIndex, valueListIndex){
+        var valueList = $scope.opConfig.fetchStaticInfoFromServer.inputFields[staticProviderConfigFieldIndex].values
+        valueList.splice(valueListIndex, 1);
     }
 
     var hasEnteredRequeredInformation = function(){
@@ -571,26 +246,6 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
         }
     }
 
-    $scope.uploadMetadataFile = function(){
-        var file = document.getElementById("metadataFile").files[0];
-
-        if (file) {
-            var reader = new FileReader();
-            reader.readAsText(file, "UTF-8");
-            reader.onload = function (evt) {
-
-                uploadMetadataFactory.postMetadataFile(evt.target.result).success(postMetadataFileSuccessCallback).error(errorCallback);
-                //Has to be done since this code is executed outside of
-                $scope.$apply();
-
-                //alert(evt.target.result);
-            }
-            reader.onerror = function (evt) {
-                alert("error reading file");
-            }
-        }
-    }
-
     $scope.downloadConfigFile = function(){
         configFileFactory.doesConfigFileExist().success(downloadDoesConfigFileExistSuccessCallback).error(errorCallback);
     }
@@ -612,7 +267,6 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
     }
 
     $scope.reloadConfigFile = function(){
-        alert("reloadConfigFile");
         configFileFactory.doesConfigFileExist().success(reloadDoesConfigFileExistSuccessCallback).error(errorCallback);
     }
 
@@ -629,56 +283,14 @@ app.controller('IndexCtrl', function ($scope, providerConfigFactory, interaction
                     label: "Yes",
                     className: "btn-primary",
                     callback: function () {
-                        resetProviderConfigBlock();
-                        configFileFactory.sendCreateNewConfigFileRequest().success(createNewConfigFileSuccessCallback).error(errorCallback);
+                        //TODO reset data structure
+                        configFileFactory.createNewConfigFile().success(createNewConfigFileSuccessCallback).error(errorCallback);
                         $scope.$apply();
                     }
                 }
             }
         });
     }
-
-    $scope.isStaticProvider = false;
-    $scope.supportsDynamicClientRegistration = true;
-
-    $scope.updateProviderConfigurationBySelecedProviderType = function(){
-        var selectedValue = $('#providerType option:selected').val();
-
-        //Show dynamic input fields or add static input fields based on seleced value in drop down
-        if (selectedValue == "static"){
-            clearProviderConfigFieldsViewList();
-            $scope.isStaticProvider = true;
-
-        }else if (selectedValue == "dynamic"){
-            generateProviderConfigInputeFields(['dynamic']);
-            $scope.isStaticProvider = false;
-
-        }else{
-            generateProviderConfigInputeFields([]);
-            $scope.isStaticProvider = false;
-        }
-    }
-
-    $scope.updateRequiredDynamicClientRegistrationFields = function(){
-        var selectedValue = $('#dynamicRegistration option:selected').val();
-
-        $scope.supportsDynamicClientRegistration = selectedValue != "false";
-    }
-
-    $scope.uploadMetadataUrl = function(){
-        var metadataUrl = $("#metadataUrl").val();
-
-        uploadMetadataFactory.postMetadataUrl(metadataUrl).success(postMetadataUrlSuccessCallback).error(errorCallback);
-    }
-
-    //Execute when loading page
-    advancedFieldsFactory.getAdvancedConfigFields().success(getAdvancedConfigSuccessCallback).error(errorCallback);
-
-    $scope.containsRegistrationEndpointTextField = function(){
-        return $.inArray('registration_endpoint', selectedStaticProviderConfigFields) > -1;
-    }
-
-    opConfigurationFactory.getOpConfig().success(getOpConfigurationSuccessCallback).error(errorCallback);
 });
 
 //Loads the menu from a given template file and inserts it it to the <div menu> tag
