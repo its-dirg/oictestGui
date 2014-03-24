@@ -27,6 +27,10 @@ app.factory('opConfigurationFactory', function ($http) {
     return {
         getOpConfig: function () {
             return $http.get("/get_op_config");
+        },
+
+        postOpConfig: function (opConfigurations) {
+            return $http.post("/post_op_config", {"opConfigurations": opConfigurations});
         }
     };
 });
@@ -50,8 +54,8 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
         $scope.opConfig = data;
     };
 
-    var postRequiredInformationSuccessCallback = function (data, status, headers, config) {
-        alert("Required information successfully SAVED");
+    var postOpConfigurationsSuccessCallback = function (data, status, headers, config) {
+        alert("Op Configurations successfully SAVED");
     };
 
     var downloadConfigFileSuccessCallback = function (data, status, headers, config) {
@@ -214,15 +218,8 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
     $scope.saveConfigurations = function(){
 
         if (hasEnteredRequeredInformation()){
-            postInteractionConfig();
-            postProviderConfig();
-
-            var selectedValue = $('#dynamicRegistration option:selected').val();
-            var clientId = $('#requiredInformationClientIdTextField').val();
-            var clientSecret = $('#requiredInformationClientSecretTextField').val();
-
-            var requiredInformationSummary = {"supportsDynamciClientRegistration": selectedValue, "client_id": clientId, "client_secret": clientSecret}
-            requiredInformationConfigFactory.postRequiredInformationConfig(requiredInformationSummary).success(postRequiredInformationSuccessCallback).error(errorCallback);
+            console.log("Saving data!")
+            opConfigurationFactory.postOpConfig($scope.opConfig).success(postOpConfigurationsSuccessCallback).error(errorCallback);
 
         }else{
             alert("Please enter all the required information")

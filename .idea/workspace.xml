@@ -12,7 +12,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/oictestGui$server.coverage" NAME="server Coverage Results" MODIFIED="1395652340804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/oictestGui$server.coverage" NAME="server Coverage Results" MODIFIED="1395666737894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -29,25 +29,34 @@
       <file leaf-file-name="idp_config.mako" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="34" selection-start="3268" selection-end="3276" vertical-scroll-proportion="-3.8" vertical-offset="1325" max-vertical-offset="3660">
+            <state line="141" column="32" selection-start="5308" selection-end="5315" vertical-scroll-proportion="-7.58" vertical-offset="1736" max-vertical-offset="3660">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestHandler.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
+      <file leaf-file-name="test_idp.mako" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mako/htdocs/test_idp.mako">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="525" column="30" selection-start="19425" selection-end="19425" vertical-scroll-proportion="6.503175" vertical-offset="3418" max-vertical-offset="11010">
+            <state line="153" column="31" selection-start="5597" selection-end="5597" vertical-scroll-proportion="-16.038462" vertical-offset="1044" max-vertical-offset="3420">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="idp_config.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="idp_config.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/idp_config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="4350">
+            <state line="34" column="6" selection-start="946" selection-end="946" vertical-scroll-proportion="0.04491018" vertical-offset="480" max-vertical-offset="4305">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestHandler.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="190" column="0" selection-start="7075" selection-end="7075" vertical-scroll-proportion="-4.7058825" vertical-offset="2250" max-vertical-offset="12405">
               <folding />
             </state>
           </provider>
@@ -65,7 +74,6 @@
       <list>
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/server_conf.py" />
-        <option value="$PROJECT_DIR$/mako/htdocs/test_idp.mako" />
         <option value="$PROJECT_DIR$/mako/htdocs/home.mako" />
         <option value="$PROJECT_DIR$/static/test_idp.css" />
         <option value="$PROJECT_DIR$/static/home.js" />
@@ -74,7 +82,10 @@
         <option value="$PROJECT_DIR$/static/test_idp.js" />
         <option value="$PROJECT_DIR$/mako/htdocs/idp_config.mako" />
         <option value="$PROJECT_DIR$/static/idp_config.js" />
+        <option value="$PROJECT_DIR$/File1" />
+        <option value="$PROJECT_DIR$/File2" />
         <option value="$PROJECT_DIR$/src/oictestGui/TestHandler.py" />
+        <option value="$PROJECT_DIR$/mako/htdocs/test_idp.mako" />
       </list>
     </option>
   </component>
@@ -437,13 +448,33 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1082" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32365146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32987553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15069222" sideWeight="0.5048951" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16027689" sideWeight="0.4951049" order="0" side_tool="false" content_ui="combo" />
@@ -470,24 +501,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="68" />
+      <option name="time" value="85" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="0" selection-start="4311" selection-end="4311" vertical-scroll-proportion="0.0" vertical-offset="1535" max-vertical-offset="3615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/idp_config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="634" column="56" selection-start="23603" selection-end="23648" vertical-scroll-proportion="0.0" vertical-offset="9510" max-vertical-offset="9690">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="154" column="0" selection-start="5892" selection-end="5892" vertical-scroll-proportion="0.0" vertical-offset="2310" max-vertical-offset="12180">
@@ -720,21 +737,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="628" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="0" selection-start="1514" selection-end="1514" vertical-scroll-proportion="0.34738618" vertical-offset="499" max-vertical-offset="1305" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/oictestGui/template_config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="1186" selection-end="1186" vertical-scroll-proportion="-0.625" vertical-offset="0" max-vertical-offset="105" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mako/htdocs/test_idp.mako">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="208" column="42" selection-start="7811" selection-end="7811" vertical-scroll-proportion="3.504303" vertical-offset="1084" max-vertical-offset="3420" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/test_idp.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="340" column="171" selection-start="11492" selection-end="11492" vertical-scroll-proportion="0.7219344" vertical-offset="4682" max-vertical-offset="11370" />
@@ -750,23 +752,60 @@
         <state line="1823" column="0" selection-start="69216" selection-end="69216" vertical-scroll-proportion="0.0" vertical-offset="27139" max-vertical-offset="34920" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/oictestGui/template_config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.02283105" vertical-offset="0" max-vertical-offset="657">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/File2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="1329" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="681">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/File1">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="62" selection-start="0" selection-end="1399" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="681">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="39" selection-start="239" selection-end="239" vertical-scroll-proportion="-4.8" vertical-offset="0" max-vertical-offset="1350">
+          <folding>
+            <element signature="e#78#117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="190" column="0" selection-start="7075" selection-end="7075" vertical-scroll-proportion="-4.7058825" vertical-offset="2250" max-vertical-offset="12405">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="34" selection-start="3268" selection-end="3276" vertical-scroll-proportion="-3.8" vertical-offset="1325" max-vertical-offset="3660">
+        <state line="141" column="32" selection-start="5308" selection-end="5315" vertical-scroll-proportion="-7.58" vertical-offset="1736" max-vertical-offset="3660">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mako/htdocs/test_idp.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="153" column="31" selection-start="5597" selection-end="5597" vertical-scroll-proportion="-16.038462" vertical-offset="1044" max-vertical-offset="3420">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="4350">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="525" column="30" selection-start="19425" selection-end="19425" vertical-scroll-proportion="6.503175" vertical-offset="3418" max-vertical-offset="11010">
+        <state line="34" column="6" selection-start="946" selection-end="946" vertical-scroll-proportion="0.04491018" vertical-offset="480" max-vertical-offset="4305">
           <folding />
         </state>
       </provider>

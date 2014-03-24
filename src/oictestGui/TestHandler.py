@@ -65,6 +65,7 @@ class Test:
             "create_new_config_file": None,
             "does_config_file_exist": None,
             "get_op_config": None,
+            "post_op_config": None,
 
             #Calles from home
             "" : "home.mako"
@@ -107,13 +108,106 @@ class Test:
             return self.handleDoesConfigFileExist()
         elif path == "get_op_config":
             return self.handleGetOpConfigurations()
+        elif path == "post_op_config":
+            return self.handlePostOpConfigurations()
 
         #Calls made from home
         elif path == "":
             return self.handleHomePage(self.urls[path])
 
-    def isList(self, fieldType):
+    def convertRequiredInfoFromOpConfigToConfigFile(self, opConfigurations, configDict):
+        if opConfigurations['requiredInfoDropDown']['value'] == 'no':
+            for attribute in opConfigurations['requiredInfoTextFields']:
+                if attribute['id'] == 'client_id':
+                    configDict['client']['client_id'] = attribute['textFieldContent']
+                elif attribute['id'] == 'client_secret':
+                    configDict['client']['client_secret'] = attribute['textFieldContent']
+        return configDict
 
+    def convertInteractionsFromOpConfigToConfigFile(self, opConfigurations, configDict):
+        convertedInteractionBlockList = []
+
+        for interactionBlock in opConfigurations["interactionsBlocks"]:
+            for inputField in interactionBlock['inputFields']:
+                if inputField['label'] == 'title':
+                    title = inputField['textFieldContent']
+                if inputField['label'] == 'url':
+                    url = inputField['textFieldContent']
+                if inputField['label'] == 'pageType':
+                    pageType = inputField['textFieldContent']
+                if inputField['label'] == 'index':
+                    index = inputField['textFieldContent']
+                if inputField['label'] == 'set':
+                    set = inputField['textFieldContent']
+                if inputField['label'] == 'type':
+                    type = inputField['textFieldContent']
+
+            newInteractionBlock = {
+               "matches":{
+                  "url" : url,
+                  "title" : title
+               },
+               "page-type": pageType,
+               "control" : {
+                  "set" : json.loads(set),
+                  "type" : type,
+                  "index" : index
+               }
+            }
+
+            convertedInteractionBlockList.append(newInteractionBlock)
+
+        configDict['interaction'] = convertedInteractionBlockList
+        return configDict
+
+    def convertInputFiledListToSimpleList(self, inputFieldValueList):
+        valueList = []
+
+        for element in inputFieldValueList:
+            valueList.append(element['textFieldContent'])
+
+        return valueList
+
+    def convertStaticInfoFromOpConfigToConfigFile(self, opConfigurations, configDict):
+        visibleInputFieldList = []
+        providerAttributeDict = {}
+
+        for inputField in opConfigurations['fetchStaticInfoFromServer']['inputFields']:
+            if inputField['show'] == True:
+                visibleInputFieldList.append(inputField)
+
+        for visibleInputField in visibleInputFieldList:
+            attributId =  visibleInputField['id']
+
+            if visibleInputField['isList']:
+                providerAttributeDict[attributId] = self.convertInputFiledListToSimpleList(visibleInputField['values'])
+            else:
+                providerAttributeDict[attributId] = visibleInputField['values'][0]['textFieldContent']
+
+        return configDict
+
+    def convertOpConfigToConfigFile(self, opConfigurations):
+        configString = self.session[self.CONFIG_FILE_KEY]
+        configDict = json.loads(configString)
+
+        if opConfigurations['fetchDynamicInfoFromServer']['showInputField'] == True:
+            dynamicInputFieldValue = opConfigurations['fetchDynamicInfoFromServer']['inputField']['value']
+            configDict['provider'] = {"dynamic": dynamicInputFieldValue}
+
+        elif opConfigurations['fetchStaticInfoFromServer']['showInputFields'] == True:
+            configDict = self.convertStaticInfoFromOpConfigToConfigFile(opConfigurations, configDict);
+
+        configDict = self.convertRequiredInfoFromOpConfigToConfigFile(opConfigurations, configDict);
+        configDict = self.convertInteractionsFromOpConfigToConfigFile(opConfigurations, configDict);
+        return json.dumps(configDict)
+
+    def handlePostOpConfigurations(self):
+        #Convert from structur to config file
+        opConfigurations = self.parameters['opConfigurations']
+        self.session[self.CONFIG_FILE_KEY] = self.convertOpConfigToConfigFile(opConfigurations)
+        return self.returnJSON({"asd": 1})
+
+    def isList(self, fieldType):
         if (fieldType == REQUIRED_LIST_OF_SP_SEP_STRINGS):
             return True
         elif (fieldType== OPTIONAL_LIST_OF_STRINGS):
@@ -124,6 +218,7 @@ class Test:
             return True
 
         return False
+
 
     def generateStaticInputFields(self):
         staticProviderConfigKeyList = ProviderConfigurationResponse.c_param.keys()
@@ -272,7 +367,6 @@ class Test:
         return configStructureDict
 
     def handleGetOpConfigurations(self):
-
         if self.CONFIG_FILE_KEY in self.session:
             configString = self.session[self.CONFIG_FILE_KEY]
             try:
@@ -546,7 +640,6 @@ class Test:
 
     def handleUploadConfigFile(self):
         self.session[self.CONFIG_FILE_KEY] = str(self.parameters['configFileContent'])
-
         print "Upload target: " + self.session[self.CONFIG_FILE_KEY]
         return self.returnJSON({"target": "asd"})
 
