@@ -54,18 +54,6 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
         alert("Required information successfully SAVED");
     };
 
-    var getRequiredInformationSuccessCallback = function (data, status, headers, config) {
-        var selectedValue = data['supportsDynamciClientRegistration'];
-        var client_id = data['client_id'];
-        var client_secret = data['client_secret'];
-
-        $("#dynamicRegistration").val(selectedValue);
-        $('#requiredInformationClientIdTextField').val(client_id);
-        $('#requiredInformationClientSecretTextField').val(client_secret);
-
-        $scope.supportsDynamicClientRegistration = selectedValue != "false";
-    };
-
     var downloadConfigFileSuccessCallback = function (data, status, headers, config) {
         configDict = JSON.stringify(data["configDict"])
         var a = document.createElement("a");
@@ -79,10 +67,6 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
 
         //e.preventDefault();
         //alert("Target json successfully DOWNLOADED");
-    };
-
-    var reloadConfigFileSuccessCallback = function (data, status, headers, config) {
-        alert("Target json successfully REFRESHED");
     };
 
     var updateConfigFields = function(){

@@ -12,7 +12,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/oictestGui$server.coverage" NAME="server Coverage Results" MODIFIED="1395650900980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/oictestGui$server.coverage" NAME="server Coverage Results" MODIFIED="1395652340804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -35,19 +35,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="idp_config.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/idp_config.js">
+      <file leaf-file-name="TestHandler.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="23" selection-start="1577" selection-end="1585" vertical-scroll-proportion="0.0" vertical-offset="473" max-vertical-offset="4590">
+            <state line="525" column="30" selection-start="19425" selection-end="19425" vertical-scroll-proportion="6.503175" vertical-offset="3418" max-vertical-offset="11010">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestHandler.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
+      <file leaf-file-name="idp_config.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/idp_config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="235" column="0" selection-start="9452" selection-end="9452" vertical-scroll-proportion="3.5238094" vertical-offset="945" max-vertical-offset="14445">
+            <state line="2" column="0" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="4350">
               <folding />
             </state>
           </provider>
@@ -442,7 +442,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32401657" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32365146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15069222" sideWeight="0.5048951" order="1" side_tool="false" content_ui="tabs" />
@@ -750,13 +750,6 @@
         <state line="1823" column="0" selection-start="69216" selection-end="69216" vertical-scroll-proportion="0.0" vertical-offset="27139" max-vertical-offset="34920" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/idp_config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="23" selection-start="1577" selection-end="1585" vertical-scroll-proportion="0.0" vertical-offset="473" max-vertical-offset="4590">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
       <provider selected="true" editor-type-id="text-editor">
         <state line="101" column="34" selection-start="3268" selection-end="3276" vertical-scroll-proportion="-3.8" vertical-offset="1325" max-vertical-offset="3660">
@@ -764,9 +757,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/static/idp_config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="4350">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="235" column="0" selection-start="9452" selection-end="9452" vertical-scroll-proportion="3.5238094" vertical-offset="945" max-vertical-offset="14445">
+        <state line="525" column="30" selection-start="19425" selection-end="19425" vertical-scroll-proportion="6.503175" vertical-offset="3418" max-vertical-offset="11010">
           <folding />
         </state>
       </provider>
