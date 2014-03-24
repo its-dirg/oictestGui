@@ -48,7 +48,6 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
 
     var getOpConfigurationSuccessCallback = function (data, status, headers, config) {
         $scope.opConfig = data;
-        console.log($scope.opConfig.fetchDynamicInfoFromServer.inputField.label)
     };
 
     var postRequiredInformationSuccessCallback = function (data, status, headers, config) {

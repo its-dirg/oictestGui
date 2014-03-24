@@ -157,7 +157,6 @@ class Test:
         return False
 
     def generateStaticInputFields(self):
-
         staticProviderConfigKeyList = ProviderConfigurationResponse.c_param.keys()
         staticProviderConfigKeyList.sort()
         staticProviderConfigFieldsDict = ProviderConfigurationResponse.c_param
@@ -209,8 +208,39 @@ class Test:
 
         return configStructureDict
 
+    def isListInstance(self, element):
+        return not isinstance(element, basestring)
+
+    def convertListToListOfDict(self, list):
+        convertedList = []
+        index = 0;
+
+        for element in list:
+            convertedList.append({"index": index, "textFieldContent": element})
+            index += 1
+
+        return convertedList
+
+    def convertStaticProviderData(self, configFileDict, configStructureDict):
+        configStructureDict["fetchInfoFromServerDropDown"]["value"] = "static"
+        configStructureDict["fetchStaticInfoFromServer"]["showInputFields"] = True
+
+        for inputFieldId in configFileDict["provider"]:
+            for inputField in configStructureDict["fetchStaticInfoFromServer"]["inputFields"]:
+                if inputField['id'] == inputFieldId:
+                    inputField['show'] = True
+                    if self.isListInstance(configFileDict["provider"][inputFieldId]):
+                        inputField['values'] = self.convertListToListOfDict(configFileDict["provider"][inputFieldId])
+                    else:
+                        inputField['values'] = [{"index": 0, "textFieldContent": configFileDict["provider"][inputFieldId]}]
+
+        return configStructureDict
+
     def convertRequiredInfo(self, configFileDict, configStructureDict):
+        containsRequiredInfo = True
+
         if "client_id" in configFileDict["client"]:
+            containsRequiredInfo = False
             configStructureDict["requiredInfoDropDown"]["value"] = "no"
 
             for textFiled in configStructureDict["requiredInfoTextFields"]:
@@ -218,11 +248,16 @@ class Test:
                     textFiled["textFieldContent"] = configFileDict["client"]["client_id"]
 
         if "client_secret" in configFileDict["client"]:
+            containsRequiredInfo = False
             configStructureDict["requiredInfoDropDown"]["value"] = "no"
 
             for textFiled in configStructureDict["requiredInfoTextFields"]:
                 if textFiled["id"] == "client_secret":
                     textFiled["textFieldContent"] = configFileDict["client"]["client_secret"]
+
+        if containsRequiredInfo:
+            configStructureDict["requiredInfoDropDown"]["value"] = "yes"
+
         return configStructureDict
 
 
@@ -244,7 +279,7 @@ class Test:
                                 {"label": "url", "textFieldContent": url},
                                 {"label": "pageType", "textFieldContent": pageType},
                                 {"label": "index", "textFieldContent": index},
-                                {"label": "set", "textFieldContent": set},
+                                {"label": "set", "textFieldContent": json.dumps(set)},
                                 {"label": "type", "textFieldContent": type}
                             ]}
 
@@ -257,12 +292,13 @@ class Test:
 
         if "dynamic" in configFileDict["provider"]:
             configStructureDict = self.convertDynamicProviderData(configFileDict, configStructureDict)
-            configStructureDict = self.convertRequiredInfo(configFileDict, configStructureDict)
-            configStructureDict = self.convertInteractionBlocks(configFileDict, configStructureDict)
 
         elif self.containElements(configFileDict["provider"]):
             #Now we know it's an static provider
-            return
+            configStructureDict = self.convertStaticProviderData(configFileDict, configStructureDict)
+
+        configStructureDict = self.convertRequiredInfo(configFileDict, configStructureDict)
+        configStructureDict = self.convertInteractionBlocks(configFileDict, configStructureDict)
 
         return configStructureDict
 
