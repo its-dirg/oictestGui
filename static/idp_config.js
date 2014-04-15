@@ -1,8 +1,15 @@
 
 var app = angular.module('main', ['toaster'])
 
-app.factory('configFileFactory', function ($http) {
+app.factory('opConfigurationFactory', function ($http) {
     return {
+        getOpConfig: function () {
+            return $http.get("/get_op_config");
+        },
+
+        postOpConfig: function (opConfigurations) {
+            return $http.post("/post_op_config", {"opConfigurations": opConfigurations});
+        },
 
         downloadConfigFile: function () {
             return $http.get("/download_config_file");
@@ -19,23 +26,10 @@ app.factory('configFileFactory', function ($http) {
         doesConfigFileExist: function () {
             return $http.get("/does_config_file_exist");
         }
-
     };
 });
 
-app.factory('opConfigurationFactory', function ($http) {
-    return {
-        getOpConfig: function () {
-            return $http.get("/get_op_config");
-        },
-
-        postOpConfig: function (opConfigurations) {
-            return $http.post("/post_op_config", {"opConfigurations": opConfigurations});
-        }
-    };
-});
-
-app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConfigurationFactory) {
+app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
     $scope.opConfig;
 
     $scope.switchBetweenProviderConfigElement = function(){
@@ -110,7 +104,7 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
         var doesConfigFileExist = data['doesConfigFileExist'];
 
         if (doesConfigFileExist == true){
-            configFileFactory.downloadConfigFile().success(downloadConfigFileSuccessCallback).error(errorCallback);
+            opConfigurationFactory.downloadConfigFile().success(downloadConfigFileSuccessCallback).error(errorCallback);
         }else{
             showNoConfigAvailable();
         }
@@ -196,22 +190,25 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
         valueList.splice(valueListIndex, 1);
     }
 
-    var hasEnteredRequeredInformation = function(){
-        var selectedProviderType = $('#providerType option:selected').val();
-        var selectedDynamicRegistration = $('#dynamicRegistration option:selected').val();
+    var hasEnteredClientIdAndClientSecret = function(){
+        clientId = $scope.opConfig['requiredInfoTextFields'][0]['textFieldContent']
+        clientSecret = $scope.opConfig['requiredInfoTextFields'][1]['textFieldContent']
 
-        if(selectedProviderType == "default" || selectedDynamicRegistration == "default"){
+        if (clientId == ""){
             return false;
         }
-        else if(selectedDynamicRegistration == "false"){
-
-            var clientId = $('#requiredInformationClientIdTextField').val();
-            var clientSecret = $('#requiredInformationClientSecretTextField').val();
-
-            if (clientId == "" || clientSecret == ""){
-                return false;
-            }
+        else if (clientSecret == ""){
+            return false;
         }
+
+        return true
+    }
+
+    var hasEnteredRequeredInformation = function(){
+        if ($scope.opConfig['requiredInfoDropDown']['value'] == "no"){
+            return hasEnteredClientIdAndClientSecret();
+        }
+
         return true;
     }
 
@@ -220,14 +217,13 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
         if (hasEnteredRequeredInformation()){
             console.log("Saving data!")
             opConfigurationFactory.postOpConfig($scope.opConfig).success(postOpConfigurationsSuccessCallback).error(errorCallback);
-
         }else{
             alert("Please enter all the required information")
         }
     }
 
     $scope.downloadConfigFile = function(){
-        configFileFactory.doesConfigFileExist().success(downloadDoesConfigFileExistSuccessCallback).error(errorCallback);
+        opConfigurationFactory.doesConfigFileExist().success(downloadDoesConfigFileExistSuccessCallback).error(errorCallback);
     }
 
     $scope.uploadConfigFile = function(){
@@ -237,7 +233,7 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
             var reader = new FileReader();
             reader.readAsText(file, "UTF-8");
             reader.onload = function (evt) {
-                configFileFactory.uploadConfigFile(evt.target.result).success(uploadConfigFileSuccessCallback).error(errorCallback);
+                opConfigurationFactory.uploadConfigFile(evt.target.result).success(uploadConfigFileSuccessCallback).error(errorCallback);
                 $scope.$apply();
             }
             reader.onerror = function (evt) {
@@ -247,7 +243,7 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
     }
 
     $scope.reloadConfigFile = function(){
-        configFileFactory.doesConfigFileExist().success(reloadDoesConfigFileExistSuccessCallback).error(errorCallback);
+        opConfigurationFactory.doesConfigFileExist().success(reloadDoesConfigFileExistSuccessCallback).error(errorCallback);
     }
 
     $scope.createNewConfigFile = function () {
@@ -264,7 +260,7 @@ app.controller('IndexCtrl', function ($scope, configFileFactory, toaster, opConf
                     className: "btn-primary",
                     callback: function () {
                         //TODO reset data structure
-                        configFileFactory.createNewConfigFile().success(createNewConfigFileSuccessCallback).error(errorCallback);
+                        opConfigurationFactory.createNewConfigFile().success(createNewConfigFileSuccessCallback).error(errorCallback);
                         $scope.$apply();
                     }
                 }

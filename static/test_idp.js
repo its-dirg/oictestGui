@@ -735,7 +735,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 app.directive('menu', function($http) {
     return {
         restrict: 'A',
-        templateUrl: '/static/templateMenu.html',
+        templateUrl: '/static/templateMenu.html'
     }
 });
 

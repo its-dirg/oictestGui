@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 9
-_modified_time = 1392707301.774483
+_modified_time = 1395671207.260315
 _enable_loop = True
 _template_filename = 'mako/htdocs/home.mako'
 _template_uri = 'home.mako'
@@ -79,7 +79,7 @@ def render_body(context,**pageargs):
             context['self'].body(**pageargs)
         
 
-        # SOURCE LINE 37
+        # SOURCE LINE 34
         __M_writer(u'\n\n')
         if 'parent' not in context._data or not hasattr(context._data['parent'], 'footer'):
             context['self'].footer(**pageargs)
@@ -97,7 +97,7 @@ def render_body(context,**pageargs):
             return render_body(context)
         __M_writer = context.writer()
         # SOURCE LINE 27
-        __M_writer(u'\n\n    <h2>Home page</h2>\n    <span style="font-size:17px">\n        SAML2test is a tests tool that will allow an independent validation\n        of a specific instance of a SAML2 entity. It will test not only if the\n        instance works according to the SAML2 standard but also if it complies\n        with a specific profile of SAML2.\n    </span>\n\n')
+        __M_writer(u'\n\n    <h2>Home page</h2>\n    <span style="font-size:17px">\n        Intersting text about oictest\n    </span>\n\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -166,9 +166,9 @@ def render_footer(context,**pageargs):
         def footer():
             return render_footer(context)
         __M_writer = context.writer()
-        # SOURCE LINE 39
+        # SOURCE LINE 36
         __M_writer(u'\n    </div>\n\n    <script type="text/javascript" src="/static/home.js"></script>\n    ')
-        # SOURCE LINE 43
+        # SOURCE LINE 40
         __M_writer(unicode(parent.footer()))
         __M_writer(u'\n')
         return ''

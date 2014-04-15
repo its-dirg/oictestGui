@@ -12,7 +12,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/oictestGui$server.coverage" NAME="server Coverage Results" MODIFIED="1395666737894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/oictestGui$server.coverage" NAME="server Coverage Results" MODIFIED="1397543833930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -29,34 +29,52 @@
       <file leaf-file-name="idp_config.mako" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="32" selection-start="5308" selection-end="5315" vertical-scroll-proportion="-7.58" vertical-offset="1736" max-vertical-offset="3660">
+            <state line="20" column="0" selection-start="466" selection-end="466" vertical-scroll-proportion="-2.5" vertical-offset="240" max-vertical-offset="3615">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_idp.mako" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mako/htdocs/test_idp.mako">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="153" column="31" selection-start="5597" selection-end="5597" vertical-scroll-proportion="-16.038462" vertical-offset="1044" max-vertical-offset="3420">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="idp_config.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="idp_config.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/idp_config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="6" selection-start="946" selection-end="946" vertical-scroll-proportion="0.04491018" vertical-offset="480" max-vertical-offset="4305">
+            <state line="114" column="8" selection-start="3979" selection-end="4016" vertical-scroll-proportion="0.0" vertical-offset="356" max-vertical-offset="4245">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestHandler.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
+      <file leaf-file-name="bootbox.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/bootbox.min.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="190" column="0" selection-start="7075" selection-end="7075" vertical-scroll-proportion="-4.7058825" vertical-offset="2250" max-vertical-offset="12405">
+            <state line="1" column="15" selection-start="19" selection-end="24" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Configuration_file_structure.rst" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/doc/Configuration_file_structure.rst">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="59" selection-start="118" selection-end="118" vertical-scroll-proportion="-1.8" vertical-offset="0" max-vertical-offset="1785">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.rst" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/doc/index.rst">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="39" selection-start="429" selection-end="445" vertical-scroll-proportion="0.3" vertical-offset="0" max-vertical-offset="675">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Internal_datastructure.rst" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/doc/Internal_datastructure.rst">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="79" selection-start="126" selection-end="126" vertical-scroll-proportion="-1.8" vertical-offset="0" max-vertical-offset="2115">
               <folding />
             </state>
           </provider>
@@ -74,18 +92,23 @@
       <list>
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/server_conf.py" />
-        <option value="$PROJECT_DIR$/mako/htdocs/home.mako" />
         <option value="$PROJECT_DIR$/static/test_idp.css" />
         <option value="$PROJECT_DIR$/static/home.js" />
         <option value="$PROJECT_DIR$/src/oictestGui/template_config.json" />
         <option value="$PROJECT_DIR$/static/idp_config.css" />
-        <option value="$PROJECT_DIR$/static/test_idp.js" />
-        <option value="$PROJECT_DIR$/mako/htdocs/idp_config.mako" />
-        <option value="$PROJECT_DIR$/static/idp_config.js" />
         <option value="$PROJECT_DIR$/File1" />
         <option value="$PROJECT_DIR$/File2" />
-        <option value="$PROJECT_DIR$/src/oictestGui/TestHandler.py" />
         <option value="$PROJECT_DIR$/mako/htdocs/test_idp.mako" />
+        <option value="$PROJECT_DIR$/src/oictestGui/TestHandler.py" />
+        <option value="$PROJECT_DIR$/static/templateMenu.html" />
+        <option value="$PROJECT_DIR$/mako/htdocs/home.mako" />
+        <option value="$PROJECT_DIR$/static/idp_config.js" />
+        <option value="$PROJECT_DIR$/doc/configuration_structures.rst" />
+        <option value="$PROJECT_DIR$/static/test_idp.js" />
+        <option value="$PROJECT_DIR$/mako/htdocs/idp_config.mako" />
+        <option value="$PROJECT_DIR$/doc/Configuration_object_structures.rst" />
+        <option value="$PROJECT_DIR$/doc/Configuration_file_structure.rst" />
+        <option value="$PROJECT_DIR$/doc/index.rst" />
       </list>
     </option>
   </component>
@@ -217,12 +240,26 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oictestGui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="doc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../saml2testGui" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
@@ -232,6 +269,8 @@
     <property name="options.searchVisible" value="true" />
     <property name="LayoutCode.rearrangeEntriesJavaScript" value="false" />
     <property name="LayoutCode.rearrangeEntriesMako template file" value="false" />
+    <property name="LayoutCode.rearrangeEntriesRest language" value="false" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -342,6 +381,24 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Docutils task">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oictestGui" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -473,17 +530,17 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32365146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3226141" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32987553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15069222" sideWeight="0.5048951" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16027689" sideWeight="0.4951049" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25103736" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17305644" sideWeight="0.4951049" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25103736" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26234567" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25829875" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25726143" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32780084" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32712215" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -507,44 +564,17 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="0" selection-start="5892" selection-end="5892" vertical-scroll-proportion="0.0" vertical-offset="2310" max-vertical-offset="12180">
-          <folding />
-        </state>
+        <state line="161" column="53" selection-start="5943" selection-end="5943" vertical-scroll-proportion="0.0" vertical-offset="2415" max-vertical-offset="11640" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="38" selection-start="3989" selection-end="3989" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3690">
-          <folding />
-        </state>
+        <state line="171" column="26" selection-start="5668" selection-end="5668" vertical-scroll-proportion="0.0" vertical-offset="1832" max-vertical-offset="4470" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="585" column="8" selection-start="20792" selection-end="20792" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4920">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="53" selection-start="5943" selection-end="5943" vertical-scroll-proportion="0.0" vertical-offset="2415" max-vertical-offset="11640">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="26" selection-start="5668" selection-end="5668" vertical-scroll-proportion="0.0" vertical-offset="1832" max-vertical-offset="4470">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/idp_config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="525" column="70" selection-start="18701" selection-end="18701" vertical-scroll-proportion="0.0" vertical-offset="7875" max-vertical-offset="8445">
-          <folding />
-        </state>
+        <state line="525" column="70" selection-start="18701" selection-end="18701" vertical-scroll-proportion="0.0" vertical-offset="7875" max-vertical-offset="8445" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.css">
@@ -559,16 +589,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="76" selection-start="3733" selection-end="3733" vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3180">
-          <folding />
-        </state>
+        <state line="120" column="76" selection-start="3733" selection-end="3733" vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3180" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="449" column="0" selection-start="25989" selection-end="25989" vertical-scroll-proportion="0.0" vertical-offset="6735" max-vertical-offset="11655">
-          <folding />
-        </state>
+        <state line="449" column="0" selection-start="25989" selection-end="25989" vertical-scroll-proportion="0.0" vertical-offset="6735" max-vertical-offset="11655" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
@@ -578,9 +604,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="190" selection-start="3624" selection-end="3624" vertical-scroll-proportion="0.0" vertical-offset="1635" max-vertical-offset="3165">
-          <folding />
-        </state>
+        <state line="109" column="190" selection-start="3624" selection-end="3624" vertical-scroll-proportion="0.0" vertical-offset="1635" max-vertical-offset="3165" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.css">
@@ -595,9 +619,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="26" selection-start="2650" selection-end="2650" vertical-scroll-proportion="0.0" vertical-offset="1055" max-vertical-offset="3180">
-          <folding />
-        </state>
+        <state line="90" column="26" selection-start="2650" selection-end="2650" vertical-scroll-proportion="0.0" vertical-offset="1055" max-vertical-offset="3180" />
       </provider>
     </entry>
     <entry file="file:///Library/Python/2.7/site-packages/Beaker-1.6.4-py2.7.egg/beaker/middleware.py">
@@ -607,9 +629,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="51" selection-start="5735" selection-end="5754" vertical-scroll-proportion="0.0" vertical-offset="2340" max-vertical-offset="11640">
-          <folding />
-        </state>
+        <state line="156" column="51" selection-start="5735" selection-end="5754" vertical-scroll-proportion="0.0" vertical-offset="2340" max-vertical-offset="11640" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
@@ -624,9 +644,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="286" column="112" selection-start="10144" selection-end="10144" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2220">
-          <folding />
-        </state>
+        <state line="286" column="112" selection-start="10144" selection-end="10144" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2220" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.css">
@@ -641,9 +659,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="84" selection-start="5595" selection-end="5595" vertical-scroll-proportion="0.0" vertical-offset="2078" max-vertical-offset="2775">
-          <folding />
-        </state>
+        <state line="169" column="84" selection-start="5595" selection-end="5595" vertical-scroll-proportion="0.0" vertical-offset="2078" max-vertical-offset="2775" />
       </provider>
     </entry>
     <entry file="file:///Library/Python/2.7/site-packages/Beaker-1.6.4-py2.7.egg/beaker/middleware.py">
@@ -658,9 +674,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="51" selection-start="4589" selection-end="4589" vertical-scroll-proportion="0.0" vertical-offset="1950" max-vertical-offset="11025">
-          <folding />
-        </state>
+        <state line="130" column="51" selection-start="4589" selection-end="4589" vertical-scroll-proportion="0.0" vertical-offset="1950" max-vertical-offset="11025" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
@@ -675,16 +689,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="50" selection-start="2457" selection-end="2457" vertical-scroll-proportion="0.0" vertical-offset="1170" max-vertical-offset="1800">
-          <folding />
-        </state>
+        <state line="78" column="50" selection-start="2457" selection-end="2457" vertical-scroll-proportion="0.0" vertical-offset="1170" max-vertical-offset="1800" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="1" selection-start="670" selection-end="670" vertical-scroll-proportion="0.47658864" vertical-offset="0" max-vertical-offset="598">
-          <folding />
-        </state>
+        <state line="19" column="1" selection-start="670" selection-end="670" vertical-scroll-proportion="0.47658864" vertical-offset="0" max-vertical-offset="598" />
       </provider>
     </entry>
     <entry file="file:///Library/Python/2.7/site-packages/dirg_util/session.py">
@@ -702,19 +712,9 @@
         <state line="3" column="9" selection-start="82" selection-end="82" vertical-scroll-proportion="0.075250834" vertical-offset="0" max-vertical-offset="598" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mako/htdocs/home.mako">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="23" selection-start="237" selection-end="237" vertical-scroll-proportion="-6.875" vertical-offset="15" max-vertical-offset="735" />
-      </provider>
-    </entry>
     <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/json/decoder.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="382" column="0" selection-start="13794" selection-end="13794" vertical-scroll-proportion="0.0" vertical-offset="5101" max-vertical-offset="5790" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/test_idp.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="1" selection-start="2202" selection-end="2203" vertical-scroll-proportion="3.5067873" vertical-offset="0" max-vertical-offset="2415" />
       </provider>
     </entry>
     <entry file="file:///Library/Python/2.7/site-packages/Beaker-1.6.4-py2.7.egg/beaker/middleware.py">
@@ -725,21 +725,6 @@
     <entry file="file://$PROJECT_DIR$/static/home.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="48" selection-start="309" selection-end="309" vertical-scroll-proportion="0.2388535" vertical-offset="0" max-vertical-offset="628" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/idp_config.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="16" selection-start="916" selection-end="916" vertical-scroll-proportion="0.8253275" vertical-offset="348" max-vertical-offset="1035" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/templateMenu.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="628" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/test_idp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="340" column="171" selection-start="11492" selection-end="11492" vertical-scroll-proportion="0.7219344" vertical-offset="4682" max-vertical-offset="11370" />
       </provider>
     </entry>
     <entry file="file:///Library/Python/2.7/site-packages/oic-0.5.0beta-py2.7.egg/oic/oic/message.py">
@@ -754,58 +739,87 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/oictestGui/template_config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.02283105" vertical-offset="0" max-vertical-offset="657">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/File2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="1329" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="681">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/File1">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="62" selection-start="0" selection-end="1399" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="681">
-          <folding />
-        </state>
+        <state line="1" column="0" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.02283105" vertical-offset="0" max-vertical-offset="657" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="39" selection-start="239" selection-end="239" vertical-scroll-proportion="-4.8" vertical-offset="0" max-vertical-offset="1350">
-          <folding>
-            <element signature="e#78#117#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="8" column="39" selection-start="239" selection-end="239" vertical-scroll-proportion="-4.8" vertical-offset="0" max-vertical-offset="1350" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/templateMenu.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="50" selection-start="681" selection-end="681" vertical-scroll-proportion="0.35" vertical-offset="0" max-vertical-offset="600" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mako/htdocs/home.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="37" selection-start="517" selection-end="517" vertical-scroll-proportion="0.725" vertical-offset="15" max-vertical-offset="690" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/idp_config.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="0" selection-start="783" selection-end="819" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1035" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="190" column="0" selection-start="7075" selection-end="7075" vertical-scroll-proportion="-4.7058825" vertical-offset="2250" max-vertical-offset="12405">
-          <folding />
-        </state>
+        <state line="334" column="62" selection-start="13712" selection-end="13717" vertical-scroll-proportion="0.0" vertical-offset="5010" max-vertical-offset="12765" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
+    <entry file="file://$PROJECT_DIR$/static/test_idp.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="32" selection-start="5308" selection-end="5315" vertical-scroll-proportion="-7.58" vertical-offset="1736" max-vertical-offset="3660">
-          <folding />
-        </state>
+        <state line="155" column="1" selection-start="2202" selection-end="2203" vertical-scroll-proportion="0.9517685" vertical-offset="1733" max-vertical-offset="2415" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/test_idp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="745" column="55" selection-start="24615" selection-end="24615" vertical-scroll-proportion="0.0" vertical-offset="8720" max-vertical-offset="11370" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mako/htdocs/test_idp.mako">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="31" selection-start="5597" selection-end="5597" vertical-scroll-proportion="-16.038462" vertical-offset="1044" max-vertical-offset="3420">
+        <state line="203" column="54" selection-start="7522" selection-end="7544" vertical-scroll-proportion="-21.916666" vertical-offset="2519" max-vertical-offset="3420" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mako/htdocs/idp_config.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="466" selection-end="466" vertical-scroll-proportion="-2.5" vertical-offset="240" max-vertical-offset="3615">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/idp_config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="6" selection-start="946" selection-end="946" vertical-scroll-proportion="0.04491018" vertical-offset="480" max-vertical-offset="4305">
+        <state line="114" column="8" selection-start="3979" selection-end="4016" vertical-scroll-proportion="0.0" vertical-offset="356" max-vertical-offset="4245">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/bootbox.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="15" selection-start="19" selection-end="24" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/Internal_datastructure.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="79" selection-start="126" selection-end="126" vertical-scroll-proportion="-1.8" vertical-offset="0" max-vertical-offset="2115">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/Configuration_file_structure.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="59" selection-start="118" selection-end="118" vertical-scroll-proportion="-1.8" vertical-offset="0" max-vertical-offset="1785">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="39" selection-start="429" selection-end="445" vertical-scroll-proportion="0.3" vertical-offset="0" max-vertical-offset="675">
           <folding />
         </state>
       </provider>

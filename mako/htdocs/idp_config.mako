@@ -31,7 +31,7 @@
     <div id="content">
 
         <h2>
-            OC configuration:
+            OP configuration:
             <button class="btn btn-default btn-sm" ng-click="reloadConfigFile();">
                 <span class="glyphicon glyphicon-refresh"></span>
             </button>
@@ -230,9 +230,6 @@
 
 <%block name="footer">
     </div>
-
-
-
 
     <script type="text/javascript" src="/static/idp_config.js"></script>
     ${parent.footer()}
