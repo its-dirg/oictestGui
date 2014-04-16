@@ -236,7 +236,7 @@ class Test:
         """
         opConfigurations = self.parameters['opConfigurations']
         self.session[self.CONFIG_FILE_KEY] = self.convertOpConfigToConfigFile(opConfigurations)
-        return self.returnJSON({"asd": 1})
+        return self.returnJSON({})
 
     def isList(self, fieldType):
         #TODO Is moved to the pyoidc/oath2/massage.py
@@ -512,7 +512,33 @@ class Test:
         return resp(self.environ, self.start_response, **argv)
 
 
+    def generateTreeLayouts(self):
+        """
+        Generates the three tree layouts
+        :return A dictionary contain the three tree layouts.
+        """
+        allTests = json.loads(self.cache["test_list"])
+        childTestsList, rootTestsList = self.identifyRootTests(allTests)
+        topDownChildList = copy.deepcopy(childTestsList)
+        topDownRootList = copy.deepcopy(rootTestsList)
+        topDownTree = self.createTopdownTree(topDownChildList, topDownRootList)
+        bottomUpTree = self.insertRemaningChildTestsBottomUp(childTestsList, rootTestsList)
+        self.setupTestId(topDownTree)
+        self.setupTestId(bottomUpTree)
+        flatBottomUpTree = self.convertToFlatBottomTree(bottomUpTree)
+
+        result = {
+            "topDownTree": topDownTree,
+            "bottomUpTree": bottomUpTree,
+            "flatBottomUpTree": flatBottomUpTree
+        }
+        return result
+
     def handleListTests(self):
+        """
+        Run the underlying script in order to get a list containing all available tests
+        :return A list wit all the available tests
+        """
         if "handleList_result" not in self.cache:
 
             if "test_list" not in self.cache:
@@ -522,26 +548,7 @@ class Test:
             else:
                 ok = True
 
-            allTests = json.loads(self.cache["test_list"])
-
-            childTestsList, rootTestsList = self.identifyRootTests(allTests)
-
-            topDownChildList = copy.deepcopy(childTestsList)
-            topDownRootList = copy.deepcopy(rootTestsList)
-
-            topDownTree = self.insertRemaningChildTestsTopdown(topDownChildList, topDownRootList)
-            bottomUpTree = self.insertRemaningChildTestsBottomUp(childTestsList, rootTestsList)
-
-            self.setupTestId(topDownTree)
-            self.setupTestId(bottomUpTree)
-
-            flatBottomUpTree = self.convertToFlatBottomTree(bottomUpTree)
-
-            result = {
-                "topDownTree": topDownTree,
-                "bottomUpTree": bottomUpTree,
-                "flatBottomUpTree": flatBottomUpTree
-            }
+            result = self.generateTreeLayouts()
 
             self.cache["handleList_result"] = result
         else:
@@ -556,7 +563,9 @@ class Test:
 
 
     def writeToConfig(self, password=None, username=None):
-
+        """
+        Write user login details to the config file
+        """
         interactionParameters = self.session['interactionParameters']
 
         title = interactionParameters['title']
@@ -597,6 +606,10 @@ class Test:
 
 
     def handlePostFinalInteractionData(self):
+        """
+        Adds the username and the password in order to complete the interaction gathering cycle
+        :return Returns a script tags which tells the gui to make a post back
+        """
         try:
             username = self.parameters['login'][0]
             password = self.parameters['password'][0]
@@ -610,6 +623,10 @@ class Test:
 
 
     def handlePostBasicInteractionData(self):
+        """
+        Adds the basic interaction information which doesn't need users input
+        :return Default response, should be ignored
+        """
         title = self.parameters['title']
         redirectUri = self.parameters['redirectUri']
         pageType = self.parameters['pageType']
@@ -617,10 +634,14 @@ class Test:
 
         self.session['interactionParameters'] = {"title": title, "redirectUri": redirectUri, "pageType": pageType, "controlType": controlType}
 
-        return self.returnJSON({"asd": "asd"})
+        return self.returnJSON({})
 
 
     def handleResetInteraction(self):
+        """
+        Removes previously collected interaction details
+        :return Default response, should be ignored
+        """
         targetStringContent = self.session[self.CONFIG_FILE_KEY]
         targetDict = ast.literal_eval(targetStringContent)
         targetDict['interaction'] = []
@@ -630,6 +651,10 @@ class Test:
 
 
     def handleRunTest(self):
+        """
+        Executes a test
+        :return The result of the executed test
+        """
         testToRun = self.parameters['testname']
 
         if 'testid' in self.parameters:
@@ -637,7 +662,7 @@ class Test:
         else:
             testid = None
 
-        if self.checkIfIncommingTestIsLeagal(testToRun):
+        if self.checkIfIncomingTestIsLegal(testToRun):
             try:
                 targetStringContent = self.session[self.CONFIG_FILE_KEY]
                 targetDict = json.loads(targetStringContent)
@@ -672,6 +697,10 @@ class Test:
 
 
     def handleCreateNewConfigFile(self):
+        """
+        Creates a new config file based on a temple and saves it in the session
+        :return Default response, should be ignored
+        """
         templateFile = open("src/oictestGui/template_config.json", "r")
 
         try:
@@ -682,16 +711,23 @@ class Test:
             templateFile.close()
 
         print "Create: " + self.session[self.CONFIG_FILE_KEY]
-        return self.returnJSON({"asd": 1})
+        return self.returnJSON({})
 
 
     def handleUploadConfigFile(self):
+        """
+        Adds a uploaded config file to the session
+        :return Default response, should be ignored
+        """
         self.session[self.CONFIG_FILE_KEY] = str(self.parameters['configFileContent'])
         print "Upload target: " + self.session[self.CONFIG_FILE_KEY]
-        return self.returnJSON({"target": "asd"})
+        return self.returnJSON({})
 
 
     def handleDownloadConfigFile(self):
+        """
+        :return Return the configuration file stored in the session
+        """
         configString = self.session[self.CONFIG_FILE_KEY]
         configDict = json.loads(configString)
         fileDict = json.dumps({"configDict": configDict})
@@ -701,16 +737,25 @@ class Test:
 
 
     def createNewTestDict(self, item, level=1):
+        """
+        Creates a new test dictionary
+        :return The new test dictionary
+        """
         newDict = {}
         newDict['id'] = str(item["id"])
         newDict['children'] = []
         newDict['level'] = level
         newDict['testid'] = ""
-        newDict['descr'] = str(item["name"]) #"name" ska bytas up mot "descr" men alla test innehåller inte dessa attribut
+        newDict['descr'] = str(item["name"]) #TODO "name" ska bytas up mot "descr" men alla test innehåller inte dessa attribut
         return newDict
 
 
     def identifyRootTests(self, allTests):
+        """
+        Identifies the root tests which is all test which doesn't depend on any other test
+        :return First is returns a list containing all test tests which depend on other tests. Secondly it returns a
+                list containing all root tests.
+        """
         childTestsList = []
         rootTestsList = []
         for item in allTests:
@@ -723,6 +768,11 @@ class Test:
 
 
     def setupTestId(self, tree, visible=True):
+        """
+        Gives every test a unique id add show the root nodes
+        :param tree: The tree which should be traversed
+        :param visible: Boolean which indicates if the tree node should be visible or not.
+        """
         for element in tree:
             element["visible"] = visible
             element["testid"] = uuid.uuid4().urn
@@ -731,6 +781,11 @@ class Test:
 
 
     def insertRemaningChildTestsBottomUp(self, childTestsList, leafTestList):
+        """
+        Inserts the child node according to bottom up tree parsing algorithm
+        :param childTestsList: The child tests which depends on other tests
+        :param leafTestList: Leaf test are tests that no other test depends upon
+        """
         tree = []
 
         while len(leafTestList) > 0:
@@ -764,6 +819,10 @@ class Test:
 
 
     def updateChildrensLevel(self, child):
+        """
+        Updates the level of a specific test
+        :param child: The test who level should be updated
+        """
         childrenList = child['children']
         for unvisitedChild in childrenList:
             unvisitedChild['level'] = child['level'] + 1
@@ -771,6 +830,10 @@ class Test:
 
 
     def convertToFlatBottomTree(self, bottomUpTree):
+        """
+        Converts a bottom up tree to a flat bottom tree.
+        :param bottomUpTree: The bottom up tree which should be converted
+        """
         flatBottomUpTree = []
         for rootTest in bottomUpTree:
             newTest = copy.deepcopy(rootTest)
@@ -780,8 +843,11 @@ class Test:
         return flatBottomUpTree
 
 
-    def getChildren(self, child):
-        childrenToVisitList = child['children']
+    def getChildren(self, treeNode):
+        """
+        :return Collects and returns all children and sub children of a given node
+        """
+        childrenToVisitList = treeNode['children']
         allChildren = []
 
         while len(childrenToVisitList) > 0:
@@ -799,14 +865,20 @@ class Test:
         return allChildren
 
 
-    def insertRemaningChildTestsTopdown(self, childTestsList, parentList):
-        tree = parentList
+    def createTopdownTree(self, childTestsList, rootTestList):
+        """
+        Creates a top down tree
+        :param childTestsList: The child tests which depends on other tests
+        :param rootTestList: The root tests which doesn't depend on any other test
+        :return A complete top down tree
+        """
+        tree = rootTestList
 
         while len(childTestsList) > 0:
             newParentTestsList = []
             newChildTestsList = []
 
-            for parent in parentList:
+            for parent in rootTestList:
                 for child in childTestsList:
                     parentID = child['depends']
 
@@ -831,11 +903,16 @@ class Test:
 
 
             childTestsList = newChildTestsList
-            parentList = newParentTestsList
+            rootTestList = newParentTestsList
         return tree
 
 
-    def checkIfIncommingTestIsLeagal(self, tmpTest):
+    def checkIfIncomingTestIsLegal(self, testToVerify):
+        """
+        Checks if the incoming test is legal
+        :param testToVerify: Test to verify
+        :return Returns true if test exists in the list of all tests generated by the under lying script else false
+        """
         testToRun = None
         if "verify_test_dict" not in self.cache:
             self.cache["verify_test_dict"] = {}
@@ -848,34 +925,51 @@ class Test:
                 self.cache["verify_test_dict"][test["id"]] = True
                 #if test["id"] == tmpTest:
                 #    testToRun = test["id"]
-        if tmpTest in self.cache["verify_test_dict"] and self.cache["verify_test_dict"][tmpTest] is True:
+        if testToVerify in self.cache["verify_test_dict"] and self.cache["verify_test_dict"][testToVerify] is True:
             return True
         else:
             return False
 
 
     def returnJSON(self, text):
+        """
+        :return A response with the content type json
+        """
         resp = Response(text, headers=[('Content-Type', "application/json")])
         return resp(self.environ, self.start_response)
 
 
     def returnHTML(self, text):
+        """
+        :return A response with the content type html
+        """
         resp = Response(text, headers=[('Content-Type', "text/html")])
         return resp(self.environ, self.start_response)
 
 
     def returnXml(self, text):
+        """
+        :return A response with the content type xml
+        """
         resp = Response(text, headers=[('Content-Type', "text/xml")])
         return resp(self.environ, self.start_response)
 
 
     def serviceError(self, message):
+        """
+        :return A error response which is used to show error messages in the client
+        """
         message = {"ExceptionMessage": message}
         resp = ServiceError(json.dumps(message))
         return resp(self.environ, self.start_response)
 
 
     def runScript(self, command, working_directory=None):
+        """
+        Runs a script on the server, by creating a new process on the server.
+        :return A tuple where the first element confirms if the script where executed or not. The second is the output
+        on stdout and the third is the output on stderr.
+        """
         try:
             p = subprocess.Popen(command,
                                  stdout=subprocess.PIPE,
