@@ -17,13 +17,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from oic.oic.message import ProviderConfigurationResponse
-from oic.oauth2.message import REQUIRED_LIST_OF_SP_SEP_STRINGS
-from oic.oauth2.message import SINGLE_OPTIONAL_STRING
-from oic.oauth2.message import OPTIONAL_LIST_OF_STRINGS
-from oic.oauth2.message import SINGLE_REQUIRED_STRING
-from oic.oauth2.message import OPTIONAL_LIST_OF_SP_SEP_STRINGS
-from oic.oauth2.message import SINGLE_OPTIONAL_INT
-from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
+from oic.oauth2.message import is_message_field_list
 
 __author__ = 'haho0032'
 
@@ -77,11 +71,14 @@ class Test:
             if path == url:
                 return True
 
-
     def handle(self, path):
-        #Calles from test_idp
+        """
+        Handles the incoming rest requests
+        :param path: The path to the file or function requested by the client
+        :return A response which could be encode as Json for example
+        """
         if path == "test_idp":
-            return self.handleTestIDP(self.urls[path])
+            return self.handleShowPage(self.urls[path])
         elif path == "list_tests":
             return self.handleListTests()
         elif path == "run_test":
@@ -97,7 +94,7 @@ class Test:
 
         #Calles from config_idp
         elif path == "idp_config":
-            return self.handleConfigIDP(self.urls[path])
+            return self.handleShowPage(self.urls[path])
         elif path == "download_config_file":
             return self.handleDownloadConfigFile()
         elif path == "upload_config_file":
@@ -107,27 +104,41 @@ class Test:
         elif path == "does_config_file_exist":
             return self.handleDoesConfigFileExist()
         elif path == "get_op_config":
-            return self.handleGetOpConfigurations()
+            return self.handleGetConfigGuiStructure()
         elif path == "post_op_config":
             return self.handlePostOpConfigurations()
 
         #Calls made from home
         elif path == "":
-            return self.handleHomePage(self.urls[path])
+            return self.handleShowPage(self.urls[path])
 
-    def convertRequiredInfoFromOpConfigToConfigFile(self, opConfigurations, configDict):
-        if opConfigurations['requiredInfoDropDown']['value'] == 'no':
-            for attribute in opConfigurations['requiredInfoTextFields']:
+    def convertRequiredInfoFromOpConfigToConfigFile(self, configGuiStructure, configFileDict):
+        """
+        Converts required information in the web interface to the
+        a configuration dictionary which follows the "Configuration file structure", see setup.rst
+        :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
+        :param configFileDict: configuration dictionary which follows the "Configuration file structure"
+        :return Configuration dictionary updated with the new required information
+        """
+        if configGuiStructure['requiredInfoDropDown']['value'] == 'no':
+            for attribute in configGuiStructure['requiredInfoTextFields']:
                 if attribute['id'] == 'client_id':
-                    configDict['client']['client_id'] = attribute['textFieldContent']
+                    configFileDict['client']['client_id'] = attribute['textFieldContent']
                 elif attribute['id'] == 'client_secret':
-                    configDict['client']['client_secret'] = attribute['textFieldContent']
-        return configDict
+                    configFileDict['client']['client_secret'] = attribute['textFieldContent']
+        return configFileDict
 
-    def convertInteractionsFromOpConfigToConfigFile(self, opConfigurations, configDict):
+    def convertInteractionsFromOpConfigToConfigFile(self, configGuiStructure, configFileDict):
+        """
+        Converts interaction blocks in the internal data structure and updates the configDict
+        which follows the "Configuration file structure", see setup.rst
+        :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
+        :param configFileDict: configuration dictionary which follows the "Configuration file structure"
+        :return Configuration dictionary updated with the new interaction blocks
+        """
         convertedInteractionBlockList = []
 
-        for interactionBlock in opConfigurations["interactionsBlocks"]:
+        for interactionBlock in configGuiStructure["interactionsBlocks"]:
             for inputField in interactionBlock['inputFields']:
                 if inputField['label'] == 'title':
                     title = inputField['textFieldContent']
@@ -157,10 +168,14 @@ class Test:
 
             convertedInteractionBlockList.append(newInteractionBlock)
 
-        configDict['interaction'] = convertedInteractionBlockList
-        return configDict
+        configFileDict['interaction'] = convertedInteractionBlockList
+        return configFileDict
 
     def convertInputFiledListToSimpleList(self, inputFieldValueList):
+        """
+        :param inputFieldValueList: A list of dictionaries, where every dictionary contains two keys named index and textFieldContent.
+        :return A list where every element is the content of a STATIC_INPUT_FIELD_LIST, see Internal_data_structure
+        """
         valueList = []
 
         for element in inputFieldValueList:
@@ -168,11 +183,18 @@ class Test:
 
         return valueList
 
-    def convertStaticInfoFromOpConfigToConfigFile(self, opConfigurations, configDict):
+    def convertStaticInfoFromOpConfigToConfigFile(self, configGuiStructure, configFileDict):
+        """
+        Converts static information in the internal data structure and updates the configDict
+        which follows the "Configuration file structure", see setup.rst
+        :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
+        :param configFileDict: configuration dictionary which follows the "Configuration file structure"
+        :return Configuration dictionary updated with the new static information
+        """
         visibleInputFieldList = []
         providerAttributeDict = {}
 
-        for inputField in opConfigurations['fetchStaticInfoFromServer']['inputFields']:
+        for inputField in configGuiStructure['fetchStaticInfoFromServer']['inputFields']:
             if inputField['show'] == True:
                 visibleInputFieldList.append(inputField)
 
@@ -184,43 +206,47 @@ class Test:
             else:
                 providerAttributeDict[attributId] = visibleInputField['values'][0]['textFieldContent']
 
-        return configDict
+        return configFileDict
 
-    def convertOpConfigToConfigFile(self, opConfigurations):
+    def convertOpConfigToConfigFile(self, configGuiStructure):
+        """
+        Converts the internal data structure to a dictionary which follows the "Configuration file structure", see setup.rst
+        :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
+        :return A dictionary which follows the "Configuration file structure", see setup.rst
+        """
         configString = self.session[self.CONFIG_FILE_KEY]
         configDict = json.loads(configString)
 
-        if opConfigurations['fetchDynamicInfoFromServer']['showInputField'] == True:
-            dynamicInputFieldValue = opConfigurations['fetchDynamicInfoFromServer']['inputField']['value']
+        if configGuiStructure['fetchDynamicInfoFromServer']['showInputField'] == True:
+            dynamicInputFieldValue = configGuiStructure['fetchDynamicInfoFromServer']['inputField']['value']
             configDict['provider'] = {"dynamic": dynamicInputFieldValue}
 
-        elif opConfigurations['fetchStaticInfoFromServer']['showInputFields'] == True:
-            configDict = self.convertStaticInfoFromOpConfigToConfigFile(opConfigurations, configDict);
+        elif configGuiStructure['fetchStaticInfoFromServer']['showInputFields'] == True:
+            configDict = self.convertStaticInfoFromOpConfigToConfigFile(configGuiStructure, configDict);
 
-        configDict = self.convertRequiredInfoFromOpConfigToConfigFile(opConfigurations, configDict);
-        configDict = self.convertInteractionsFromOpConfigToConfigFile(opConfigurations, configDict);
+        configDict = self.convertRequiredInfoFromOpConfigToConfigFile(configGuiStructure, configDict);
+        configDict = self.convertInteractionsFromOpConfigToConfigFile(configGuiStructure, configDict);
         return json.dumps(configDict)
 
     def handlePostOpConfigurations(self):
-        #Convert from structur to config file
+        """
+        Saves the data added in the web interface to the session
+        :param opConfigurations: Internal data structure containing all info gathered in the web interface
+        :return A default Json structure, which should be ignored
+        """
         opConfigurations = self.parameters['opConfigurations']
         self.session[self.CONFIG_FILE_KEY] = self.convertOpConfigToConfigFile(opConfigurations)
         return self.returnJSON({"asd": 1})
 
     def isList(self, fieldType):
-        if (fieldType == REQUIRED_LIST_OF_SP_SEP_STRINGS):
-            return True
-        elif (fieldType== OPTIONAL_LIST_OF_STRINGS):
-            return True
-        elif (fieldType == OPTIONAL_LIST_OF_SP_SEP_STRINGS):
-            return True
-        elif (fieldType == REQUIRED_LIST_OF_STRINGS):
-            return True
-
-        return False
-
+        #TODO Is moved to the pyoidc/oath2/massage.py
+        return not isinstance(fieldType[0], basestring)
 
     def generateStaticInputFields(self):
+        """
+        Generates all static input fields based on ProviderConfigurationResponse class localed in [your path]/pyoidc/scr/oic/oic/message.py
+        :return The static input fields presented as the internal data structure
+        """
         staticProviderConfigKeyList = ProviderConfigurationResponse.c_param.keys()
         staticProviderConfigKeyList.sort()
         staticProviderConfigFieldsDict = ProviderConfigurationResponse.c_param
@@ -235,8 +261,11 @@ class Test:
         return staticProviderConfigFieldsList
 
     def createNewConfigurationDict(self):
+        """
+        :return Returns a new configuration which follows the internal data structure
+        """
         staticInputFieldsList = self.generateStaticInputFields();
-        configurationDict = {
+        opConfigurations = {
             "fetchInfoFromServerDropDown": {
                 "name": "How does the application fetch information from the server?",
                 "value": "",
@@ -257,7 +286,7 @@ class Test:
                 {"id": "client_secret", "label": "Client secret", "textFieldContent": ""}],
             "interactionsBlocks": []
         }
-        return configurationDict
+        return opConfigurations
 
     def containElements(self, any_structure):
         if any_structure:
@@ -265,69 +294,97 @@ class Test:
         else:
             return False
 
-    def convertDynamicProviderData(self, configFileDict, configStructureDict):
-        configStructureDict["fetchInfoFromServerDropDown"]["value"] = "dynamic"
-        configStructureDict["fetchDynamicInfoFromServer"]["showInputField"] = True
-        configStructureDict["fetchDynamicInfoFromServer"]["inputField"]["value"] = configFileDict["provider"]["dynamic"]
+    def convertDynamicProviderData(self, configFileDict, configGuiStructure):
+        """
+        Converts the configuration file structure to the Internal data structure
+        :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
+        :param configFileDict: Internal data structure containing all info gathered in the web interface
+        :return The updated presentation of the internal data structure
+        """
+        configGuiStructure["fetchInfoFromServerDropDown"]["value"] = "dynamic"
+        configGuiStructure["fetchDynamicInfoFromServer"]["showInputField"] = True
+        configGuiStructure["fetchDynamicInfoFromServer"]["inputField"]["value"] = configFileDict["provider"]["dynamic"]
 
-        return configStructureDict
+        return configGuiStructure
 
     def isListInstance(self, element):
         return not isinstance(element, basestring)
 
-    def convertListToListOfDict(self, list):
+    def convertSimpleListToGuiDict(self, simpleList):
+        """
+        Converts a simple static inputs field list to a valid text field representation
+        :param simpleList: The list containing the values of a specific static input field
+        :return The internal representation of a static input field
+        """
         convertedList = []
         index = 0;
 
-        for element in list:
+        for element in simpleList:
             convertedList.append({"index": index, "textFieldContent": element})
             index += 1
 
         return convertedList
 
-    def convertStaticProviderData(self, configFileDict, configStructureDict):
-        configStructureDict["fetchInfoFromServerDropDown"]["value"] = "static"
-        configStructureDict["fetchStaticInfoFromServer"]["showInputFields"] = True
+    def convertStaticProviderData(self, configFileDict, configGuiStructure):
+        """
+        Converts a static provider from config file to a gui structure
+        :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
+        :param configFileDict: The configuration file from which the configuration static provider data should be gathered
+        :return The updated configuration GUI data structure
+        """
+        configGuiStructure["fetchInfoFromServerDropDown"]["value"] = "static"
+        configGuiStructure["fetchStaticInfoFromServer"]["showInputFields"] = True
 
         for inputFieldId in configFileDict["provider"]:
-            for inputField in configStructureDict["fetchStaticInfoFromServer"]["inputFields"]:
+            for inputField in configGuiStructure["fetchStaticInfoFromServer"]["inputFields"]:
                 if inputField['id'] == inputFieldId:
                     inputField['show'] = True
                     if self.isListInstance(configFileDict["provider"][inputFieldId]):
-                        inputField['values'] = self.convertListToListOfDict(configFileDict["provider"][inputFieldId])
+                        inputField['values'] = self.convertSimpleListToGuiDict(configFileDict["provider"][inputFieldId])
                     else:
                         inputField['values'] = [{"index": 0, "textFieldContent": configFileDict["provider"][inputFieldId]}]
 
-        return configStructureDict
+        return configGuiStructure
 
-    def convertRequiredInfo(self, configFileDict, configStructureDict):
+    def convertRequiredInfo(self, configFileDict, configGuiStructure):
+        """
+        Converts a required information from config file to a config GUI structure
+        :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
+        :param configFileDict: The configuration file from which the configuration required information data should be gathered
+        :return The updated configuration GUI data structure
+        """
         containsRequiredInfo = True
 
         if "client_id" in configFileDict["client"]:
             containsRequiredInfo = False
-            configStructureDict["requiredInfoDropDown"]["value"] = "no"
+            configGuiStructure["requiredInfoDropDown"]["value"] = "no"
 
-            for textFiled in configStructureDict["requiredInfoTextFields"]:
+            for textFiled in configGuiStructure["requiredInfoTextFields"]:
                 if textFiled["id"] == "client_id":
                     textFiled["textFieldContent"] = configFileDict["client"]["client_id"]
 
         if "client_secret" in configFileDict["client"]:
             containsRequiredInfo = False
-            configStructureDict["requiredInfoDropDown"]["value"] = "no"
+            configGuiStructure["requiredInfoDropDown"]["value"] = "no"
 
-            for textFiled in configStructureDict["requiredInfoTextFields"]:
+            for textFiled in configGuiStructure["requiredInfoTextFields"]:
                 if textFiled["id"] == "client_secret":
                     textFiled["textFieldContent"] = configFileDict["client"]["client_secret"]
 
         if containsRequiredInfo:
-            configStructureDict["requiredInfoDropDown"]["value"] = "yes"
+            configGuiStructure["requiredInfoDropDown"]["value"] = "yes"
 
-        return configStructureDict
+        return configGuiStructure
 
 
-    def convertInteractionBlocks(self, configFileDict, configStructureDict):
-
-        numberOfBlocks = len(configStructureDict["interactionsBlocks"])
+    def convertInteractionBlocks(self, configFileDict, configGuiStructure):
+        """
+        Converts a interaction blocks from a config file structure to a config GUI structure
+        :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
+        :param configFileDict: The configuration file from which the configuration interaction blocks data should be gathered
+        :return The updated configuration GUI data structure
+        """
+        numberOfBlocks = len(configGuiStructure["interactionsBlocks"])
 
         if "interaction" in configFileDict:
             for interactionBlock in configFileDict["interaction"]:
@@ -347,11 +404,16 @@ class Test:
                                 {"label": "type", "textFieldContent": type}
                             ]}
 
-                configStructureDict["interactionsBlocks"].append(newInteractionBlock)
+                configGuiStructure["interactionsBlocks"].append(newInteractionBlock)
 
-        return configStructureDict
+        return configGuiStructure
 
-    def convertToConfigDataStructure(self, configFileDict):
+    def convertToConfigGuiStructure(self, configFileDict):
+        """
+        Converts a config file structure to a config GUI structure
+        :param configFileDict: The configuration file from which should be converted
+        :return The updated configuration GUI data structure
+        """
         configStructureDict = self.createNewConfigurationDict()
 
         if "dynamic" in configFileDict["provider"]:
@@ -366,13 +428,17 @@ class Test:
 
         return configStructureDict
 
-    def handleGetOpConfigurations(self):
+    def handleGetConfigGuiStructure(self):
+        """
+        Handles the get config Gui structure request
+        :return A configuration Gui structure which is based on the configuration file saved in the session
+        """
         if self.CONFIG_FILE_KEY in self.session:
             configString = self.session[self.CONFIG_FILE_KEY]
             try:
                 configDict = json.loads(configString)
-                configStructureDict = self.convertToConfigDataStructure(configDict)
-                return self.returnJSON(json.dumps(configStructureDict))
+                configGuiStructure = self.convertToConfigGuiStructure(configDict)
+                return self.returnJSON(json.dumps(configGuiStructure))
             except ValueError:
                 return self.serviceError("No JSON object could be decoded. Please check if the file is a valid json file")
         return self.serviceError("No file saved in this current session")
@@ -380,7 +446,10 @@ class Test:
 
     #TODO enter Dirgs mail settings
     def handlePostErrorReport(self):
-
+        """
+        Sends a error report which contains a message and the last test results to Dirgs mail
+        :return A default value which should be ignored
+        """
         reportEmail = self.parameters['reportEmail']
         reportMessage = self.parameters['reportMessage']
         testResults = self.parameters['testResults']
@@ -408,7 +477,7 @@ class Test:
         text = message.as_string()
         server.sendmail(fromAdress, toAddress, text)
 
-        return self.returnJSON({"asd": 1})
+        return self.returnJSON({})
 
 
     def doesConfigFileExist(self):
@@ -419,45 +488,23 @@ class Test:
 
 
     def handleDoesConfigFileExist(self):
+        """
+        Handles the request checking if the configuration file exists
+        :return Returns a dictionary {"doesConfigFileExist" : true} if the session contains a config file else {"doesConfigFileExist" : false}
+        """
         result = json.dumps({"doesConfigFileExist": self.doesConfigFileExist()})
         return self.returnJSON(result)
 
 
-    def handleTestIDP(self, file):
+    def handleShowPage(self, file):
+        """
+        Handles the request for specific web page
+        :param file: The name of the .mako file requested by the user
+        :return The html page which is based on the .mako file
+        """
         resp = Response(mako_template=file,
                         template_lookup=self.lookup,
                         headers=[])
-        argv = {
-            "a_value": "Hello world"
-        }
-
-        #TODO only used in development purposes
-        #f = open(self.CONFIG_FILE_PATH + "working.json", "r+")
-        #self.session[self.CONFIG_KEY] = f.read();
-        #f.close()
-
-        return resp(self.environ, self.start_response, **argv)
-
-
-    def handleConfigIDP(self, file):
-
-        resp = Response(mako_template=file,
-                        template_lookup=self.lookup,
-                        headers=[])
-
-        argv = {
-            "a_value": "Hello world"
-        }
-
-        return resp(self.environ, self.start_response, **argv)
-
-
-    def handleHomePage(self, file):
-
-        resp = Response(mako_template=file,
-                        template_lookup=self.lookup,
-                        headers=[])
-
         argv = {
             "a_value": "Hello world"
         }
