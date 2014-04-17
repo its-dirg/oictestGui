@@ -8,7 +8,7 @@
 
 <%block name="css">
     <!-- Add more css imports here! -->
-    <link rel="stylesheet" type="text/css" href="/static/idp_config.css">
+    <link rel="stylesheet" type="text/css" href="/static/op_config.css">
 </%block>
 
 <%block name="title">
@@ -231,6 +231,6 @@
 <%block name="footer">
     </div>
 
-    <script type="text/javascript" src="/static/idp_config.js"></script>
+    <script type="text/javascript" src="/static/op_config.js"></script>
     ${parent.footer()}
 </%block>

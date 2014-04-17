@@ -41,7 +41,7 @@ class Test:
         self.parameters = parameters
         self.urls = {
             #Calles from test_idp
-            "test_idp" : "test_idp.mako",
+            "test_idp" : "test_op.mako",
             "list_tests" : None,
             "run_test" : None,
             "post_final_interaction_data" : None,
@@ -50,7 +50,7 @@ class Test:
             "post_error_report": None,
 
             #Calles from config
-            "idp_config" : "idp_config.mako",
+            "idp_config" : "op_config.mako",
             "get_basic_config" : None,
             "post_basic_config" : None,
             "get_interaction_config" : None,

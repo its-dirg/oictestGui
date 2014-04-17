@@ -6,8 +6,8 @@ __M_locals_builtin = locals
 _magic_number = 9
 _modified_time = 1397543871.003148
 _enable_loop = True
-_template_filename = 'mako/htdocs/idp_config.mako'
-_template_uri = 'idp_config.mako'
+_template_filename = 'mako/htdocs/op_config.mako'
+_template_uri = 'op_config.mako'
 _source_encoding = 'utf-8'
 _exports = [u'body', u'title', u'headline', u'script', u'header', u'footer', u'css']
 
@@ -167,7 +167,7 @@ def render_footer(context,**pageargs):
             return render_footer(context)
         __M_writer = context.writer()
         # SOURCE LINE 231
-        __M_writer(u'\n    </div>\n\n    <script type="text/javascript" src="/static/idp_config.js"></script>\n    ')
+        __M_writer(u'\n    </div>\n\n    <script type="text/javascript" src="/static/op_config.js"></script>\n    ')
         # SOURCE LINE 235
         __M_writer(unicode(parent.footer()))
         __M_writer(u'\n')
@@ -183,7 +183,7 @@ def render_css(context,**pageargs):
             return render_css(context)
         __M_writer = context.writer()
         # SOURCE LINE 9
-        __M_writer(u'\n    <!-- Add more css imports here! -->\n    <link rel="stylesheet" type="text/css" href="/static/idp_config.css">\n')
+        __M_writer(u'\n    <!-- Add more css imports here! -->\n    <link rel="stylesheet" type="text/css" href="/static/op_config.css">\n')
         return ''
     finally:
         context.caller_stack._pop_frame()

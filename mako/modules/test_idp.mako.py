@@ -6,8 +6,8 @@ __M_locals_builtin = locals
 _magic_number = 9
 _modified_time = 1395666973.189104
 _enable_loop = True
-_template_filename = 'mako/htdocs/test_idp.mako'
-_template_uri = 'test_idp.mako'
+_template_filename = 'mako/htdocs/test_op.mako'
+_template_uri = 'test_op.mako'
 _source_encoding = 'utf-8'
 _exports = [u'body', u'title', u'headline', u'script', u'header', u'footer', u'css']
 
@@ -167,7 +167,7 @@ def render_footer(context,**pageargs):
             return render_footer(context)
         __M_writer = context.writer()
         # SOURCE LINE 191
-        __M_writer(u'\n    </div>\n\n    <!-- Modal window containg iframe-->\n    <div class="modal fade" id="modalWindowIframe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\n        <div class="modal-dialog">\n            <div class="modal-content" id="modalIframeContent">\n\n            </div>\n        </div>\n    </div>\n\n    <!-- Modal window for error report-->\n    <div class="modal fade" id="modalWindowErrorReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\n        <div class="modal-dialog">\n            <div class="modal-content" id="modalErrorReportContent">\n\n                <form id="reportForm">\n                    <span>If you have questions about the result of a test run you could sent a a question to us using the form below. In order for us to get a better understanding of your problem the result of the last test will be attached to the mail.</span>\n\n                    <input type="email" class="form-control" placeholder="Your Email" id="reportEmail">\n                    <textarea class="form-control" rows="3" placeholder="Text" id="reportMessage"></textarea>\n\n                    <button class="btn btn-primary btn-sm" ng-click="sendReport();">Send report</button>\n                </form>\n            </div>\n        </div>\n    </div>\n\n    <script type="text/javascript" src="/static/test_idp.js"></script>\n\n    ')
+        __M_writer(u'\n    </div>\n\n    <!-- Modal window containg iframe-->\n    <div class="modal fade" id="modalWindowIframe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\n        <div class="modal-dialog">\n            <div class="modal-content" id="modalIframeContent">\n\n            </div>\n        </div>\n    </div>\n\n    <!-- Modal window for error report-->\n    <div class="modal fade" id="modalWindowErrorReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\n        <div class="modal-dialog">\n            <div class="modal-content" id="modalErrorReportContent">\n\n                <form id="reportForm">\n                    <span>If you have questions about the result of a test run you could sent a a question to us using the form below. In order for us to get a better understanding of your problem the result of the last test will be attached to the mail.</span>\n\n                    <input type="email" class="form-control" placeholder="Your Email" id="reportEmail">\n                    <textarea class="form-control" rows="3" placeholder="Text" id="reportMessage"></textarea>\n\n                    <button class="btn btn-primary btn-sm" ng-click="sendReport();">Send report</button>\n                </form>\n            </div>\n        </div>\n    </div>\n\n    <script type="text/javascript" src="/static/test_op.js"></script>\n\n    ')
         # SOURCE LINE 222
         __M_writer(unicode(parent.footer()))
         __M_writer(u'\n')
@@ -183,7 +183,7 @@ def render_css(context,**pageargs):
             return render_css(context)
         __M_writer = context.writer()
         # SOURCE LINE 10
-        __M_writer(u'\n    <!-- Add more css imports here! -->\n    <link rel="stylesheet" type="text/css" href="/static/test_idp.css">\n')
+        __M_writer(u'\n    <!-- Add more css imports here! -->\n    <link rel="stylesheet" type="text/css" href="/static/test_op.css">\n')
         return ''
     finally:
         context.caller_stack._pop_frame()

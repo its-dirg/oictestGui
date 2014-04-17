@@ -9,7 +9,7 @@
 
 <%block name="css">
     <!-- Add more css imports here! -->
-    <link rel="stylesheet" type="text/css" href="/static/test_idp.css">
+    <link rel="stylesheet" type="text/css" href="/static/test_op.css">
 </%block>
 
 <%block name="title">
@@ -217,7 +217,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="/static/test_idp.js"></script>
+    <script type="text/javascript" src="/static/test_op.js"></script>
 
     ${parent.footer()}
 </%block>

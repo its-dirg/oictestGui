@@ -1,6 +1,7 @@
 
 var app = angular.module('main', ['toaster'])
 
+//TODO kanske borde sätta ihop testFactory och runTestFactory.
 app.factory('testFactory', function ($http) {
     return {
         getTests: function (treeType) {
@@ -61,10 +62,6 @@ app.factory('errorReportFactory', function ($http) {
 app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, runTestFactory, postBasicInteractionDataFactory, postResetInteractionFactory, errorReportFactory, toaster) {
     $scope.testResult = "";
     $scope.currentFlattenedTree = "None";
-    $scope.currentOriginalTree;
-    $scope.topDownTree;
-    $scope.bottomUpTree;
-    $scope.flatBottomUpTree;
     $scope.numberOfTestsRunning = 0;
     var addedIds = [];
     var subTestList;
@@ -79,6 +76,9 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     $scope.selectedItem = $scope.items[1];
 
+    /**
+     * Callback function which is invoked when the list containing all the tests has been downloaded successfully.
+     */
     var getListSuccessCallback = function (data, status, headers, config) {
         $scope.topDownTree = data["topDownTree"];
         $scope.bottomUpTree = data["bottomUpTree"];
@@ -91,6 +91,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     var isRunningAllTests = false;
 
+    /**
+     * Callback function which is invoked when the a test result is returned. Note that the results always are
+     * connected ot single test
+     */
     var getTestResultSuccessCallback = function (data, status, headers, config) {
         if (data['testid'] == null){
             isRunningAllTests = true;
@@ -118,11 +122,18 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         isShowingErrorMessage = false;
     }
 
-    var getPostBasicDataSuccessCallback = function (data, status, headers, config) {
+    /**
+     * Callback function which is invoked when the basic interaction info (information which doesn't need user input)
+     * has been successfully stored on the server
+     */
+    var postBasicInteractionInfoSuccessCallback = function (data, status, headers, config) {
         //TODO It this nessecerry?
     };
 
-    var getPostResetDataSuccessCallback = function (data, status, headers, config) {
+    /**
+     * Callback function which is invoked when the interaction info has been successfully removed on the server
+     */
+    var postResetInteractionInfoSuccessCallback = function (data, status, headers, config) {
         //TODO It this nessecerry?
     };
 
@@ -132,6 +143,9 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     var isShowingErrorMessage = false;
 
+    /**
+     * Callback which is invoked when any rest request doesn't get an correct response
+     */
     var errorCallback = function (data, status, headers, config) {
 
         if (!isShowingErrorMessage){
@@ -144,6 +158,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
     };
 
     testFactory.getTests($scope.selectedItem.type).success(getListSuccessCallback).error(errorCallback);
+
 
     $scope.runMultipleTest = function (id, testid) {
 
@@ -406,7 +421,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
                 var controlType = "form"
             }
 
-            postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType).success(getPostBasicDataSuccessCallback).error(errorCallback);
+            postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType).success(postBasicInteractionInfoSuccessCallback).error(errorCallback);
 
             if (!hasShownInteractionConfigDialog){
 
@@ -431,7 +446,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
                     label: "Yes",
                     className: "btn-primary",
                     callback: function () {
-                        postResetInteractionFactory.postResetInteraction().success(getPostResetDataSuccessCallback).error(errorCallback);
+                        postResetInteractionFactory.postResetInteraction().success(postResetInteractionInfoSuccessCallback).error(errorCallback);
                     }
                 }
             }
