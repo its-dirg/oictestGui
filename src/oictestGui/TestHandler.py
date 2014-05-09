@@ -17,7 +17,13 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from oic.oic.message import ProviderConfigurationResponse
-from oic.oauth2.message import is_message_field_list
+
+from oic.oauth2.message import REQUIRED_LIST_OF_SP_SEP_STRINGS
+from oic.oauth2.message import OPTIONAL_LIST_OF_STRINGS
+from oic.oauth2.message import OPTIONAL_LIST_OF_SP_SEP_STRINGS
+from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
+
+#from oic.oauth2.message import is_message_field_list
 
 __author__ = 'haho0032'
 
@@ -240,7 +246,17 @@ class Test:
 
     def isList(self, fieldType):
         #TODO Is moved to the pyoidc/oath2/massage.py
-        return not isinstance(fieldType[0], basestring)
+        if fieldType == REQUIRED_LIST_OF_SP_SEP_STRINGS:
+            return True
+        elif fieldType == OPTIONAL_LIST_OF_STRINGS:
+            return True
+        elif fieldType == OPTIONAL_LIST_OF_SP_SEP_STRINGS:
+            return True
+        elif fieldType == REQUIRED_LIST_OF_STRINGS:
+            return True
+        return False
+
+        #return not isinstance(fieldType[0], basestring)
 
     def generateStaticInputFields(self):
         """
