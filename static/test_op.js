@@ -159,7 +159,9 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     testFactory.getTests($scope.selectedItem.type).success(getListSuccessCallback).error(errorCallback);
 
-
+    /**
+     * Runs
+     */
     $scope.runMultipleTest = function (id, testid) {
 
         var test = findTestInTreeByTestid($scope.bottomUpTree, testid);
