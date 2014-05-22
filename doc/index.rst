@@ -19,7 +19,11 @@ validation of a specific instance of a OpenID Connect entity.
    install
    setup
    run
-   oictestGui
+
+.. toctree::
+   :maxdepth: 1
+
+   contents
 
 Indices and tables
 ==================
