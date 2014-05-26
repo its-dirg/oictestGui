@@ -2,6 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="098c122e-75a5-4769-a521-06d0392aafec" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/oictestGui.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
     </list>
     <ignored path="oictestGui.iws" />
@@ -596,7 +603,11 @@
       <created>1401095895821</created>
       <updated>1401095895821</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Removing the workspace.xml from the commits">
+      <created>1401096103624</created>
+      <updated>1401096103624</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -657,7 +668,8 @@
     <MESSAGE value="Adding the comments to test_op" />
     <MESSAGE value="Runs the oicc on the same IP as specified in server_conf.py and changed name on the server_conf example" />
     <MESSAGE value="Moved path to the oicc script to the server_conf and flag to turn of certificate validation in the oicc script" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved path to the oicc script to the server_conf and flag to turn of certificate validation in the oicc script" />
+    <MESSAGE value="Removing the workspace.xml from the commits" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removing the workspace.xml from the commits" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
