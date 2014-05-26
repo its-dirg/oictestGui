@@ -13,6 +13,10 @@ if HTTPS:
 else:
     BASEURL = "http://%s" % BASEURL
 
+OICC_PATH = '/usr/local/bin/oicc.py'
+
+VERIFY_CERTIFICATES = False
+
 #Full URL to the OP server
 ISSUER = "%s:%s" % (BASEURL, PORT)
 

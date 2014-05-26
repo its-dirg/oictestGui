@@ -28,7 +28,6 @@ from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
 __author__ = 'haho0032'
 
 class Test:
-    OICC = '/usr/local/bin/oicc.py'
     #Only used to check to check for new config files this which does nothing useful at the moment
     #CONFIG_FILE_PATH = 'saml2test/configFiles/'
     CONFIG_FILE_KEY = "target"
@@ -558,7 +557,7 @@ class Test:
         if "handleList_result" not in self.cache:
 
             if "test_list" not in self.cache:
-                ok, p_out, p_err = self.runScript([self.OICC, '-l'])
+                ok, p_out, p_err = self.runScript([self.config.OICC_PATH, '-l'])
                 if ok:
                     self.cache["test_list"] = p_out
             else:
@@ -690,8 +689,12 @@ class Test:
             json.dump(targetDict, outfile)
             outfile.flush()
 
-            #Directs to the folder containing the saml2test config file
-            ok, p_out, p_err = self.runScript([self.OICC,'-H', self.config.BASEURL, '-J', outfile.name, '-d', '-i', testToRun], "./oictest")
+            parameterList = [self.config.OICC_PATH,'-H', self.config.BASEURL, '-J', outfile.name, '-d', '-i', testToRun]
+
+            if self.config.VERIFY_CERTIFICATES == False:
+                parameterList.append('-x')
+
+            ok, p_out, p_err = self.runScript(parameterList, "./oictest")
 
             outfile.close()
 
