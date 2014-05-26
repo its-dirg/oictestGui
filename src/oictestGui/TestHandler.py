@@ -4,7 +4,7 @@ import copy
 
 import json
 import subprocess
-from saml2.httputil import Response, ServiceError
+from oic.utils.http_util import Response, ServiceError
 
 import uuid
 import ast
