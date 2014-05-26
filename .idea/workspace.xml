@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="098c122e-75a5-4769-a521-06d0392aafec" name="Default" comment="Moved path to the oicc script to the config">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/oictestGui/TestHandler.py" afterPath="$PROJECT_DIR$/src/oictestGui/TestHandler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server_conf.py" afterPath="$PROJECT_DIR$/server_conf.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="098c122e-75a5-4769-a521-06d0392aafec" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
     </list>
     <ignored path="oictestGui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,7 +58,7 @@
       <file leaf-file-name="TestHandler.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="710" column="30" selection-start="29712" selection-end="29712" vertical-scroll-proportion="0.715847" vertical-offset="10257" max-vertical-offset="15165">
+            <state line="710" column="30" selection-start="29712" selection-end="29712" vertical-scroll-proportion="0.66950595" vertical-offset="10257" max-vertical-offset="15165">
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
               </folding>
@@ -594,7 +592,11 @@
       <created>1401093146893</created>
       <updated>1401093146893</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Moved path to the oicc script to the server_conf and flag to turn of certificate validation in the oicc script">
+      <created>1401095895821</created>
+      <updated>1401095895821</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -623,12 +625,12 @@
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919255" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3226141" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3226141" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32987553" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15069222" sideWeight="0.5048951" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19062833" sideWeight="0.4951049" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3620332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3620332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25103736" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25414938" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -654,7 +656,8 @@
     <MESSAGE value="Adding the comments to test_op. Renamed files" />
     <MESSAGE value="Adding the comments to test_op" />
     <MESSAGE value="Runs the oicc on the same IP as specified in server_conf.py and changed name on the server_conf example" />
-    <option name="LAST_COMMIT_MESSAGE" value="Runs the oicc on the same IP as specified in server_conf.py and changed name on the server_conf example" />
+    <MESSAGE value="Moved path to the oicc script to the server_conf and flag to turn of certificate validation in the oicc script" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved path to the oicc script to the server_conf and flag to turn of certificate validation in the oicc script" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -945,7 +948,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/oictestGui/TestHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="710" column="30" selection-start="29712" selection-end="29712" vertical-scroll-proportion="0.715847" vertical-offset="10257" max-vertical-offset="15165">
+        <state line="710" column="30" selection-start="29712" selection-end="29712" vertical-scroll-proportion="0.66950595" vertical-offset="10257" max-vertical-offset="15165">
           <folding>
             <element signature="e#24#34#0" expanded="true" />
           </folding>
