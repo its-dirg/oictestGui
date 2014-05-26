@@ -6,7 +6,8 @@ PORT=5454
 HTTPS=True
 
 #URL to de server
-BASEURL="localhost"
+BASEURL="130.239.200.133"
+
 if HTTPS:
     BASEURL = "https://%s" % BASEURL
 else:

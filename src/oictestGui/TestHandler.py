@@ -691,7 +691,7 @@ class Test:
             outfile.flush()
 
             #Directs to the folder containing the saml2test config file
-            ok, p_out, p_err = self.runScript([self.OICC,'-H', "localhost", '-J', outfile.name, '-d', '-i', testToRun], "./oictest")
+            ok, p_out, p_err = self.runScript([self.OICC,'-H', self.config.BASEURL, '-J', outfile.name, '-d', '-i', testToRun], "./oictest")
 
             outfile.close()
 
