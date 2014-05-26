@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 __author__ = 'haho0032'
 #Port for the webserver.
-PORT=4545
+PORT=5454
 #True if HTTPS should be used instead of HTTP.
 HTTPS=True
 
 #URL to de server
 BASEURL="localhost"
+
 if HTTPS:
     BASEURL = "https://%s" % BASEURL
 else:
     BASEURL = "http://%s" % BASEURL
+
+OICC_PATH = '/usr/local/bin/oicc.py'
+
+VERIFY_CERTIFICATES = False
 
 #Full URL to the OP server
 ISSUER = "%s:%s" % (BASEURL, PORT)
