@@ -104,11 +104,11 @@
                      ng-repeat="inputField in opConfig.fetchStaticInfoFromServer.inputFields"
                      ng-show="inputField.show == true">
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <span>{{inputField.label}}</span>
                     </div>
 
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
                         <form ng-repeat="valueStruct in inputField.values">
                             <div class="input-group">
                                 <input type="text" ng-model="valueStruct.textFieldContent" class="form-control">
@@ -156,7 +156,9 @@
                             {{textField.label}}
                         </div>
                         <div class="col-sm-8">
-                            <input type="text" ng-model="textField.textFieldContent">
+                            <form>
+                                <input type="text" ng-model="textField.textFieldContent">
+                            </form>
                         </div>
                     </div>
                 </div>
