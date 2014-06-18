@@ -284,7 +284,7 @@ class Test:
             "fetchInfoFromServerDropDown": {
                 "name": "How does the application fetch information from the server?",
                 "value": "",
-                "values": [{"type": "dynamic", "name": "dynmic"},
+                "values": [{"type": "dynamic", "name": "dynamic"},
                            {"type": "static", "name": "static"}]
             },
             "fetchStaticInfoFromServer": {"showInputFields": False, "inputFields": staticInputFieldsList},
@@ -689,7 +689,7 @@ class Test:
             json.dump(targetDict, outfile)
             outfile.flush()
 
-            parameterList = [self.config.OICC_PATH,'-H', self.config.BASEURL, '-J', outfile.name, '-d', '-i', testToRun]
+            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', outfile.name, '-d', '-i', testToRun]
 
             if self.config.VERIFY_CERTIFICATES == False:
                 parameterList.append('-x')
