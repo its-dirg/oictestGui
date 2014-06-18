@@ -5,6 +5,9 @@ PORT=5454
 #True if HTTPS should be used instead of HTTP.
 HTTPS=True
 
+#jwkest needs to have access to the key placed in [...]/oictest/script/keys
+OICTEST_PATH = "/Users/danielevertsson/projects/oictest/script"
+
 #URL to de server
 HOST="130.239.200.133"
 

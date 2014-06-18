@@ -694,7 +694,7 @@ class Test:
             if self.config.VERIFY_CERTIFICATES == False:
                 parameterList.append('-x')
 
-            ok, p_out, p_err = self.runScript(parameterList, "./oictest")
+            ok, p_out, p_err = self.runScript(parameterList, self.config.OICTEST_PATH)
 
             outfile.close()
 
@@ -936,7 +936,7 @@ class Test:
         if "verify_test_dict" not in self.cache:
             self.cache["verify_test_dict"] = {}
             if "test_list" not in self.cache:
-                ok, p_out, p_err = self.runScript([self.OICC, '-l'])
+                ok, p_out, p_err = self.runScript([self.config.OICC_PATH, '-l'])
                 if ok:
                     self.cache["test_list"] = p_out
             tests = json.loads(self.cache["test_list"])
