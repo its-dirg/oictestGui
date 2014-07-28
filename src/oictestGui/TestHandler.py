@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __builtin__ import input
 import cgi
 import copy
 
@@ -22,6 +23,7 @@ from oic.oauth2.message import REQUIRED_LIST_OF_SP_SEP_STRINGS
 from oic.oauth2.message import OPTIONAL_LIST_OF_STRINGS
 from oic.oauth2.message import OPTIONAL_LIST_OF_SP_SEP_STRINGS
 from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
+import xml.etree.ElementTree as ET
 
 #from oic.oauth2.message import is_message_field_list
 
@@ -32,7 +34,7 @@ class Test:
     #CONFIG_FILE_PATH = 'saml2test/configFiles/'
     CONFIG_FILE_KEY = "target"
 
-    def __init__(self, environ, start_response, session, logger, lookup, config, parameters, cache):
+    def __init__(self, environ=None, start_response=None, session=None, logger=None, lookup=None, config=None, parameters=None, cache=None):
         """
         Constructor for the class.
         :param environ:        WSGI enviroment
@@ -40,6 +42,9 @@ class Test:
         :param session:        Beaker session
         :param logger:         Class to perform logging.
         """
+
+        #Sets the parameters to a default value in order to make i more testable
+
         self.environ = environ
         self.start_response = start_response
         self.session = session
@@ -159,16 +164,16 @@ class Test:
                     type = inputField['textFieldContent']
 
             newInteractionBlock = {
-               "matches":{
-                  "url" : url,
-                  "title" : title
-               },
-               "page-type": pageType,
-               "control" : {
-                  "set" : json.loads(set),
-                  "type" : type,
-                  "index" : index
-               }
+                "matches":{
+                    "url" : url,
+                    "title" : title
+                },
+                "page-type": pageType,
+                "control" : {
+                    "set" : json.loads(set),
+                    "type" : type,
+                    "index" : index
+                }
             }
 
             convertedInteractionBlockList.append(newInteractionBlock)
@@ -289,7 +294,7 @@ class Test:
             },
             "fetchStaticInfoFromServer": {"showInputFields": False, "inputFields": staticInputFieldsList},
             "fetchDynamicInfoFromServer": {"showInputField": False,
-                                  "inputField": {"label": "dynamic", "value": "", "show": False, "isList": False}},
+                                           "inputField": {"label": "dynamic", "value": "", "show": False, "isList": False}},
             "requiredInfoDropDown": {
                 "label": "Do your application support dynamic client registration?",
                 "value": "",
@@ -411,13 +416,13 @@ class Test:
                 index = interactionBlock["control"].get("index", 0)
 
                 newInteractionBlock = {"id": numberOfBlocks, "inputFields": [
-                                {"label": "title", "textFieldContent": title},
-                                {"label": "url", "textFieldContent": url},
-                                {"label": "pageType", "textFieldContent": pageType},
-                                {"label": "index", "textFieldContent": index},
-                                {"label": "set", "textFieldContent": json.dumps(set)},
-                                {"label": "type", "textFieldContent": type}
-                            ]}
+                    {"label": "title", "textFieldContent": title},
+                    {"label": "url", "textFieldContent": url},
+                    {"label": "pageType", "textFieldContent": pageType},
+                    {"label": "index", "textFieldContent": index},
+                    {"label": "set", "textFieldContent": json.dumps(set)},
+                    {"label": "type", "textFieldContent": type}
+                ]}
 
                 configGuiStructure["interactionsBlocks"].append(newInteractionBlock)
 
@@ -700,11 +705,17 @@ class Test:
 
             try:
                 if (ok):
+                    result = json.loads(p_out)
+
                     response = {
-                        "result": json.loads(p_out),
+                        "result": result,
                         "traceLog": cgi.escape(p_err),
                         "testid": testid
                     }
+
+                    if result['status'] == 5:
+                        response['usernameAndPasswordFields'] = self.identifyUsernameAndPasswordFields(result['htmlbody'])
+
                     return self.returnJSON(json.dumps(response))
                 else:
                     return self.serviceError("Failed to run test")
@@ -713,7 +724,32 @@ class Test:
 
         return self.serviceError("The test is not valid")
 
+    def identifyUsernameAndPasswordFields(self, htmlBody):
+        #Did not make this work by installing lxml (pip install lxml)
+        #html   = lxml.html.fromstring(htmlBody)
 
+        #This libary does not like mismatching tags which can occour in html code
+        rootElement = ET.fromstring(htmlBody)
+
+        formTags = []
+        for form in rootElement.iter('form'):
+            formTags.append(form)
+
+        usernameTag = None
+        passwordTag = None
+
+        inputTagList = []
+        for input in formTags[0].iter('input'):
+            inputTagList.append(input)
+            if input.attrib['type'] == 'text':
+                usernameTag = input
+            elif input.attrib['type'] == "password":
+                passwordTag = input
+
+        usernameTagString = ET.tostring(usernameTag, encoding="us-ascii", method="xml")
+        passwordTagString = ET.tostring(passwordTag, encoding="us-ascii", method="xml")
+
+        return {"usernameField": usernameTag, "passwordField": passwordTag}
 
     def handleCreateNewConfigFile(self):
         """
