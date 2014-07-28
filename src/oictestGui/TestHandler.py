@@ -23,8 +23,8 @@ from oic.oauth2.message import REQUIRED_LIST_OF_SP_SEP_STRINGS
 from oic.oauth2.message import OPTIONAL_LIST_OF_STRINGS
 from oic.oauth2.message import OPTIONAL_LIST_OF_SP_SEP_STRINGS
 from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
-import xml.etree.ElementTree as ET
 
+from bs4 import BeautifulSoup
 #from oic.oauth2.message import is_message_field_list
 
 __author__ = 'haho0032'
@@ -631,8 +631,11 @@ class Test:
         :return Returns a script tags which tells the gui to make a post back
         """
         try:
-            username = self.parameters['login'][0]
-            password = self.parameters['password'][0]
+            usernameNameTag = self.parameters['usernameNameTag'][0]
+            passwordNameTag = self.parameters['passwordNameTag'][0]
+
+            username = self.parameters[usernameNameTag][0]
+            password = self.parameters[passwordNameTag][0]
 
             self.writeToConfig(password, username)
         except KeyError:
@@ -707,14 +710,15 @@ class Test:
                 if (ok):
                     result = json.loads(p_out)
 
+                    if result['status'] == 5:
+                        usernameName, passwordName = self.identifyUsernameAndPasswordFields(result['htmlbody'])
+                        result['htmlbody'] = self.addHiddenUsernameAndPasswordFields(result['htmlbody'], usernameName, passwordName)
+
                     response = {
                         "result": result,
                         "traceLog": cgi.escape(p_err),
                         "testid": testid
                     }
-
-                    if result['status'] == 5:
-                        response['usernameAndPasswordFields'] = self.identifyUsernameAndPasswordFields(result['htmlbody'])
 
                     return self.returnJSON(json.dumps(response))
                 else:
@@ -724,32 +728,40 @@ class Test:
 
         return self.serviceError("The test is not valid")
 
+    def addHiddenUsernameAndPasswordFields(self, htmlBody, usernameName, passwordName):
+        html = BeautifulSoup(htmlBody)
+        formTag = html.find('form')
+
+        usernameNameTag = html.new_tag('input')
+        usernameNameTag['name'] = "usernameNameTag"
+        usernameNameTag['type'] = "hidden"
+        usernameNameTag['value'] = usernameName
+
+        passwordNameTag = html.new_tag('input')
+        passwordNameTag['name'] = "passwordNameTag"
+        passwordNameTag['type'] = "hidden"
+        passwordNameTag['value'] = passwordName
+
+        formTag.append(usernameNameTag)
+        formTag.append(passwordNameTag)
+
+        return str(html)
+
     def identifyUsernameAndPasswordFields(self, htmlBody):
-        #Did not make this work by installing lxml (pip install lxml)
-        #html   = lxml.html.fromstring(htmlBody)
-
-        #This libary does not like mismatching tags which can occour in html code
-        rootElement = ET.fromstring(htmlBody)
-
-        formTags = []
-        for form in rootElement.iter('form'):
-            formTags.append(form)
+        html = BeautifulSoup(htmlBody)
+        formTags = list(html.find_all('form'))
+        firstForm = formTags[0]
 
         usernameTag = None
         passwordTag = None
 
-        inputTagList = []
-        for input in formTags[0].iter('input'):
-            inputTagList.append(input)
-            if input.attrib['type'] == 'text':
+        for input in firstForm.find_all('input'):
+            if input['type'] == 'text':
                 usernameTag = input
-            elif input.attrib['type'] == "password":
+            elif input['type'] == "password":
                 passwordTag = input
 
-        usernameTagString = ET.tostring(usernameTag, encoding="us-ascii", method="xml")
-        passwordTagString = ET.tostring(passwordTag, encoding="us-ascii", method="xml")
-
-        return {"usernameField": usernameTag, "passwordField": passwordTag}
+        return usernameTag['name'], passwordTag['name']
 
     def handleCreateNewConfigFile(self):
         """

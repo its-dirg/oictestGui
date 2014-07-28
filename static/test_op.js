@@ -159,9 +159,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     testFactory.getTests($scope.selectedItem.type).success(getListSuccessCallback).error(errorCallback);
 
-    /**
-     * Runs
-     */
     $scope.runMultipleTest = function (id, testid) {
 
         var test = findTestInTreeByTestid($scope.bottomUpTree, testid);
@@ -334,7 +331,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
     var createIframeAndShowInModelWindow = function(data) {
 
         var subTestList = data['result']['tests'];
-        var lastElement = subTestList.length -1;
+        var lastElementIndex = subTestList.length -1;
 
         $('#modalWindowIframe').modal('show');
         $('#modalIframeContent').empty();
@@ -346,7 +343,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
         // Change the form action to log_in
         var loginForm = document.createElement('html');
-        loginForm.innerHTML = subTestList[lastElement].message;
+        loginForm.innerHTML = data['result']['htmlbody'];
         var formtag = loginForm.getElementsByTagName('form')[0];
         formtag.setAttribute('action', '/post_final_interaction_data');
 
