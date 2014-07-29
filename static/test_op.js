@@ -345,6 +345,20 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         var loginForm = document.createElement('html');
         loginForm.innerHTML = data['result']['htmlbody'];
         var formtag = loginForm.getElementsByTagName('form')[0];
+
+        usernameNameTag = document.createElement('input');
+        usernameNameTag.setAttribute('name', 'usernameNameTag');
+        usernameNameTag.setAttribute('type', 'hidden');
+        usernameNameTag.setAttribute('value', data['usernameName']);
+
+        passwordNameTag = document.createElement('input');
+        passwordNameTag.setAttribute('name', 'passwordNameTag');
+        passwordNameTag.setAttribute('type', 'hidden');
+        passwordNameTag.setAttribute('value', data['passwordName']);
+
+        formtag.appendChild(usernameNameTag);
+        formtag.appendChild(passwordNameTag);
+
         formtag.setAttribute('action', '/post_final_interaction_data');
 
         //Create a iframe and present the login screen inside the iframe

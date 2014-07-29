@@ -710,15 +710,21 @@ class Test:
                 if (ok):
                     result = json.loads(p_out)
 
-                    if result['status'] == 5:
-                        usernameName, passwordName = self.identifyUsernameAndPasswordFields(result['htmlbody'])
-                        result['htmlbody'] = self.addHiddenUsernameAndPasswordFields(result['htmlbody'], usernameName, passwordName)
 
                     response = {
                         "result": result,
                         "traceLog": cgi.escape(p_err),
                         "testid": testid
                     }
+
+                    if result['status'] == 5:
+                        usernameName, passwordName = self.identifyUsernameAndPasswordFields(result['htmlbody'])
+
+                        response['usernameName'] = usernameName
+                        response['passwordName'] = passwordName
+
+                        #set username and password as
+                        # result['htmlbody'] = self.addHiddenUsernameAndPasswordFields(result['htmlbody'], usernameName, passwordName)
 
                     return self.returnJSON(json.dumps(response))
                 else:
