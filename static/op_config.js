@@ -62,9 +62,6 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         document.body.appendChild(a)
         a.click();
         document.body.removeChild(a)
-
-        //e.preventDefault();
-        //alert("Target json successfully DOWNLOADED");
     };
 
     var updateConfigFields = function(){
@@ -78,11 +75,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
     };
 
     var createNewConfigFileSuccessCallback = function (data, status, headers, config) {
-        //alert("New Target json successfully CREATED");
-
         updateConfigFields();
-        //$scope.$apply();
-
     };
 
     var showNoConfigAvailable = function(){
@@ -94,10 +87,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
 
         if (doesConfigFileExist == true){
             updateConfigFields();
-        }else{
-            showNoConfigAvailable();
         }
-
     };
 
     var downloadDoesConfigFileExistSuccessCallback = function (data, status, headers, config) {
@@ -242,9 +232,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         }
     }
 
-    $scope.reloadConfigFile = function(){
-        opConfigurationFactory.doesConfigFileExist().success(reloadDoesConfigFileExistSuccessCallback).error(errorCallback);
-    }
+    opConfigurationFactory.doesConfigFileExist().success(reloadDoesConfigFileExistSuccessCallback).error(errorCallback);
 
     $scope.createNewConfigFile = function () {
         bootbox.dialog({

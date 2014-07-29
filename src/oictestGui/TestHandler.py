@@ -52,8 +52,8 @@ class Test:
         self.config = config
         self.parameters = parameters
         self.urls = {
-            #Calles from test_idp
-            "test_idp" : "test_op.mako",
+            #Calles made from test OP page
+            "test_op" : "test_op.mako",
             "list_tests" : None,
             "run_test" : None,
             "post_final_interaction_data" : None,
@@ -61,8 +61,8 @@ class Test:
             "reset_interaction" : None,
             "post_error_report": None,
 
-            #Calles from config
-            "idp_config" : "op_config.mako",
+            #Calles made from Configure OP page
+            "op_config" : "op_config.mako",
             "download_config_file" : None,
             "upload_config_file" : None,
             "create_new_config_file": None,
@@ -70,8 +70,8 @@ class Test:
             "get_op_config": None,
             "post_op_config": None,
 
-            #Calles from home
-            "" : "home.mako"
+            "" : "home.mako",
+            "getting_started" : "getting_started.mako"
         }
         self.cache = cache
 
@@ -86,7 +86,7 @@ class Test:
         :param path: The path to the file or function requested by the client
         :return A response which could be encode as Json for example
         """
-        if path == "test_idp":
+        if path == "test_op":
             return self.handleShowPage(self.urls[path])
         elif path == "list_tests":
             return self.handleListTests()
@@ -102,7 +102,7 @@ class Test:
             return self.handlePostErrorReport()
 
         #Calles from config_idp
-        elif path == "idp_config":
+        elif path == "op_config":
             return self.handleShowPage(self.urls[path])
         elif path == "download_config_file":
             return self.handleDownloadConfigFile()
@@ -117,8 +117,9 @@ class Test:
         elif path == "post_op_config":
             return self.handlePostOpConfigurations()
 
-        #Calls made from home
         elif path == "":
+            return self.handleShowPage(self.urls[path])
+        elif path == "getting_started":
             return self.handleShowPage(self.urls[path])
 
     def convertRequiredInfoFromOpConfigToConfigFile(self, configGuiStructure, configFileDict):

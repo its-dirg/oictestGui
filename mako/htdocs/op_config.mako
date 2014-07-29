@@ -32,9 +32,6 @@
 
         <h2>
             OP configuration:
-            <button class="btn btn-default btn-sm" ng-click="reloadConfigFile();">
-                <span class="glyphicon glyphicon-refresh"></span>
-            </button>
         </h2>
 
         <div class="row">
