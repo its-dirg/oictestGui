@@ -25,7 +25,6 @@ from oic.oauth2.message import OPTIONAL_LIST_OF_SP_SEP_STRINGS
 from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
 
 from bs4 import BeautifulSoup
-#from oic.oauth2.message import is_message_field_list
 
 __author__ = 'haho0032'
 
@@ -723,9 +722,6 @@ class Test:
                         response['usernameName'] = usernameName
                         response['passwordName'] = passwordName
 
-                        #set username and password as
-                        # result['htmlbody'] = self.addHiddenUsernameAndPasswordFields(result['htmlbody'], usernameName, passwordName)
-
                     return self.returnJSON(json.dumps(response))
                 else:
                     return self.serviceError("Failed to run test")
@@ -734,24 +730,6 @@ class Test:
 
         return self.serviceError("The test is not valid")
 
-    def addHiddenUsernameAndPasswordFields(self, htmlBody, usernameName, passwordName):
-        html = BeautifulSoup(htmlBody)
-        formTag = html.find('form')
-
-        usernameNameTag = html.new_tag('input')
-        usernameNameTag['name'] = "usernameNameTag"
-        usernameNameTag['type'] = "hidden"
-        usernameNameTag['value'] = usernameName
-
-        passwordNameTag = html.new_tag('input')
-        passwordNameTag['name'] = "passwordNameTag"
-        passwordNameTag['type'] = "hidden"
-        passwordNameTag['value'] = passwordName
-
-        formTag.append(usernameNameTag)
-        formTag.append(passwordNameTag)
-
-        return str(html)
 
     def identifyUsernameAndPasswordFields(self, htmlBody):
         html = BeautifulSoup(htmlBody)

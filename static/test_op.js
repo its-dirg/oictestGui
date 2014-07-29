@@ -328,23 +328,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     var latestExecutedTestid;
 
-    var createIframeAndShowInModelWindow = function(data) {
-
-        var subTestList = data['result']['tests'];
-        var lastElementIndex = subTestList.length -1;
-
-        $('#modalWindowIframe').modal('show');
-        $('#modalIframeContent').empty();
-
-        //Resets the foundInteractionStatus to false if the user exit the log in window
-        $('#modalWindowIframe').on('hidden.bs.modal', function (e) {
-            foundInteractionStatus = false;
-        });
-
-        // Change the form action to log_in
-        var loginForm = document.createElement('html');
-        loginForm.innerHTML = data['result']['htmlbody'];
-        var formtag = loginForm.getElementsByTagName('form')[0];
+    function setupLoginPage(data) {
+        var loginPage = document.createElement('html');
+        loginPage.innerHTML = data['result']['htmlbody'];
+        var formtag = loginPage.getElementsByTagName('form')[0];
 
         usernameNameTag = document.createElement('input');
         usernameNameTag.setAttribute('name', 'usernameNameTag');
@@ -360,6 +347,23 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         formtag.appendChild(passwordNameTag);
 
         formtag.setAttribute('action', '/post_final_interaction_data');
+        return loginPage;
+    }
+
+    var createIframeAndShowInModelWindow = function(data) {
+
+        var subTestList = data['result']['tests'];
+        var lastElementIndex = subTestList.length -1;
+
+        $('#modalWindowIframe').modal('show');
+        $('#modalIframeContent').empty();
+
+        //Resets the foundInteractionStatus to false if the user exit the log in window
+        $('#modalWindowIframe').on('hidden.bs.modal', function (e) {
+            foundInteractionStatus = false;
+        });
+
+        var loginPage = setupLoginPage(data);
 
         //Create a iframe and present the login screen inside the iframe
         var iframe = document.createElement('iframe');
@@ -370,7 +374,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         $('#modalIframeContent').append(iframe);
 
         iframe.contentWindow.document.open();
-        iframe.contentWindow.document.write(loginForm.innerHTML);
+        iframe.contentWindow.document.write(loginPage.innerHTML);
         iframe.contentWindow.document.close();
 
     }
@@ -480,13 +484,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
             }
         }
-    }
-
-    var formatSubTests = function (subTest) {
-
-        //if (subTest.status = )
-
-        return subTest.status + " : " + subTest.id + " : " + subTest.name
     }
 
     var exportResult = []
