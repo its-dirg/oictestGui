@@ -68,7 +68,7 @@
             </h3>
 
             <span>
-                How does the application fetch information from the server?
+                {{opConfig.fetchInfoFromServerDropDown.name}}
             </span>
 
             <select ng-model="opConfig.fetchInfoFromServerDropDown.value"
@@ -85,11 +85,11 @@
             </button>
 
             <div class="row" ng-show="opConfig.fetchDynamicInfoFromServer.showInputField == true">
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <span>{{opConfig.fetchDynamicInfoFromServer.inputField.label}}</span>
                 </div>
 
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                     <form>
                         <input type="text" ng-model="opConfig.fetchDynamicInfoFromServer.inputField.value">
                     </form>

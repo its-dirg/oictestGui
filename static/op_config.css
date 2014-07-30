@@ -56,8 +56,12 @@ input[type='text']{
 #advancedFieldTable {
     height:75vh;
     overflow: scroll;
-}​
+}
 
 .configBlock{
     font-size: 5px;
+}
+
+.jumbotron{
+    font-size: 17px;
 }

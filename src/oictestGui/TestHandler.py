@@ -71,7 +71,6 @@ class Test:
             "post_op_config": None,
 
             "" : "home.mako",
-            "getting_started" : "getting_started.mako"
         }
         self.cache = cache
 
@@ -118,8 +117,6 @@ class Test:
             return self.handlePostOpConfigurations()
 
         elif path == "":
-            return self.handleShowPage(self.urls[path])
-        elif path == "getting_started":
             return self.handleShowPage(self.urls[path])
 
     def convertRequiredInfoFromOpConfigToConfigFile(self, configGuiStructure, configFileDict):
@@ -287,14 +284,14 @@ class Test:
         staticInputFieldsList = self.generateStaticInputFields();
         opConfigurations = {
             "fetchInfoFromServerDropDown": {
-                "name": "How does the application fetch information from the server?",
+                "name": "How does the application fetch information from the server? If the provider supports discovery choose dynamic.",
                 "value": "",
                 "values": [{"type": "dynamic", "name": "dynamic"},
                            {"type": "static", "name": "static"}]
             },
             "fetchStaticInfoFromServer": {"showInputFields": False, "inputFields": staticInputFieldsList},
             "fetchDynamicInfoFromServer": {"showInputField": False,
-                                           "inputField": {"label": "dynamic", "value": "", "show": False, "isList": False}},
+                                           "inputField": {"label": "Dynamic (where to find the provider information)", "value": "", "show": False, "isList": False}},
             "requiredInfoDropDown": {
                 "label": "Do your application support dynamic client registration?",
                 "value": "",
