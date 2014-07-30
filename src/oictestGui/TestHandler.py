@@ -724,7 +724,7 @@ class Test:
                 else:
                     return self.serviceError("Failed to run test")
             except ValueError:
-                return self.serviceError("The configuration couldn't be decoded, it's possible that the metadata isn't correct. Check that the configurations is correct and try again.");
+                return self.serviceError("The configuration couldn't be decoded. Check that the configurations is correct and try again.");
 
         return self.serviceError("The test is not valid")
 

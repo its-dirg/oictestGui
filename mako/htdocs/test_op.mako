@@ -48,17 +48,26 @@
         <div class="row" id="no-hover">
 
             <div class="col-xs-12 col-md-9">
+                <p>
                 In the table bellow all tests are presented. Test which depend on others are
                 makred with a little black arrow. In order to see the subtests press the row containing an arrow.
-                <br>
+                </p>
+                <p>
                 Tests could be executed at three levels. First of a single test could be executed or a test and
                 it's subtests could be executed. In order to do this press the button "Run test" and then choose the appropriate alternative.
                 Then last alternative is to execute all tests by pressing the button "Run all tests".
-                <br>
+                </p>
+                <p>
                 The result of the tests are presented by color encoding the row containing the test and a written status.
-                In order to get a more detailed version of the test result press the button "Show result". The result
-                of the test could be exported to either excel or a text file, by pressing the button export and choose the appropriate alternative.
-
+                In order to get a more detailed version of the test result press the button "Show result". If you want
+                even mote information press the "trace log" button at the end of the result. The result
+                of the test could be exported to either excel or a text file, by pressing the button export and choose
+                the appropriate alternative.
+                </p>
+                <p>
+                If any questions about the test result occurs you could send an Error report to DIRG. The latest test
+                result will attached to the error report.
+                </p>
             </div>
 
             <div class="col-xs-12 col-md-3">
@@ -92,12 +101,12 @@
     <br>
 
     <!-- The headline of the test table -->
-    <div class="col-sm-7" id="testHeadline">
+    <div class="col-sm-6" id="testHeadline">
         Test
         <button class="btn btn-primary btn-sm" ng-click="showModalWindowsErrorReport();">Send error report</button>
     </div>
 
-    <div class="col-sm-1" id="testHeadline">
+    <div class="col-sm-2" id="testHeadline">
         Status
     </div>
 
@@ -128,7 +137,7 @@
         <div ng-show="data.visible == true" id="testRow">
 
             <!-- Tree containging all the tests -->
-            <div class="col-sm-7" id="totalStatus{{data.status}}" ng-click="showOrHideTests(data.testid);">
+            <div class="col-sm-6" id="totalStatus{{data.status}}" ng-click="showOrHideTests(data.testid);">
                 <div id="level{{data.level}}">
 
                     <span class="glyphicon glyphicon-info-sign" title="{{data.descr}}" id="infoIcon"
@@ -141,7 +150,7 @@
             </div>
 
             <!-- Status of a given test -->
-            <div class="col-sm-1" id="totalStatus{{data.status}}">
+            <div class="col-sm-2" id="totalStatus{{data.status}}">
                 {{data.status}}
              </div>
 
