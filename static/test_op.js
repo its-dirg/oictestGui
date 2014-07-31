@@ -68,6 +68,12 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     $scope.resultSummary = {'success': 0, 'failed': 0};
 
+    $scope.TestRunningModesEnum = {
+        SINGLE_TEST : "singleTest",
+        MULTIPLE_TESTS : "multipleTests",
+        ALL_TESTS : "allTests"
+    }
+
     /**
      * Callback function which is invoked when the list containing all the tests has been downloaded successfully.
      */
@@ -141,41 +147,41 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     testFactory.getTests().success(getListSuccessCallback).error(errorCallback);
 
-    $scope.runMultipleTest = function (id, testid) {
-
+    /**
+     *  Runs a test and it's sub tests
+     *  @param testid - Unique id which is used to identify a test even it occurs multiple time in the test table
+     */
+    $scope.runTestAndSubTests = function (testid) {
         var test = findTestInTreeByTestid($scope.bottomUpTree, testid);
 
-        /*  If the current tree layout is a topdown tree the tree has to be converted since the "top
-            down" and "bottom up" doesn't contain the same testID numbers */
-        if (test == null){
-            convertedTestsToRun = convertFromBottomUpToTopDownNodes(id);
-
-            for (var i = 0; i < convertedTestsToRun.length; i++){
-                runTestFactory.getTestResult(convertedTestsToRun[i].id, convertedTestsToRun[i].testid).success(getTestResultSuccessCallback).error(errorCallback);
-            }
-        }else{
+        if (test != null){
             var testsToRun = getTestAndSubTests(test);
             $scope.resetNodes(testsToRun);
 
             //Uses runOneTest in order to gather all result summay code in one place
             for (var i = 0; i < testsToRun.length; i++){
-                $scope.runOneTest(testsToRun[i].id, testsToRun[i].testid), "multipleTest";
+                $scope.runOneTest(testsToRun[i].id, testsToRun[i].testid, $scope.TestRunningModesEnum.MULTIPLE_TESTS);
             }
+            $scope.numberOfTestsRunning = testsToRun.length;
         }
-
-        $scope.numberOfTestsRunning = testsToRun.length;
     };
 
-    $scope.runOneTest = function (id, testid, numberOfTest) {
+    /**
+     *  Runs a single test and creates a summary of the test result. Used by the other "run...test" methods
+     *  @param id - The id of the test which is presented in the test table
+     *  @param testid - Unique id which is used to identify a test even it occurs multiple time in the test table
+     *  @param testRunningMode - Used to identify which method calling "runOneTest".
+     */
+    $scope.runOneTest = function (id, testid, testRunningMode) {
         //Reset test summary or else the result of multiply runs for the same test will be presented
         $scope.resultSummary = {'success': 0, 'failed': 0};
         $('button').prop('disabled', true);
 
-        if (numberOfTest == "singleTest"){
+        if (testRunningMode == $scope.TestRunningModesEnum.SINGLE_TEST){
             $scope.numberOfTestsRunning = 1;
             runTestFactory.getTestResult(id, testid).success(getTestResultSuccessCallback).error(errorCallback);
 
-        }else if(numberOfTest == "allTest"){
+        }else if(testRunningMode == $scope.TestRunningModesEnum.ALL_TESTS){
             runTestFactory.getAllTestResult(id).success(getTestResultSuccessCallback).error(errorCallback);
 
         }else{
@@ -183,6 +189,9 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     };
 
+    /**
+     *  Runs all tests in the test table
+     */
     $scope.runAllTest = function () {
         var treeSize = $scope.currentFlattenedTree.length;
         var executedIdList = []
@@ -191,7 +200,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         for (var i = 0; i < treeSize; i++){
             var id = $scope.currentFlattenedTree[i].id;
             var testid = $scope.currentFlattenedTree[i].testid;
-            $scope.runOneTest(id, testid, "allTest");
+            $scope.runOneTest(id, testid, $scope.TestRunningModesEnum.ALL_TESTS);
         }
 
         $scope.numberOfTestsRunning = treeSize;
@@ -547,18 +556,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
             }
         }
         addedIds.push(id);
-    }
-
-    function convertFromBottomUpToTopDownNodes(id){
-        var test = findTestInTreeByID($scope.bottomUpTree, id);
-        var testsToRun = getTestAndSubTests(test);
-        var convertedTestsToRun = [];
-
-        for (var j = 0; j < testsToRun.length; j++){
-            convertedTest = findTestInTreeByID($scope.topDownTree, testsToRun[j].id);
-            convertedTestsToRun.push(convertedTest);
-        }
-        return convertedTestsToRun;
     }
 
     function getTestAndSubTests(test){
