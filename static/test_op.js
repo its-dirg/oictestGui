@@ -71,7 +71,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
     /**
      * Callback function which is invoked when the list containing all the tests has been downloaded successfully.
      */
-    var getListSuccessCallback = function (data, status, headers, config) {
+    function getListSuccessCallback(data, status, headers, config) {
         $scope.bottomUpTree = data["bottomUpTree"];
 
         $scope.currentOriginalTree = $scope.bottomUpTree;
@@ -86,7 +86,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
      * Callback function which is invoked when the a test result is returned. Note that the results always are
      * connected ot single test
      */
-    var getTestResultSuccessCallback = function (data, status, headers, config) {
+     function getTestResultSuccessCallback (data, status, headers, config) {
         if (data['testid'] == null){
             isRunningAllTests = true;
             writeResultToTreeBasedOnId(data);
@@ -105,7 +105,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     };
 
-    var resetFlags = function(){
+    function resetFlags(){
         $('button').prop('disabled', false);
         isRunningAllTests = false;
         hasShownInteractionConfigDialog = false;
@@ -114,21 +114,12 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
     }
 
     /**
-     * Callback function which is invoked when the basic interaction info (information which doesn't need user input)
-     * has been successfully stored on the server
+     * Callback function called when the returned data isn't used
      */
-    var postBasicInteractionInfoSuccessCallback = function (data, status, headers, config) {
-        //TODO It this nessecerry?
-    };
+    function emptySuccessCallback(data, status, headers, config) {};
 
-    /**
-     * Callback function which is invoked when the interaction info has been successfully removed on the server
-     */
-    var postResetInteractionInfoSuccessCallback = function (data, status, headers, config) {
-        //TODO It this nessecerry?
-    };
 
-    var getPostErrorReportSuccessCallback = function (data, status, headers, config) {
+    function getPostErrorReportSuccessCallback(data, status, headers, config) {
         alert("getPostErrorReportSuccessCallback");
     };
 
@@ -425,7 +416,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
                 var controlType = "form"
             }
 
-            postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType).success(postBasicInteractionInfoSuccessCallback).error(errorCallback);
+            postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType).success(emptySuccessCallback).error(errorCallback);
 
             if (!hasShownInteractionConfigDialog){
 
@@ -450,7 +441,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
                     label: "Yes",
                     className: "btn-primary",
                     callback: function () {
-                        postResetInteractionFactory.postResetInteraction().success(postResetInteractionInfoSuccessCallback).error(errorCallback);
+                        postResetInteractionFactory.postResetInteraction().success(emptySuccessCallback()).error(errorCallback);
                     }
                 }
             }
@@ -475,7 +466,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     var exportResult = []
 
-    var enterExportData = function(id, result, traceLog){
+    function enterExportData(id, result, traceLog){
 
         var resultClone = jQuery.extend(true, [], result);
 
@@ -491,7 +482,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     }
 
-    var enterResultToTree = function (data, i) {
+    function enterResultToTree(data, i) {
 
         subTestList = jQuery.extend(true, [], data['result']['tests']);
 
@@ -535,7 +526,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }, 200);
     }
 
-    var writeResultToTreeBasedOnTestid = function(data) {
+    function writeResultToTreeBasedOnTestid(data) {
         testid = data['testid'];
 
         for (var i = 0; i < $scope.currentFlattenedTree.length; i++) {
@@ -545,7 +536,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     }
 
-    var writeResultToTreeBasedOnId = function(data) {
+    function writeResultToTreeBasedOnId(data) {
         id = data['result']['id'];
 
         for (var i = 0; i < $scope.currentFlattenedTree.length; i++) {
@@ -558,7 +549,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         addedIds.push(id);
     }
 
-    var convertFromBottomUpToTopDownNodes = function (id){
+    function convertFromBottomUpToTopDownNodes(id){
         var test = findTestInTreeByID($scope.bottomUpTree, id);
         var testsToRun = getTestAndSubTests(test);
         var convertedTestsToRun = [];
@@ -570,7 +561,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return convertedTestsToRun;
     }
 
-    var getTestAndSubTests = function (test){
+    function getTestAndSubTests(test){
         var children = test.children;
         var subChildrenList = [];
         subChildrenList.push(test);
@@ -581,7 +572,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return subChildrenList;
     }
 
-    var buildFlatTree = function (newTree){
+    function buildFlatTree(newTree){
         //Sort currentFlattenedTree elements by name or test result
 
         var flatTree = [];
@@ -597,7 +588,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return flatTree;
     }
 
-    var findTestInTreeByTestid = function (tree, targetTestid) {
+    function findTestInTreeByTestid(tree, targetTestid) {
         var matchingTest = null;
 
         for (var i = 0; i < tree.length; i++){
@@ -615,7 +606,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return matchingTest;
     }
 
-    var findTestInTreeByID = function (tree, targetID) {
+    function findTestInTreeByID(tree, targetID) {
         var matchingTest = null;
 
         for (var i = 0; i < tree.length; i++){
@@ -634,7 +625,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return matchingTest;
     }
 
-    var showChildrenInTree = function (children, visible) {
+    function showChildrenInTree(children, visible) {
         for(var j= 0; j < children.length; j++){
             for (var i = 0; i < $scope.currentFlattenedTree.length; i++){
                 if (children[j].testid == $scope.currentFlattenedTree[i].testid){
@@ -644,7 +635,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     }
 
-    var generateExportResultTable = function () {
+    function generateExportResultTable() {
         var tbl = document.createElement("table");
         var row;
         var column1;
@@ -679,7 +670,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return tbl;
     }
 
-    var convertStatusToText = function (status) {
+    function convertStatusToText(status) {
         if (status == 0){
             return "INFORMATION";
         }else if (status == 1){
@@ -695,7 +686,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     };
 
-    var countSuccessAndFails = function(status){
+    function countSuccessAndFails(status){
         if (status == 0 || status == 1){
             $scope.resultSummary.success++;
         }else{

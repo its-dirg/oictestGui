@@ -44,15 +44,15 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         }
     }
 
-    var getOpConfigurationSuccessCallback = function (data, status, headers, config) {
+    function getOpConfigurationSuccessCallback(data, status, headers, config) {
         $scope.opConfig = data;
     };
 
-    var postOpConfigurationsSuccessCallback = function (data, status, headers, config) {
+    function postOpConfigurationsSuccessCallback(data, status, headers, config) {
         alert("Op Configurations successfully SAVED");
     };
 
-    var downloadConfigFileSuccessCallback = function (data, status, headers, config) {
+    function downloadConfigFileSuccessCallback(data, status, headers, config) {
         configDict = JSON.stringify(data["configDict"])
         var a = document.createElement("a");
         a.download = "config.json";
@@ -64,25 +64,25 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         document.body.removeChild(a)
     };
 
-    var updateConfigFields = function(){
+    function updateConfigFields(){
         opConfigurationFactory.getOpConfig().success(getOpConfigurationSuccessCallback).error(errorCallback);
     }
 
-    var uploadConfigFileSuccessCallback = function (data, status, headers, config) {
+    function uploadConfigFileSuccessCallback(data, status, headers, config) {
         alert("Target json successfully UPLOADED");
         $("#modalWindowUploadConfigurationFile").modal('toggle');
         updateConfigFields();
     };
 
-    var createNewConfigFileSuccessCallback = function (data, status, headers, config) {
+    function createNewConfigFileSuccessCallback(data, status, headers, config) {
         updateConfigFields();
     };
 
-    var showNoConfigAvailable = function(){
+    function showNoConfigAvailable(){
         bootbox.alert("No configurations available. Either the session may have timed out or no configuration has be created or uploaded to the server.");
     }
 
-    var reloadDoesConfigFileExistSuccessCallback = function (data, status, headers, config) {
+    function reloadDoesConfigFileExistSuccessCallback(data, status, headers, config) {
         var doesConfigFileExist = data['doesConfigFileExist'];
 
         if (doesConfigFileExist == true){
@@ -90,7 +90,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         }
     };
 
-    var downloadDoesConfigFileExistSuccessCallback = function (data, status, headers, config) {
+    function downloadDoesConfigFileExistSuccessCallback(data, status, headers, config) {
         var doesConfigFileExist = data['doesConfigFileExist'];
 
         if (doesConfigFileExist == true){
@@ -101,7 +101,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
 
     };
 
-    var errorCallback = function (data, status, headers, config) {
+    function errorCallback(data, status, headers, config) {
         bootbox.alert(data.ExceptionMessage);
     };
 
@@ -155,7 +155,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         });
     }
 
-    var removeInteractionBlock = function (blockId) {
+    function removeInteractionBlock(blockId) {
         var interactionList = $scope.opConfig.interactionsBlocks
         var indexToRemove;
 
@@ -180,7 +180,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         valueList.splice(valueListIndex, 1);
     }
 
-    var hasEnteredClientIdAndClientSecret = function(){
+    function hasEnteredClientIdAndClientSecret(){
         clientId = $scope.opConfig['requiredInfoTextFields'][0]['textFieldContent']
         clientSecret = $scope.opConfig['requiredInfoTextFields'][1]['textFieldContent']
 
@@ -194,7 +194,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         return true
     }
 
-    var hasEnteredRequeredInformation = function(){
+    function hasEnteredRequeredInformation(){
         if ($scope.opConfig['requiredInfoDropDown']['value'] == "no"){
             return hasEnteredClientIdAndClientSecret();
         }
