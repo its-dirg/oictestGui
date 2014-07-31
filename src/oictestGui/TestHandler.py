@@ -245,8 +245,7 @@ class Test:
         self.session[self.CONFIG_FILE_KEY] = self.convertOpConfigToConfigFile(opConfigurations)
         return self.returnJSON({})
 
-    def isList(self, fieldType):
-        #TODO Is moved to the pyoidc/oath2/massage.py
+    def isPyoidcMessageList(self, fieldType):
         if fieldType == REQUIRED_LIST_OF_SP_SEP_STRINGS:
             return True
         elif fieldType == OPTIONAL_LIST_OF_STRINGS:
@@ -256,8 +255,6 @@ class Test:
         elif fieldType == REQUIRED_LIST_OF_STRINGS:
             return True
         return False
-
-        #return not isinstance(fieldType[0], basestring)
 
     def generateStaticInputFields(self):
         """
@@ -272,7 +269,7 @@ class Test:
 
         for staticFieldLabel in staticProviderConfigKeyList:
             staticFieldType = staticProviderConfigFieldsDict[staticFieldLabel]
-            configField = {"id": staticFieldLabel, "label": staticFieldLabel, "values": [{"index": 0, "textFieldContent": ""}], "show": False, "isList": self.isList(staticFieldType)}
+            configField = {"id": staticFieldLabel, "label": staticFieldLabel, "values": [{"index": 0, "textFieldContent": ""}], "show": False, "isList": self.isPyoidcMessageList(staticFieldType)}
             staticProviderConfigFieldsList.append(configField)
 
         return staticProviderConfigFieldsList
@@ -394,7 +391,7 @@ class Test:
         return configGuiStructure
 
 
-    def convertInteractionBlocks(self, configFileDict, configGuiStructure):
+    def convertInteractionBlocksToGuiStructure(self, configFileDict, configGuiStructure):
         """
         Converts a interaction blocks from a config file structure to a config GUI structure
         :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
@@ -441,7 +438,7 @@ class Test:
             configStructureDict = self.convertStaticProviderData(configFileDict, configStructureDict)
 
         configStructureDict = self.convertRequiredInfo(configFileDict, configStructureDict)
-        configStructureDict = self.convertInteractionBlocks(configFileDict, configStructureDict)
+        configStructureDict = self.convertInteractionBlocksToGuiStructure(configFileDict, configStructureDict)
 
         return configStructureDict
 
@@ -497,19 +494,12 @@ class Test:
         return self.returnJSON({})
 
 
-    def doesConfigFileExist(self):
-        if self.CONFIG_FILE_KEY in self.session:
-            return True
-        else:
-            return False
-
-
     def handleDoesConfigFileExist(self):
         """
         Handles the request checking if the configuration file exists
         :return Returns a dictionary {"doesConfigFileExist" : true} if the session contains a config file else {"doesConfigFileExist" : false}
         """
-        result = json.dumps({"doesConfigFileExist": self.doesConfigFileExist()})
+        result = json.dumps({"doesConfigFileExist": (self.CONFIG_FILE_KEY in self.session)})
         return self.returnJSON(result)
 
 
@@ -536,18 +526,11 @@ class Test:
         """
         allTests = json.loads(self.cache["test_list"])
         childTestsList, rootTestsList = self.identifyRootTests(allTests)
-        topDownChildList = copy.deepcopy(childTestsList)
-        topDownRootList = copy.deepcopy(rootTestsList)
-        topDownTree = self.createTopdownTree(topDownChildList, topDownRootList)
         bottomUpTree = self.insertRemaningChildTestsBottomUp(childTestsList, rootTestsList)
-        self.setupTestId(topDownTree)
         self.setupTestId(bottomUpTree)
-        flatBottomUpTree = self.convertToFlatBottomTree(bottomUpTree)
 
         result = {
-            "topDownTree": topDownTree,
             "bottomUpTree": bottomUpTree,
-            "flatBottomUpTree": flatBottomUpTree
         }
         return result
 
@@ -877,21 +860,6 @@ class Test:
             unvisitedChild['level'] = child['level'] + 1
             self.updateChildrensLevel(unvisitedChild)
 
-
-    def convertToFlatBottomTree(self, bottomUpTree):
-        """
-        Converts a bottom up tree to a flat bottom tree.
-        :param bottomUpTree: The bottom up tree which should be converted
-        """
-        flatBottomUpTree = []
-        for rootTest in bottomUpTree:
-            newTest = copy.deepcopy(rootTest)
-            children = self.getChildren(newTest)
-            newTest['children'] = children
-            flatBottomUpTree.append(newTest)
-        return flatBottomUpTree
-
-
     def getChildren(self, treeNode):
         """
         :return Collects and returns all children and sub children of a given node
@@ -912,48 +880,6 @@ class Test:
 
             childrenToVisitList = newChildrenToVisitList
         return allChildren
-
-
-    def createTopdownTree(self, childTestsList, rootTestList):
-        """
-        Creates a top down tree
-        :param childTestsList: The child tests which depends on other tests
-        :param rootTestList: The root tests which doesn't depend on any other test
-        :return A complete top down tree
-        """
-        tree = rootTestList
-
-        while len(childTestsList) > 0:
-            newParentTestsList = []
-            newChildTestsList = []
-
-            for parent in rootTestList:
-                for child in childTestsList:
-                    parentID = child['depends']
-
-                    if len(parentID) == 1:
-                        parentID = str(parentID[0])
-                    else:
-                        pass
-                        #Kasta ett fel.
-
-                    if parent['id'] == parentID:
-                        childLevel = parent["level"] + 1
-                        newChild = self.createNewTestDict(child, childLevel)
-                        parent["children"].append(newChild)
-                        parent["hasChildren"] = True
-                        newParentTestsList.append(newChild)
-
-            for child in childTestsList:
-                for newParent in newParentTestsList:
-                    if not (child['id'] == newParent['id']):
-                        if not (child in newChildTestsList):
-                            newChildTestsList.append(child)
-
-
-            childTestsList = newChildTestsList
-            rootTestList = newParentTestsList
-        return tree
 
 
     def checkIfIncomingTestIsLegal(self, testToVerify):

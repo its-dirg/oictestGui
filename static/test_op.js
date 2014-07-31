@@ -4,8 +4,8 @@ var app = angular.module('main', ['toaster'])
 //TODO kanske borde sätta ihop testFactory och runTestFactory.
 app.factory('testFactory', function ($http) {
     return {
-        getTests: function (treeType) {
-            return $http.get("/list_tests", {params: { "treeType": treeType}});
+        getTests: function () {
+            return $http.get("/list_tests");
         }
     };
 });
@@ -68,23 +68,14 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     $scope.resultSummary = {'success': 0, 'failed': 0};
 
-    $scope.items = [
-        { type: 'Top down' },
-        { type: 'Bottom up' },
-        { type: 'Bottom up flat'}
-    ];
-
-    $scope.selectedItem = $scope.items[1];
-
     /**
      * Callback function which is invoked when the list containing all the tests has been downloaded successfully.
      */
     var getListSuccessCallback = function (data, status, headers, config) {
-        $scope.topDownTree = data["topDownTree"];
         $scope.bottomUpTree = data["bottomUpTree"];
-        $scope.flatBottomUpTree = data["flatBottomUpTree"];
 
-        changeCurrentTree($scope.selectedItem.type);
+        $scope.currentOriginalTree = $scope.bottomUpTree;
+        $scope.currentFlattenedTree = buildFlatTree($scope.bottomUpTree);
 
         $("[data-toggle='tooltip']").tooltip();
     }
@@ -157,7 +148,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     };
 
-    testFactory.getTests($scope.selectedItem.type).success(getListSuccessCallback).error(errorCallback);
+    testFactory.getTests().success(getListSuccessCallback).error(errorCallback);
 
     $scope.runMultipleTest = function (id, testid) {
 
@@ -214,10 +205,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
         $scope.numberOfTestsRunning = treeSize;
     };
-
-    $scope.updateTree = function () {
-        changeCurrentTree($scope.selectedItem.type);
-    }
 
     $scope.removeTestResult = function (testid) {
         for (var i = 0; i < $scope.currentFlattenedTree.length; i++){
@@ -594,7 +581,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return subChildrenList;
     }
 
-    var buildTree = function (newTree){
+    var buildFlatTree = function (newTree){
         //Sort currentFlattenedTree elements by name or test result
 
         var flatTree = [];
@@ -604,25 +591,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
             flatTree.push(element);
             if (element.children.length > 0){
-                flatTree = flatTree.concat(buildTree(element.children));
+                flatTree = flatTree.concat(buildFlatTree(element.children));
             }
         }
         return flatTree;
-    }
-
-    var changeCurrentTree = function (treeType) {
-        if (treeType == "Bottom up flat") {
-            $scope.currentOriginalTree = $scope.flatBottomUpTree;
-            $scope.currentFlattenedTree = buildTree($scope.flatBottomUpTree);
-
-        } else if (treeType == "Bottom up") {
-            $scope.currentOriginalTree = $scope.bottomUpTree;
-            $scope.currentFlattenedTree = buildTree($scope.bottomUpTree);
-
-        } else if (treeType == "Top down") {
-            $scope.currentOriginalTree = $scope.topDownTree;
-            $scope.currentFlattenedTree = buildTree($scope.topDownTree);
-        }
     }
 
     var findTestInTreeByTestid = function (tree, targetTestid) {
