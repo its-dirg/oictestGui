@@ -50,7 +50,7 @@
             </div>
 
             <div class="col-sm-4">
-                <button class="btn btn-primary btn-sm" ng-click="downloadConfigFile();">
+                <button class="btn btn-primary btn-sm" ng-click="requestDownloadConfigFile();">
                     <span class="glyphicon glyphicon-download-alt"></span>
                     Download configurations
                 </button>
@@ -116,7 +116,7 @@
                                     </button>
                                     <button ng-show="inputField.isList == true && valueStruct.index == 0"
                                             class="btn btn-default btn-sm"
-                                            ng-click="addElementToList($index, inputField.label);">
+                                            ng-click="addElementToList($index);">
                                         +
                                     </button>
                                 </span>
@@ -184,7 +184,7 @@
                     </div>
 
                     <div class="close">
-                        <button class="btn btn-danger btn-sm" ng-click="tryToRemoveInteractionBlock(block.id);">X
+                        <button class="btn btn-danger btn-sm" ng-click="createConfirmRemoveInteractionBlockDialog(block.id);">X
                         </button>
                     </div>
                 </div>
@@ -220,7 +220,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <input type="file" name="file" id="targetFile">
-            <button class="btn btn-primary btn-sm" ng-click="uploadConfigFile();">Upload configurations</button>
+            <button class="btn btn-primary btn-sm" ng-click="requestUploadConfigFile();">Upload configurations</button>
         </div>
     </div>
 </div>
