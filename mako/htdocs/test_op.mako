@@ -137,7 +137,7 @@
         <div ng-show="data.visible == true" id="testRow">
 
             <!-- Tree containging all the tests -->
-            <div class="col-sm-6" id="totalStatus{{data.status}}" ng-click="showOrHideTests(data.testid);">
+            <div class="col-sm-6" id="totalStatus{{data.status}}" ng-click="toggleTestsVisibility(data.testid);">
                 <div id="level{{data.level}}">
 
                     <span class="glyphicon glyphicon-info-sign" title="{{data.descr}}" id="infoIcon"
@@ -156,7 +156,7 @@
 
             <!-- Show or hide result button -->
             <div class="col-sm-2" id="totalStatus{{data.status}}">
-                <div class="btn btn-default btn-xs" ng-click="showOrHideResult(data.testid, {{$index}});" id="resultButton{{$index}}">Show result</div>
+                <div class="btn btn-default btn-xs" ng-click="toggleResultVisibility(data.testid, {{$index}});" id="resultButton{{$index}}">Show result</div>
             </div>
 
             <!-- Run test buttons -->
@@ -184,7 +184,7 @@
 
                 <div ng-repeat="test in data.result">Status: <b>{{test.status}}</b> : {{test.name}}{{test.message}} : {{test.id}}{{test.content}}</div>
 
-                <button class="btn btn-default btn-xs" ng-click="showOrHideTraceLog(data.testid, {{$index}});" id="traceLogButton{{$index}}">Show trace log</button>
+                <button class="btn btn-default btn-xs" ng-click="toggleTraceLogVisibility(data.testid, {{$index}});" id="traceLogButton{{$index}}">Show trace log</button>
 
                 <div ng-show="data.showTraceLog == true">
                     <b>Trace log:</b>

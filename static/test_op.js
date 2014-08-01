@@ -12,8 +12,8 @@ app.factory('testFactory', function ($http) {
 
 app.factory('runTestFactory', function ($http) {
     return {
-        getTestResult: function (testname, testid) {
-            return $http.get("/run_test", {params: { "testname": testname, "testid": testid}});
+        getTestResult: function (testname, testUid) {
+            return $http.get("/run_test", {params: { "testname": testname, "testid": testUid}});
         },
         getAllTestResult: function (testname) {
             return $http.get("/run_test", {params: { "testname": testname}});
@@ -63,6 +63,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
     $scope.testResult = "";
     $scope.currentFlattenedTree = "None";
     $scope.numberOfTestsRunning = 0;
+    $scope.instructionVisible = false;
     var addedIds = [];
     var subTestList;
 
@@ -97,7 +98,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
             isRunningAllTests = true;
             writeResultToTreeBasedOnId(data);
         }else{
-            writeResultToTreeBasedOnTestid(data);
+            writeResultToTreeBasedOnTestUid(data);
         }
 
         $scope.numberOfTestsRunning--;
@@ -149,14 +150,14 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     /**
      *  Runs a test and it's sub tests
-     *  @param testid - Unique id which is used to identify a test even it occurs multiple time in the test table
+     *  @param testUid - Unique id which is used to identify a test even it occurs multiple time in the test table
      */
-    $scope.runTestAndSubTests = function (testid) {
-        var test = findTestInTreeByTestid($scope.bottomUpTree, testid);
+    $scope.runTestAndSubTests = function (testUid) {
+        var test = findTestInTreeByTestUid($scope.bottomUpTree, testUid);
 
         if (test != null){
             var testsToRun = getTestAndSubTests(test);
-            $scope.resetNodes(testsToRun);
+            $scope.resetTests(testsToRun);
 
             //Uses runOneTest in order to gather all result summay code in one place
             for (var i = 0; i < testsToRun.length; i++){
@@ -168,24 +169,24 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     /**
      *  Runs a single test and creates a summary of the test result. Used by the other "run...test" methods
-     *  @param id - The id of the test which is presented in the test table
-     *  @param testid - Unique id which is used to identify a test even it occurs multiple time in the test table
+     *  @param id - The id of the test which is presented in the test table in the first column
+     *  @param testUid - Unique id which is used to identify a test even it occurs multiple time in the test table
      *  @param testRunningMode - Used to identify which method calling "runOneTest".
      */
-    $scope.runOneTest = function (id, testid, testRunningMode) {
+    $scope.runOneTest = function (id, testUid, testRunningMode) {
         //Reset test summary or else the result of multiply runs for the same test will be presented
         $scope.resultSummary = {'success': 0, 'failed': 0};
         $('button').prop('disabled', true);
 
         if (testRunningMode == $scope.TestRunningModesEnum.SINGLE_TEST){
             $scope.numberOfTestsRunning = 1;
-            runTestFactory.getTestResult(id, testid).success(getTestResultSuccessCallback).error(errorCallback);
+            runTestFactory.getTestResult(id, testUid).success(getTestResultSuccessCallback).error(errorCallback);
 
         }else if(testRunningMode == $scope.TestRunningModesEnum.ALL_TESTS){
             runTestFactory.getAllTestResult(id).success(getTestResultSuccessCallback).error(errorCallback);
 
         }else{
-            runTestFactory.getTestResult(id, testid).success(getTestResultSuccessCallback).error(errorCallback);
+            runTestFactory.getTestResult(id, testUid).success(getTestResultSuccessCallback).error(errorCallback);
         }
     };
 
@@ -195,68 +196,87 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
     $scope.runAllTest = function () {
         var treeSize = $scope.currentFlattenedTree.length;
         var executedIdList = []
-        $scope.resetAll();
+        $scope.resetAllResult();
 
         for (var i = 0; i < treeSize; i++){
             var id = $scope.currentFlattenedTree[i].id;
-            var testid = $scope.currentFlattenedTree[i].testid;
-            $scope.runOneTest(id, testid, $scope.TestRunningModesEnum.ALL_TESTS);
+            var testUid = $scope.currentFlattenedTree[i].testid;
+            $scope.runOneTest(id, testUid, $scope.TestRunningModesEnum.ALL_TESTS);
         }
 
         $scope.numberOfTestsRunning = treeSize;
     };
 
-    $scope.removeTestResult = function (testid) {
+    /**
+     *  Resets a test by removing it's result
+     *  @param testUid - Unique id which is used to identify a test even it occurs multiple time in the test table
+     */
+    $scope.removeTestResult = function (testUid) {
         for (var i = 0; i < $scope.currentFlattenedTree.length; i++){
-            if ($scope.currentFlattenedTree[i].testid == testid){
+            if ($scope.currentFlattenedTree[i].testid == testUid){
                 delete $scope.currentFlattenedTree[i].result;
             }
         }
     }
 
-    $scope.showOrHideTests = function (testid) {
+    /**
+     *  Show or hides a test depending on if it's visible or not
+     *  @param testUid - Unique id which is used to identify a test even it occurs multiple time in the test table
+     */
+    $scope.toggleTestsVisibility = function (testUid) {
 
-        var test = findTestInTreeByTestid($scope.currentOriginalTree, testid);
+        var test = findTestInTreeByTestUid($scope.currentOriginalTree, testUid);
         var children = test.children;
 
         if(children[0].visible == false){
-            showChildrenInTree(children, true);
+            setVisibilityOfTestsChildrenInTree(children, true);
         }else if (children[0].visible == true){
             children = getTestAndSubTests(test);
-            showChildrenInTree(children, false);
+            setVisibilityOfTestsChildrenInTree(children, false);
             test.visible = true;
         }
     }
 
-    $scope.showOrHideResult = function (testid, testIndex) {
-        test = findTestInTreeByTestid($scope.currentFlattenedTree, testid);
+    /**
+     *  Show or hides the result of a test depending on if it's visible or not
+     *  @param testUid - Unique id which is used to identify a test even it occurs multiple time in the test table
+     *  @param testIndex - Index of the test in the test table
+     */
+    $scope.toggleResultVisibility = function (testUid, testIndex) {
+        test = findTestInTreeByTestUid($scope.currentFlattenedTree, testUid);
 
-        if (test.showResult == true){
-            test.showResult = false;
+        if (test.showResult)
             $("#resultButton" + testIndex).html('Show result');
-        }else{
-            test.showResult = true;
+        else
             $("#resultButton" + testIndex).html('Hide result');
-        }
+
+        test.showResult = !test.showResult;
     }
 
-    $scope.showOrHideTraceLog = function (testid, testIndex) {
-        test = findTestInTreeByTestid($scope.currentFlattenedTree, testid);
+    /**
+     *  Show or hides the trace log of a test depending on if it's visible or not
+     *  @param testUid - Unique id which is used to identify a test even it occurs multiple time in the test table
+     *  @param testIndex - Index of the test in the test table
+     */
+    $scope.toggleTraceLogVisibility = function (testUid, testIndex) {
+        test = findTestInTreeByTestUid($scope.currentFlattenedTree, testUid);
 
-        if (test.showTraceLog == true){
-            test.showTraceLog = false;
+        if (test.showTraceLog)
             $("#traceLogButton" + testIndex).html('Show trace log');
-        }else{
-            test.showTraceLog = true;
+        else
             $("#traceLogButton" + testIndex).html('Hide trace log');
-        }
+
+        test.showTraceLog = !test.showTraceLog
     }
 
+    /**
+     *  Exports test result to excel and downloads it
+     */
     $scope.exportTestResultToExcel = function () {
         var a = document.createElement('a');
         var data_type = 'data:application/vnd.ms-excel';
 
-        var tbl = generateExportResultTable();
+        var tbl = generateExportResultHtmlTable();
         var table_html = tbl.outerHTML.replace(/ /g, '%20');
 
         a.href = data_type + ', ' + table_html;
@@ -270,6 +290,9 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         e.preventDefault();
     }
 
+    /**
+     *  Exports test result to a text file and downloads it
+     */
     $scope.exportTestResultToTextFile = function () {
 
         var resultString  = JSON.stringify(exportResult)
@@ -286,7 +309,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         e.preventDefault();
     }
 
-    $scope.resetAll = function () {
+    /**
+     *  Resets to result of every test in the test table
+     */
+    $scope.resetAllResult = function () {
         var tree = $scope.currentFlattenedTree;
 
         for (var i = 0; i < tree.length; i++){
@@ -296,25 +322,29 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     }
 
-    $scope.resetNodes = function (nodes) {
-        for (var i = 0; i < nodes.length; i++){
-            nodes[i].result = null;
-            nodes[i].status = null;
+    /**
+     *  Resets to result of a set of tests
+     *  @param tests - A set of tests to reset
+     */
+    $scope.resetTests = function (tests) {
+        for (var i = 0; i < tests.length; i++){
+            tests[i].result = null;
+            tests[i].status = null;
+            tests[i].traceLog = null;
         }
     }
-
-    $scope.instructionVisible = false;
 
     $scope.toggleInstructionVisibility = function () {
-        if ($scope.instructionVisible == true){
-            $scope.instructionVisible = false;
-        }else{
-            $scope.instructionVisible = true;
-        }
+        $scope.instructionVisible = !$scope.instructionVisible;
     }
 
-    var latestExecutedTestid;
+    var latestExecutedTestUid;
 
+    /**
+     * Setup the login page by adding two hidden input fields and sets a submit action on the login form
+     * @param data - Data returned from the server containing the login page
+     * @returns {HTMLElement} login page
+     */
     function setupLoginPage(data) {
         var loginPage = document.createElement('html');
         loginPage.innerHTML = data['result']['htmlbody'];
@@ -337,6 +367,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return loginPage;
     }
 
+    /**
+     * Creates an iframe and shows to modal window containing the login screen
+     * @param data - Result sent from the server
+     */
     var createIframeAndShowInModelWindow = function(data) {
 
         var subTestList = data['result']['tests'];
@@ -369,6 +403,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
     var foundInteractionStatus = false;
     var hasShownInteractionConfigDialog = false;
 
+    /**
+     * Creates the interaction confirmation dialog
+     * @param data - Response returned from the server
+     */
     function createInteractionConfigDialog(data) {
         bootbox.dialog({
             message: "The server are missing some interaction configurations. Do you want the system to try insert the interaction configuration?",
@@ -389,14 +427,18 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         });
     }
 
-    var handleInteraction = function (data) {
-        if (foundInteractionStatus == false) {
+    /**
+     * Handles an interaction status
+     * @param data - Response returned from the server
+     */
+    function handleInteraction(data) {
+        if (!foundInteractionStatus) {
             foundInteractionStatus = true;
 
             if (isRunningAllTests){
                 var test = findTestInTreeByID($scope.currentFlattenedTree, data['result']['id']);
             }else{
-                var test = findTestInTreeByTestid($scope.currentFlattenedTree, data['testid']);
+                var test = findTestInTreeByTestUid($scope.currentFlattenedTree, data['testid']);
             }
 
             var subResults = test['result'];
@@ -428,7 +470,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
             postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType).success(emptySuccessCallback).error(errorCallback);
 
             if (!hasShownInteractionConfigDialog){
-
                 hasShownInteractionConfigDialog = true;
                 createInteractionConfigDialog(data);
             }
@@ -457,25 +498,31 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         });
     }
 
+    /**
+     * Handles if any errors status occurs
+     */
     function handleError() {
         var lastElement = subTestList.length - 1;
 
         var errorMessage = subTestList[lastElement].message
 
         if (errorMessage.indexOf("Unknown user or wrong password") != -1) {
-
             if (!hasShownWrongPasswordDialog) {
                 hasShownWrongPasswordDialog = true;
                 createWrongPasswordDialog();
-                //alert("Unknown user or wrong password. Do you want to reset interaction configurations?");
-
             }
         }
     }
 
     var exportResult = []
 
-    function enterExportData(id, result, traceLog){
+    /**
+     * Enter the result of a single test to the export result list.
+     * @param id - The id of the test which is presented in the test table in the first column
+     * @param result - Result for a single test
+     * @param traceLog - Trace log for a single test
+     */
+    function enterTestResultToExportResult(id, result, traceLog){
 
         var resultClone = jQuery.extend(true, [], result);
 
@@ -491,7 +538,12 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
     }
 
-    function enterResultToTree(data, i) {
+    /**
+     * Enter the result returned from the server to the test table
+     * @param data - contains the result of the executed test
+     * @param testIndex - The index of the test in the test table
+     */
+    function enterResultToTree(data, testIndex) {
 
         subTestList = jQuery.extend(true, [], data['result']['tests']);
 
@@ -500,16 +552,16 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
             subTestList[j].status = convertStatusToText(statusNumber);
         }
 
-        $scope.currentFlattenedTree[i].result = subTestList;
+        $scope.currentFlattenedTree[testIndex].result = subTestList;
 
 
         var convertedTraceLog = data['traceLog'];
         convertedTraceLog = convertedTraceLog.replace(/\n/g, '<br />');
-        $scope.currentFlattenedTree[i].traceLog = [{"traceMessage" : convertedTraceLog}];
+        $scope.currentFlattenedTree[testIndex].traceLog = [{"traceMessage" : convertedTraceLog}];
 
-        enterExportData($scope.currentFlattenedTree[i].id, data['result']['tests'], data['traceLog']);
+        enterTestResultToExportResult($scope.currentFlattenedTree[testIndex].id, data['result']['tests'], data['traceLog']);
 
-        $scope.currentFlattenedTree[i].status = convertStatusToText(data['result']['status']);
+        $scope.currentFlattenedTree[testIndex].status = convertStatusToText(data['result']['status']);
         countSuccessAndFails(data['result']['status']);
 
 
@@ -523,8 +575,11 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     }
 
+    /**
+     * Postback function called when an interaction successfully has been stored on the server
+     */
     window.postBack = function(){
-        //A bug appers when interactions without login screen
+        //TODO A bug appers when interactions without login screen
         setTimeout(function() {
             $('#modalWindowIframe').modal('hide');
             foundInteractionStatus = false;
@@ -535,7 +590,12 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }, 200);
     }
 
-    function writeResultToTreeBasedOnTestid(data) {
+    /**
+     * Writes the test result to the tree based on the tests Uid. Called while running a single test or a test and
+     * it's sub tests.
+     * @param data - The object containing the result.
+     */
+    function writeResultToTreeBasedOnTestUid(data) {
         testid = data['testid'];
 
         for (var i = 0; i < $scope.currentFlattenedTree.length; i++) {
@@ -545,6 +605,11 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     }
 
+    /**
+     * Writes the test result to the tree based on the tests id (not uniqe for every test in the test table).
+     * Called while running all tests
+     * @param data - The object containing the result.
+     */
     function writeResultToTreeBasedOnId(data) {
         id = data['result']['id'];
 
@@ -558,24 +623,33 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         addedIds.push(id);
     }
 
+    /**
+     * @param test - The test who's test and sub test should be returned
+     * @returns {Array} Returns a test and it's sub tests
+     */
     function getTestAndSubTests(test){
         var children = test.children;
-        var subChildrenList = [];
-        subChildrenList.push(test);
+        var testAndSubTestList = [];
+        testAndSubTestList.push(test);
 
         for (var i = 0; i < children.length; i++){
-            subChildrenList = subChildrenList.concat(getTestAndSubTests(children[i]));
+            testAndSubTestList = testAndSubTestList.concat(getTestAndSubTests(children[i]));
         }
-        return subChildrenList;
+        return testAndSubTestList;
     }
 
-    function buildFlatTree(newTree){
-        //Sort currentFlattenedTree elements by name or test result
+    /**
+     * Create a flat tree instead of a tree where all the sub tests are nested inside it's parent.
+     * @param nestedTree - A nested tree which should be flattened
+     * @returns {Array} Returns a flat representation of the incoming nested tree
+     */
+    function buildFlatTree(nestedTree){
+        //TODO Sort currentFlattenedTree elements by name or test result
 
         var flatTree = [];
 
-        for (var i = 0; i < newTree.length; i++) {
-            var element = newTree[i];
+        for (var i = 0; i < nestedTree.length; i++) {
+            var element = nestedTree[i];
 
             flatTree.push(element);
             if (element.children.length > 0){
@@ -585,24 +659,36 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return flatTree;
     }
 
-    function findTestInTreeByTestid(tree, targetTestid) {
+    /**
+     * Finds a test in tree based on the tests Uid
+     * @param tree - The tree in which to search for a given test.
+     * @param targetTestUid - A tests unique id
+     * @returns {*} Returns the test with the matching Uid. If no test is found null is returned
+     */
+    function findTestInTreeByTestUid(tree, targetTestUid) {
         var matchingTest = null;
 
         for (var i = 0; i < tree.length; i++){
             numberOfChildren = tree[i].children.length
 
-            if (tree[i].testid == targetTestid){
+            if (tree[i].testid == targetTestUid){
                 matchingTest =  tree[i];
                 break;
             }
             else if (matchingTest == null && numberOfChildren != 0){
-                matchingTest =  findTestInTreeByTestid(tree[i].children, targetTestid);
+                matchingTest =  findTestInTreeByTestUid(tree[i].children, targetTestUid);
             }
 
         }
         return matchingTest;
     }
 
+    /**
+     * Finds a test in tree based on the tests id
+     * @param tree - The tree in which to search for a given test.
+     * @param targetID - The id of the test which is presented in the test table in the first column
+     * @returns {*} Returns the test with the matching id. If no test is found null is returned
+     */
     function findTestInTreeByID(tree, targetID) {
         var matchingTest = null;
 
@@ -622,7 +708,12 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return matchingTest;
     }
 
-    function showChildrenInTree(children, visible) {
+    /**
+     * Sets the visibility of the children
+     * @param children - A list of children who's visibility should be changed
+     * @param visible - A boolean which are the visibility
+     */
+    function setVisibilityOfTestsChildrenInTree(children, visible) {
         for(var j= 0; j < children.length; j++){
             for (var i = 0; i < $scope.currentFlattenedTree.length; i++){
                 if (children[j].testid == $scope.currentFlattenedTree[i].testid){
@@ -632,7 +723,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     }
 
-    function generateExportResultTable() {
+    /**
+     * @returns {HTMLElement} Returns generated HTML table of the result
+     */
+    function generateExportResultHtmlTable() {
         var tbl = document.createElement("table");
         var row;
         var column1;
@@ -667,6 +761,11 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return tbl;
     }
 
+    /**
+     * Converts a status from number to a string
+     * @param status - Status as number
+     * @returns {string} Returns String representation of the status
+     */
     function convertStatusToText(status) {
         if (status == 0){
             return "INFORMATION";
@@ -683,6 +782,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     };
 
+    /**
+     * Counts the number of successfully and failed executed tests.
+     * @param status - A numeric representation of a status
+     */
     function countSuccessAndFails(status){
         if (status == 0 || status == 1){
             $scope.resultSummary.success++;
@@ -691,17 +794,22 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     }
 
+    //TODO Remove this function (only used for test purpose)
     $scope.test = function () {
         alert("test");
     };
 
+    /**
+     * Shows modal window where the user can send a error report
+     */
     $scope.showModalWindowsErrorReport = function () {
-
         $('#modalWindowErrorReport').modal('show');
         $('#reportForm')[0].reset();
-
     };
 
+    /**
+     * Submits the error report and hides the modal window
+     */
     $scope.sendReport = function () {
         $('#modalWindowErrorReport').modal('hide');
 
