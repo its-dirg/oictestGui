@@ -37,20 +37,6 @@ app.factory('postResetInteractionFactory', function ($http) {
     };
 });
 
-app.factory('notificationFactory', function () {
-
-    return {
-        success: function () {
-            //alert('success');
-            //toastr.success("Success");
-        },
-        error: function (text) {
-            //alert(text);
-            //toastr.error(text, "Error!");
-        }
-    };
-});
-
 app.factory('errorReportFactory', function ($http) {
     return {
         postErrorReport: function (reportEmail, reportMessage, testResults) {
@@ -59,7 +45,7 @@ app.factory('errorReportFactory', function ($http) {
     };
 });
 
-app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, runTestFactory, postBasicInteractionDataFactory, postResetInteractionFactory, errorReportFactory, toaster) {
+app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postBasicInteractionDataFactory, postResetInteractionFactory, errorReportFactory, toaster) {
     $scope.testResult = "";
     $scope.currentFlattenedTree = "None";
     $scope.numberOfTestsRunning = 0;
@@ -133,7 +119,11 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
     var isShowingErrorMessage = false;
 
     /**
-     * Callback which is invoked when any rest request doesn't get an correct response
+     * Shows error message dialog
+     * @param data - The result returned from the server
+     * @param status - The status on the response from the server
+     * @param headers - The header on the response from the server
+     * @param config - The configuration on the response from the server
      */
     var errorCallback = function (data, status, headers, config) {
 
@@ -334,6 +324,9 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         }
     }
 
+    /**
+     * Toggles the visibility of the instructions
+     */
     $scope.toggleInstructionVisibility = function () {
         $scope.instructionVisible = !$scope.instructionVisible;
     }
@@ -567,10 +560,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
 
         statusNumber = data['result']['status'];
 
-        if (statusNumber == 5) {
+        if (statusNumber == TEST_STATUS['INTERACTION'].value) {
             handleInteraction(data);
         }
-        else if (statusNumber == 3) {
+        else if (statusNumber == TEST_STATUS['ERROR'].value) {
             handleError();
         }
     }
@@ -761,24 +754,26 @@ app.controller('IndexCtrl', function ($scope, testFactory, notificationFactory, 
         return tbl;
     }
 
+    var TEST_STATUS  = {
+        'INFORMATION':{value: 0, string:'INFORMATION'},
+        'OK':{value: 1, string:'OK'},
+        'WARNING':{value: 2, string:'WARNING'},
+        'ERROR':{value: 3, string:'ERROR'},
+        'CRITICAL':{value: 4, string:'CRITICAL'},
+        'INTERACTION':{value: 5, string:'INTERACTION'},
+        'EMPTY_STATUS':{value: 6, string:'EMPTY_STATUS'}
+    };
+
     /**
      * Converts a status from number to a string
      * @param status - Status as number
      * @returns {string} Returns String representation of the status
      */
-    function convertStatusToText(status) {
-        if (status == 0){
-            return "INFORMATION";
-        }else if (status == 1){
-            return "OK";
-        }else if (status == 2){
-            return "WARNING";
-        }else if (status == 3){
-            return "ERROR";
-        }else if (status == 4){
-            return "CRITICAL";
-        }else if (status == 5){
-            return "INTERACTION";
+    function convertStatusToText(statusToConvert) {
+        for (var status in TEST_STATUS){
+            if (TEST_STATUS[status].value == statusToConvert){
+                return TEST_STATUS[status].string;
+            }
         }
     };
 
@@ -832,6 +827,9 @@ app.directive('menu', function($http) {
     }
 });
 
+/**
+ * Activates the tooltip
+ */
 app.directive('directiveCallback', function(){
     return function(scope, element, attrs){
         attrs.$observe('directiveCallback',function(){

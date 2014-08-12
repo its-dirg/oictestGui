@@ -43,7 +43,6 @@ class Test:
         """
 
         #Sets the parameters to a default value in order to make i more testable
-
         self.environ = environ
         self.start_response = start_response
         self.session = session
@@ -771,7 +770,9 @@ class Test:
     def createNewTestDict(self, item, level=1):
         """
         Creates a new test dictionary
-        :return The new test dictionary
+        :param testItem: The test item on which the new test dict should be based upon
+        :param level: The level of the test or sub-test are 1 by default
+        :return: The new test dict
         """
         newDict = {}
         newDict['id'] = str(item["id"])
@@ -785,7 +786,8 @@ class Test:
     def identifyRootTests(self, allTests):
         """
         Identifies the root tests which is all test which doesn't depend on any other test
-        :return First is returns a list containing all test tests which depend on other tests. Secondly it returns a
+        :param allTests: A list containing all tests
+        :return First it returns a list containing all test tests which depend on other tests. Secondly it returns a
                 list containing all root tests.
         """
         childTestsList = []

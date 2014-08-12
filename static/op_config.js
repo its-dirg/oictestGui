@@ -91,7 +91,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
     }
 
     /**
-     * Requests latest config from server.
+     * Requests latest config from the server.
      */
     function requestLatestConfigFileFromServer(){
         opConfigurationFactory.getOpConfig().success(getOpConfigurationSuccessCallback).error(errorCallback);
