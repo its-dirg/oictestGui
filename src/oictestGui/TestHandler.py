@@ -69,7 +69,8 @@ class Test:
             "get_op_config": None,
             "post_op_config": None,
 
-            "" : "home.mako",
+            "" : "op_config.mako",
+            "info" : "info.mako",
         }
         self.cache = cache
 
@@ -117,6 +118,9 @@ class Test:
 
         elif path == "":
             return self.handleShowPage(self.urls[path])
+        elif path == "info":
+            return self.handleShowPage(self.urls[path])
+
 
     def convertRequiredInfoFromOpConfigToConfigFile(self, configGuiStructure, configFileDict):
         """
