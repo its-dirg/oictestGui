@@ -225,10 +225,81 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalWindowUploadCookies" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeUploadCookies()">&times;</button>
+                <h4 class="modal-title">Upload cookies</h4>
+            </div>
+            <div class="modal-body">
+
+                Enter cookies in Netscapt format:
+                <textarea class="form-control" rows="10" wrap="off" id="cookieInputTextbox" style="margin-bottom: 5px"></textarea>
+
+                <button class="btn btn-primary btn-sm" ng-click="requestUploadCookies();">
+                    <span class="glyphicon glyphicon-open"></span>
+                    Upload cookies
+                </button>
+
+                <div class="highlight">
+                    <h4>Example of a valid cookie in Netscape format:</h4>
+                    <br>
+                    <table class="table">
+                        <tr>
+                            <th>Domain</th>
+                            <th>Domain starts with .</th>
+                            <th>Path</th>
+                            <th>Secure</th>
+                            <th>Expiring time</th>
+                            <th>Cookie name</th>
+                            <th>Cookie value</th>
+                        </tr>
+                        <tr>
+                            <td>.example.com</td>
+                            <td>TRUE</td>
+                            <td>/</td>
+                            <td>FALSE</td>
+                            <td>1472215093</td>
+                            <td>pyoidc</td>
+                            <td>GDA8Yh7A6HCkR40RGDA8Yh740R</td>
+                        </tr>
+                    </table>
+
+                    <b>Note: All values has to separated by tab, the expiring time has to be an integer and if no
+                       expiring time exists the cookie would not be stored</b>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </%block>
 
 <%block name="footer">
     </div>
+
+    <script>
+        $(document).delegate('#cookieInputTextbox', 'keydown', function(e) {
+            var keyCode = e.keyCode || e.which;
+
+            if (keyCode == 9) {
+                e.preventDefault();
+                var start = $(this).get(0).selectionStart;
+                var end = $(this).get(0).selectionEnd;
+
+                // set textarea value to: text before caret + tab + text after caret
+                $(this).val($(this).val().substring(0, start)
+                        + "\t"
+                        + $(this).val().substring(end));
+
+                // put caret at right position again
+                $(this).get(0).selectionStart =
+                        $(this).get(0).selectionEnd = start + 1;
+            }
+        });
+    </script>
 
     <script type="text/javascript" src="/static/op_config.js"></script>
     ${parent.footer()}

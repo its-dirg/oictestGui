@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __builtin__ import input
 import cgi
+import cookielib
+from cookielib import LoadError
 import copy
 
 import json
@@ -25,6 +27,7 @@ from oic.oauth2.message import OPTIONAL_LIST_OF_SP_SEP_STRINGS
 from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
 
 from bs4 import BeautifulSoup
+from oictestGui.my_mozilla_cookie_jar import MyMozillaCookieJar
 
 __author__ = 'haho0032'
 
@@ -32,6 +35,7 @@ class Test:
     #Only used to check to check for new config files this which does nothing useful at the moment
     #CONFIG_FILE_PATH = 'saml2test/configFiles/'
     CONFIG_FILE_KEY = "target"
+    COOKIE_FILE_KEY = "cookies"
 
     def __init__(self, environ=None, start_response=None, session=None, logger=None, lookup=None, config=None, parameters=None, cache=None):
         """
@@ -68,6 +72,7 @@ class Test:
             "does_config_file_exist": None,
             "get_op_config": None,
             "post_op_config": None,
+            "upload_cookies": None,
 
             "" : "op_config.mako",
             "info" : "info.mako",
@@ -115,6 +120,8 @@ class Test:
             return self.handleGetConfigGuiStructure()
         elif path == "post_op_config":
             return self.handlePostOpConfigurations()
+        elif path == "upload_cookies":
+            return self.handleUploadCookies()
 
         elif path == "":
             return self.handleShowPage(self.urls[path])
@@ -130,7 +137,11 @@ class Test:
         :param configFileDict: configuration dictionary which follows the "Configuration file structure"
         :return Configuration dictionary updated with the new required information
         """
-        if configGuiStructure['requiredInfoDropDown']['value'] == 'no':
+        support_dynamic_client_registration = configGuiStructure['requiredInfoDropDown']['value'] == 'yes'
+
+        configFileDict['features']['registration'] = support_dynamic_client_registration
+
+        if not support_dynamic_client_registration:
             for attribute in configGuiStructure['requiredInfoTextFields']:
                 if attribute['id'] == 'client_id':
                     configFileDict['client']['client_id'] = attribute['textFieldContent']
@@ -247,6 +258,32 @@ class Test:
         opConfigurations = self.parameters['opConfigurations']
         self.session[self.CONFIG_FILE_KEY] = self.convertOpConfigToConfigFile(opConfigurations)
         return self.returnJSON({})
+
+    def handleUploadCookies(self):
+        cookies = self.parameters['cookies']
+
+        cookies = "# Netscape HTTP Cookie File\n" + cookies
+
+        cookie_temp_file = tempfile.NamedTemporaryFile()
+        cookie_temp_file.write(cookies)
+
+        cj = MyMozillaCookieJar(cookie_temp_file.name)
+        cookie_temp_file.flush()
+
+        responseDict = {"ResponseMessage": "Successfully uploaded the cookies", "isSuccess": True}
+
+        try:
+            cj.load()
+            cookie_temp_file.close()
+            self.session[self.COOKIE_FILE_KEY] = cookies
+            responseDict = {"ResponseMessage": "Successfully uploaded the cookies", "isSuccess": True}
+        except LoadError as le:
+            cookie = le.message.split(":")
+            responseDict = {"ResponseMessage": "This cookie does not follow Netscape format:" + cookie[1], "isSuccess": False}
+        except ValueError as ve:
+            responseDict = {"ResponseMessage": ve.message, "isSuccess": False}
+
+        return self.returnJSON(json.dumps(responseDict))
 
     def isPyoidcMessageList(self, fieldType):
         if fieldType == REQUIRED_LIST_OF_SP_SEP_STRINGS:
@@ -675,19 +712,28 @@ class Test:
             except TypeError:
                 return self.serviceError("No configurations available. Add configurations and try again")
 
-            outfile = tempfile.NamedTemporaryFile()
+            config_file = tempfile.NamedTemporaryFile()
+            json.dump(targetDict, config_file)
+            config_file.flush()
 
-            json.dump(targetDict, outfile)
-            outfile.flush()
+            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', config_file.name, '-d', '-i', testToRun]
 
-            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', outfile.name, '-d', '-i', testToRun]
+            # if self.session[self.COOKIE_FILE_KEY]:
+            #     cookie_temp_file = tempfile.NamedTemporaryFile()
+            #     cookies = self.session[self.COOKIE_FILE_KEY]
+            #     cookie_temp_file.write(cookies)
+            #     cookie_temp_file.flush()
+            #     parameterList.append("-Ki", cookie_temp_file)
 
             if self.config.VERIFY_CERTIFICATES == False:
                 parameterList.append('-x')
 
             ok, p_out, p_err = self.runScript(parameterList, self.config.OICTEST_PATH)
 
-            outfile.close()
+            config_file.close()
+
+            # if self.session[self.COOKIE_FILE_KEY]:
+            #     cookie_temp_file.close()
 
             try:
                 if (ok):

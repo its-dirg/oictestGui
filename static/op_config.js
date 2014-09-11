@@ -29,8 +29,18 @@ app.factory('opConfigurationFactory', function ($http) {
     };
 });
 
-app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
+app.factory('cooikeFactory', function ($http) {
+    return {
+        requestUploadCookies: function (cookies) {
+            return $http.post("/upload_cookies", {"cookies": cookies});
+        }
+    }
+});
+
+app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, cooikeFactory) {
     $scope.opConfig;
+
+    $("#modalWindowUploadCookies").modal('toggle');
 
     /**
      * Shows the appropriate input fields depending on which value which has been selected in the
@@ -47,6 +57,23 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
             $scope.opConfig.fetchStaticInfoFromServer.showInputFields = false;
         }
     };
+
+    $scope.closeUploadCookies = function(){
+        $("#modalWindowUploadCookies").modal('toggle');
+    }
+
+    $scope.requestUploadCookies = function(){
+        var textboxContent = $("#cookieInputTextbox").val();
+        cooikeFactory.requestUploadCookies(textboxContent).success(getRequestUploadCookieSuccessCallback).error(errorCallback);
+    }
+
+    function getRequestUploadCookieSuccessCallback(data, status, headers, config) {
+        alert(data['ResponseMessage'])
+
+        if(data['isSuccess']){
+            $("#modalWindowUploadCookies").modal('toggle');
+        }
+    }
 
     /**
      * Sets the configuration returned from the server
