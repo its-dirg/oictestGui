@@ -629,6 +629,8 @@ class Test:
         Adds the username and the password in order to complete the interaction gathering cycle
         :return Returns a script tags which tells the gui to make a post back
         """
+        print "handlePostFinalInteractionData"
+
         try:
             usernameNameTag = self.parameters['usernameNameTag'][0]
             passwordNameTag = self.parameters['passwordNameTag'][0]
@@ -677,6 +679,9 @@ class Test:
         Executes a test
         :return The result of the executed test
         """
+
+        self.runAllTests()
+
         testToRun = self.parameters['testname']
 
         if 'testid' in self.parameters:
@@ -725,10 +730,34 @@ class Test:
                     return self.returnJSON(json.dumps(response))
                 else:
                     return self.serviceError("Failed to run test")
-            except ValueError:
+            except ValueError as ve:
                 return self.serviceError("The configuration couldn't be decoded. Check that the configurations is correct and try again.");
 
         return self.serviceError("The test is not valid")
+
+    def runAllTests(self):
+        try:
+            targetStringContent = self.session[self.CONFIG_FILE_KEY]
+            targetDict = json.loads(targetStringContent)
+        except TypeError:
+            return self.serviceError("No configurations available. Add configurations and try again")
+
+        outfile = tempfile.NamedTemporaryFile()
+
+        json.dump(targetDict, outfile)
+        outfile.flush()
+
+        for test in ['mj-41', 'mj-57', 'mj-27', 'mj-55', 'mj-61']:
+            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', outfile.name, '-d', '-i', test]
+
+            if self.config.VERIFY_CERTIFICATES == False:
+                parameterList.append('-x')
+
+            ok, p_out, p_err = self.runScript(parameterList, self.config.OICTEST_PATH)
+
+            pass
+
+        outfile.close()
 
 
     def identifyUsernameAndPasswordFields(self, htmlBody):

@@ -16,7 +16,8 @@ app.factory('runTestFactory', function ($http) {
             return $http.get("/run_test", {params: { "testname": testname, "testid": testUid}});
         },
         getAllTestResult: function (testname) {
-            return $http.get("/run_test", {params: { "testname": testname}});
+            var request = $http.get("/run_test", {params: { "testname": testname}});
+            return request
         }
     };
 });
@@ -50,7 +51,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
     $scope.currentFlattenedTree = "None";
     $scope.numberOfTestsRunning = 0;
     $scope.instructionVisible = false;
-    var addedIds = [];
+//    var addedIds = [];
     var subTestList;
 
     $scope.resultSummary = {'success': 0, 'failed': 0};
@@ -70,7 +71,21 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         $scope.currentOriginalTree = $scope.bottomUpTree;
         $scope.currentFlattenedTree = buildFlatTree($scope.bottomUpTree);
 
+        $scope.allTests = getAllTests($scope.currentFlattenedTree);
+
         $("[data-toggle='tooltip']").tooltip();
+    }
+
+    function getAllTests(flatTree){
+        var allTestIds = []
+
+        for (var i = 0; i < flatTree.length; i++){
+            var testId = flatTree[i]['id'];
+            if (allTestIds.indexOf(testId) == -1) {
+                allTestIds.push(testId)
+            }
+        }
+        return allTestIds
     }
 
     var isRunningAllTests = false;
@@ -90,11 +105,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         $scope.numberOfTestsRunning--;
 
         if ($scope.numberOfTestsRunning <= 0){
-            resetFlags();
-
             var resultString = "Successful tests: " + $scope.resultSummary.success + "\n" + " Failed tests: " + $scope.resultSummary.failed
             toaster.pop('note', "Result summary", resultString);
-            addedIds = []
+            resetFlags();
+//            addedIds = []
         }
     };
 
@@ -104,6 +118,8 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         hasShownInteractionConfigDialog = false;
         hasShownWrongPasswordDialog = false;
         isShowingErrorMessage = false;
+        //Reset test summary or else the result of multiply runs for the same test will be presented
+        $scope.resultSummary = {'success': 0, 'failed': 0};
     }
 
     /**
@@ -164,8 +180,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
      *  @param testRunningMode - Used to identify which method calling "runOneTest".
      */
     $scope.runOneTest = function (id, testUid, testRunningMode) {
-        //Reset test summary or else the result of multiply runs for the same test will be presented
-        $scope.resultSummary = {'success': 0, 'failed': 0};
         $('button').prop('disabled', true);
 
         if (testRunningMode == $scope.TestRunningModesEnum.SINGLE_TEST){
@@ -184,17 +198,15 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
      *  Runs all tests in the test table
      */
     $scope.runAllTest = function () {
-        var treeSize = $scope.currentFlattenedTree.length;
-        var executedIdList = []
+        var numberOfTests = $scope.allTests.length;
         $scope.resetAllResult();
 
-        for (var i = 0; i < treeSize; i++){
-            var id = $scope.currentFlattenedTree[i].id;
-            var testUid = $scope.currentFlattenedTree[i].testid;
-            $scope.runOneTest(id, testUid, $scope.TestRunningModesEnum.ALL_TESTS);
+        for (var i = 0; i < numberOfTests; i++){
+            var id = $scope.allTests[i];
+            $scope.runOneTest(id, null, $scope.TestRunningModesEnum.ALL_TESTS);
         }
 
-        $scope.numberOfTestsRunning = treeSize;
+        $scope.numberOfTestsRunning = numberOfTests;
     };
 
     /**
@@ -428,6 +440,8 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         if (!foundInteractionStatus) {
             foundInteractionStatus = true;
 
+            console.log("First Interaction Status")
+
             if (isRunningAllTests){
                 var test = findTestInTreeByID($scope.currentFlattenedTree, data['result']['id']);
             }else{
@@ -608,12 +622,12 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
 
         for (var i = 0; i < $scope.currentFlattenedTree.length; i++) {
             if ($scope.currentFlattenedTree[i].id == id) {
-                if ($.inArray(id, addedIds) == -1){
+//                if ($.inArray(id, addedIds) == -1){
                     enterResultToTree(data, i);
-                }
+//                }
             }
         }
-        addedIds.push(id);
+//        addedIds.push(id);
     }
 
     /**
@@ -637,8 +651,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
      * @returns {Array} Returns a flat representation of the incoming nested tree
      */
     function buildFlatTree(nestedTree){
-        //TODO Sort currentFlattenedTree elements by name or test result
-
+        //TODO Blir väl inte platt på riktigt
         var flatTree = [];
 
         for (var i = 0; i < nestedTree.length; i++) {
