@@ -130,12 +130,28 @@ class Test:
         :param configFileDict: configuration dictionary which follows the "Configuration file structure"
         :return Configuration dictionary updated with the new required information
         """
-        if configGuiStructure['requiredInfoDropDown']['value'] == 'no':
+        support_dynamic_client_registration = configGuiStructure['requiredInfoDropDown']['value'] == 'yes'
+
+        configFileDict['features']['registration'] = support_dynamic_client_registration
+
+        if not support_dynamic_client_registration:
             for attribute in configGuiStructure['requiredInfoTextFields']:
                 if attribute['id'] == 'client_id':
                     configFileDict['client']['client_id'] = attribute['textFieldContent']
                 elif attribute['id'] == 'client_secret':
                     configFileDict['client']['client_secret'] = attribute['textFieldContent']
+
+        else:
+            try:
+                del configFileDict['client']['client_id']
+            except KeyError:
+                pass
+
+            try:
+                del configFileDict['client']['client_secret']
+            except KeyError:
+                pass
+
         return configFileDict
 
     def convertInteractionsFromOpConfigToConfigFile(self, configGuiStructure, configFileDict):
