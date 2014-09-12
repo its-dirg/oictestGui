@@ -633,8 +633,6 @@ class Test:
         Adds the username and the password in order to complete the interaction gathering cycle
         :return Returns a script tags which tells the gui to make a post back
         """
-        print "handlePostFinalInteractionData"
-
         try:
             usernameNameTag = self.parameters['usernameNameTag'][0]
             passwordNameTag = self.parameters['passwordNameTag'][0]
@@ -703,14 +701,14 @@ class Test:
             json.dump(targetDict, outfile)
             outfile.flush()
 
-            parameterList = ['-H', self.config.HOST, '-J', outfile.name, '-d', '-i', testToRun]
+            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', outfile.name, '-d', '-i', testToRun]
 
             if self.config.VERIFY_CERTIFICATES == False:
                 parameterList.append('-x')
 
             #TODO OICC is not thread safe that is why we are using a thread lock
             with Test.thread_lock:
-                ok, p_out, p_err = self.runScriptNoProcess(parameterList, self.config.OICTEST_PATH)
+                ok, p_out, p_err = self.runScript(parameterList, self.config.OICTEST_PATH)
 
             outfile.close()
 
@@ -736,34 +734,10 @@ class Test:
                     return self.returnJSON(json.dumps(response))
                 else:
                     return self.serviceError("Failed to run test")
-            except ValueError as ve:
+            except ValueError:
                 return self.serviceError("The configuration couldn't be decoded. Check that the configurations is correct and try again.");
 
         return self.serviceError("The test is not valid")
-
-    def runAllTests(self):
-        try:
-            targetStringContent = self.session[self.CONFIG_FILE_KEY]
-            targetDict = json.loads(targetStringContent)
-        except TypeError:
-            return self.serviceError("No configurations available. Add configurations and try again")
-
-        outfile = tempfile.NamedTemporaryFile()
-
-        json.dump(targetDict, outfile)
-        outfile.flush()
-
-        for test in ['mj-41', 'mj-57', 'mj-27', 'mj-55', 'mj-61']:
-            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', outfile.name, '-d', '-i', test]
-
-            if self.config.VERIFY_CERTIFICATES == False:
-                parameterList.append('-x')
-
-            ok, p_out, p_err = self.runScript(parameterList, self.config.OICTEST_PATH)
-
-            pass
-
-        outfile.close()
 
 
     def identifyUsernameAndPasswordFields(self, htmlBody):
@@ -1017,53 +991,3 @@ class Test:
         except Exception as ex:
             self.logger.fatal("Can not run command: +" + ex.message)
             return (False, None, None)
-
-
-    def runScriptNoProcess(self, command, working_directory=None):
-        """
-        Runs a script on the server, by creating a new process on the server.
-        :return A tuple where the first element confirms if the script where executed or not. The second is the output
-        on stdout and the third is the output on stderr.
-        """
-        try:
-            from oictest import OIC
-            from oictest import oic_operations
-            from oictest.base import Conversation
-            from oictest.check import factory as check_factory
-
-            from oic.oic import Client
-            from oic.oic.consumer import Consumer
-            from oic.oic.message import factory as message_factory
-
-            cli = OIC(oic_operations, Client, Consumer, message_factory, check_factory,
-                      Conversation)
-
-            os.chdir(working_directory)
-
-            with Capturing() as p_out, CapturingError() as p_err:
-                cli.run(command)
-
-            return (True, p_out[0], "\n".join(p_err))
-        except Exception as ex:
-            self.logger.fatal("Can not run command: +" + ex.message)
-            return (False, None, None)
-
-class Capturing(list):
-    def __enter__(self):
-        self._stdout = sys.stdout
-        sys.stdout = self._stringio = StringIO()
-        return self
-    def __exit__(self, *args):
-        self.extend(self._stringio.getvalue().splitlines())
-        sys.stdout = self._stdout
-
-
-class CapturingError(list):
-    def __enter__(self):
-        self._stderr = sys.stderr
-        sys.stderr = self._stringio = StringIO()
-        return self
-    def __exit__(self, *args):
-        self.extend(self._stringio.getvalue().splitlines())
-        sys.stderr = self._stderr
-

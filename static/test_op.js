@@ -16,8 +16,7 @@ app.factory('runTestFactory', function ($http) {
             return $http.get("/run_test", {params: { "testname": testname, "testid": testUid}});
         },
         getAllTestResult: function (testname) {
-            var request = $http.get("/run_test", {params: { "testname": testname}});
-            return request
+            return $http.get("/run_test", {params: { "testname": testname}});
         }
     };
 });
