@@ -4,7 +4,10 @@ import cgi
 import copy
 
 import json
+import os
 import subprocess
+from cStringIO import StringIO
+import threading
 from oic.utils.http_util import Response, ServiceError
 
 import uuid
@@ -25,6 +28,7 @@ from oic.oauth2.message import OPTIONAL_LIST_OF_SP_SEP_STRINGS
 from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
 
 from bs4 import BeautifulSoup
+import sys
 
 __author__ = 'haho0032'
 
@@ -673,15 +677,13 @@ class Test:
 
         return self.returnHTML("<h1>Data</h1>")
 
+    thread_lock = threading.Lock()
 
     def handleRunTest(self):
         """
         Executes a test
         :return The result of the executed test
         """
-
-        self.runAllTests()
-
         testToRun = self.parameters['testname']
 
         if 'testid' in self.parameters:
@@ -701,12 +703,14 @@ class Test:
             json.dump(targetDict, outfile)
             outfile.flush()
 
-            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', outfile.name, '-d', '-i', testToRun]
+            parameterList = ['-H', self.config.HOST, '-J', outfile.name, '-d', '-i', testToRun]
 
             if self.config.VERIFY_CERTIFICATES == False:
                 parameterList.append('-x')
 
-            ok, p_out, p_err = self.runScript(parameterList, self.config.OICTEST_PATH)
+            #TODO OICC is not thread safe that is why we are using a thread lock
+            with Test.thread_lock:
+                ok, p_out, p_err = self.runScriptNoProcess(parameterList, self.config.OICTEST_PATH)
 
             outfile.close()
 
@@ -722,10 +726,12 @@ class Test:
                     }
 
                     if result['status'] == 5:
-                        usernameName, passwordName = self.identifyUsernameAndPasswordFields(result['htmlbody'])
-
-                        response['usernameName'] = usernameName
-                        response['passwordName'] = passwordName
+                        try:
+                            usernameName, passwordName = self.identifyUsernameAndPasswordFields(result['htmlbody'])
+                            response['usernameName'] = usernameName
+                            response['passwordName'] = passwordName
+                        except TypeError:
+                            pass
 
                     return self.returnJSON(json.dumps(response))
                 else:
@@ -1011,3 +1017,53 @@ class Test:
         except Exception as ex:
             self.logger.fatal("Can not run command: +" + ex.message)
             return (False, None, None)
+
+
+    def runScriptNoProcess(self, command, working_directory=None):
+        """
+        Runs a script on the server, by creating a new process on the server.
+        :return A tuple where the first element confirms if the script where executed or not. The second is the output
+        on stdout and the third is the output on stderr.
+        """
+        try:
+            from oictest import OIC
+            from oictest import oic_operations
+            from oictest.base import Conversation
+            from oictest.check import factory as check_factory
+
+            from oic.oic import Client
+            from oic.oic.consumer import Consumer
+            from oic.oic.message import factory as message_factory
+
+            cli = OIC(oic_operations, Client, Consumer, message_factory, check_factory,
+                      Conversation)
+
+            os.chdir(working_directory)
+
+            with Capturing() as p_out, CapturingError() as p_err:
+                cli.run(command)
+
+            return (True, p_out[0], "\n".join(p_err))
+        except Exception as ex:
+            self.logger.fatal("Can not run command: +" + ex.message)
+            return (False, None, None)
+
+class Capturing(list):
+    def __enter__(self):
+        self._stdout = sys.stdout
+        sys.stdout = self._stringio = StringIO()
+        return self
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        sys.stdout = self._stdout
+
+
+class CapturingError(list):
+    def __enter__(self):
+        self._stderr = sys.stderr
+        sys.stderr = self._stringio = StringIO()
+        return self
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        sys.stderr = self._stderr
+
