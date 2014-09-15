@@ -23,8 +23,8 @@ app.factory('runTestFactory', function ($http) {
 
 app.factory('postBasicInteractionDataFactory', function ($http) {
     return {
-        postBasicInteractionData: function (title, redirectUri, pageType, controlType) {
-            return $http.post("/post_basic_interaction_data", {"title": title, "redirectUri": redirectUri, "pageType": pageType, "controlType": controlType});
+        postBasicInteractionData: function (title, redirectUri, pageType, controlType, loginForm) {
+            return $http.post("/post_basic_interaction_data", {"title": title, "redirectUri": redirectUri, "pageType": pageType, "controlType": controlType, "loginForm": loginForm});
         }
     };
 });
@@ -439,8 +439,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         if (!foundInteractionStatus) {
             foundInteractionStatus = true;
 
-            console.log("First Interaction Status")
-
             if (isRunningAllTests){
                 var test = findTestInTreeByID($scope.currentFlattenedTree, data['result']['id']);
             }else{
@@ -473,14 +471,17 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
                 var controlType = "form"
             }
 
-            postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType).success(emptySuccessCallback).error(errorCallback);
+            postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType, data).success(postBasicInteractionSuccessCallback).error(errorCallback);
 
-            if (!hasShownInteractionConfigDialog){
-                hasShownInteractionConfigDialog = true;
-                createInteractionConfigDialog(data);
-            }
         }
     }
+
+    function postBasicInteractionSuccessCallback(data, status, headers, config) {
+        if (!hasShownInteractionConfigDialog){
+            hasShownInteractionConfigDialog = true;
+            createInteractionConfigDialog(data);
+        }
+    };
 
     var hasShownWrongPasswordDialog = false;
 

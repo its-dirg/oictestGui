@@ -134,7 +134,7 @@ class Test:
         :param configFileDict: configuration dictionary which follows the "Configuration file structure"
         :return Configuration dictionary updated with the new required information
         """
-        support_dynamic_client_registration = configGuiStructure['requiredInfoDropDown']['value'] == 'yes'
+        support_dynamic_client_registration = configGuiStructure['dynamicClientRegistrationDropDown']['value'] == 'yes'
 
         configFileDict['features']['registration'] = support_dynamic_client_registration
 
@@ -244,7 +244,7 @@ class Test:
         :param configGuiStructure: Data structure used to hold and show configuration information in the Gui
         :return A dictionary which follows the "Configuration file structure", see setup.rst
         """
-        configString = self.session[self.CONFIG_FILE_KEY]
+        configString = self.getConfigFile()
         configDict = json.loads(configString)
 
         if configGuiStructure['fetchDynamicInfoFromServer']['showInputField'] == True:
@@ -265,7 +265,7 @@ class Test:
         :return A default Json structure, which should be ignored
         """
         opConfigurations = self.parameters['opConfigurations']
-        self.session[self.CONFIG_FILE_KEY] = self.convertOpConfigToConfigFile(opConfigurations)
+        self.setConfigFile(self.convertOpConfigToConfigFile(opConfigurations))
         return self.returnJSON({})
 
     def isPyoidcMessageList(self, fieldType):
@@ -312,7 +312,7 @@ class Test:
             "fetchStaticInfoFromServer": {"showInputFields": False, "inputFields": staticInputFieldsList},
             "fetchDynamicInfoFromServer": {"showInputField": False,
                                            "inputField": {"label": "Dynamic (where to find the provider information)", "value": "", "show": False, "isList": False}},
-            "requiredInfoDropDown": {
+            "dynamicClientRegistrationDropDown": {
                 "label": "Do your application support dynamic client registration?",
                 "value": "",
                 "values": [{"type": "yes", "name": "yes"},
@@ -394,7 +394,7 @@ class Test:
 
         if "client_id" in configFileDict["client"]:
             containsRequiredInfo = False
-            configGuiStructure["requiredInfoDropDown"]["value"] = "no"
+            configGuiStructure["dynamicClientRegistrationDropDown"]["value"] = "no"
 
             for textFiled in configGuiStructure["requiredInfoTextFields"]:
                 if textFiled["id"] == "client_id":
@@ -402,14 +402,14 @@ class Test:
 
         if "client_secret" in configFileDict["client"]:
             containsRequiredInfo = False
-            configGuiStructure["requiredInfoDropDown"]["value"] = "no"
+            configGuiStructure["dynamicClientRegistrationDropDown"]["value"] = "no"
 
             for textFiled in configGuiStructure["requiredInfoTextFields"]:
                 if textFiled["id"] == "client_secret":
                     textFiled["textFieldContent"] = configFileDict["client"]["client_secret"]
 
         if containsRequiredInfo:
-            configGuiStructure["requiredInfoDropDown"]["value"] = "yes"
+            configGuiStructure["dynamicClientRegistrationDropDown"]["value"] = "yes"
 
         return configGuiStructure
 
@@ -421,9 +421,9 @@ class Test:
         :param configFileDict: The configuration file from which the configuration interaction blocks data should be gathered
         :return The updated configuration GUI data structure
         """
-        numberOfBlocks = len(configGuiStructure["interactionsBlocks"])
 
         if "interaction" in configFileDict:
+            block_id = 0
             for interactionBlock in configFileDict["interaction"]:
                 url = interactionBlock["matches"].get("url", "")
                 title = interactionBlock["matches"].get("title", "")
@@ -432,7 +432,7 @@ class Test:
                 type = interactionBlock["control"].get("type", "")
                 index = interactionBlock["control"].get("index", 0)
 
-                newInteractionBlock = {"id": numberOfBlocks, "inputFields": [
+                newInteractionBlock = {"id": block_id, "inputFields": [
                     {"label": "title", "textFieldContent": title},
                     {"label": "url", "textFieldContent": url},
                     {"label": "pageType", "textFieldContent": pageType},
@@ -440,6 +440,8 @@ class Test:
                     {"label": "set", "textFieldContent": json.dumps(set)},
                     {"label": "type", "textFieldContent": type}
                 ]}
+
+                block_id += 1
 
                 configGuiStructure["interactionsBlocks"].append(newInteractionBlock)
 
@@ -471,7 +473,7 @@ class Test:
         :return A configuration Gui structure which is based on the configuration file saved in the session
         """
         if self.CONFIG_FILE_KEY in self.session:
-            configString = self.session[self.CONFIG_FILE_KEY]
+            configString = self.getConfigFile()
             try:
                 configDict = json.loads(configString)
                 configGuiStructure = self.convertToConfigGuiStructure(configDict)
@@ -585,25 +587,25 @@ class Test:
         return self.returnJSON(myJson)
 
 
-    def writeToConfig(self, password=None, username=None):
+    def writeToConfig(self, password=None, username=None, usernameNameTag=None, passwordNameTag=None):
         """
         Write user login details to the config file
         """
-        interactionParameters = self.session['interactionParameters']
+        interactionParameters = self.getInteractions()
 
         title = interactionParameters['title']
         redirectUri = interactionParameters['redirectUri']
         pageType = interactionParameters['pageType']
         controlType = interactionParameters['controlType']
 
-        configFileAsString = self.session[self.CONFIG_FILE_KEY]
+        configFileAsString = self.getConfigFile()
         configFileAsDict = json.loads(configFileAsString)
 
         #create the new interaction object based on the parameters
-        if password == None and username == None:
+        if password == None or username == None:
             set = {}
         else:
-            set = {"login": username, "password": password}
+            set = {usernameNameTag: username, passwordNameTag: password}
 
         newInteraction = [
             {
@@ -625,7 +627,27 @@ class Test:
 
         configFileAsDict['interaction'].extend(newInteraction)
 
-        self.session[self.CONFIG_FILE_KEY] = json.dumps(configFileAsDict)
+        self.setConfigFile(json.dumps(configFileAsDict))
+
+    config_tread_lock = threading.Lock()
+
+    def getConfigFile(self):
+        with Test.config_tread_lock:
+            return self.session[self.CONFIG_FILE_KEY]
+
+    def setConfigFile(self, configDict):
+        with Test.config_tread_lock:
+            self.session[self.CONFIG_FILE_KEY] = configDict
+
+    interaction_tread_lock = threading.Lock()
+
+    def getInteractions(self):
+        with Test.interaction_tread_lock:
+            return self.session['interactionParameters']
+
+    def setInteractions(self, interactions):
+        with Test.interaction_tread_lock:
+            self.session['interactionParameters'] = interactions
 
 
     def handlePostFinalInteractionData(self):
@@ -640,7 +662,7 @@ class Test:
             username = self.parameters[usernameNameTag][0]
             password = self.parameters[passwordNameTag][0]
 
-            self.writeToConfig(password, username)
+            self.writeToConfig(password, username, usernameNameTag, passwordNameTag)
         except KeyError:
             self.writeToConfig()
 
@@ -658,9 +680,10 @@ class Test:
         pageType = self.parameters['pageType']
         controlType = self.parameters['controlType']
 
-        self.session['interactionParameters'] = {"title": title, "redirectUri": redirectUri, "pageType": pageType, "controlType": controlType}
+        newInteraction = {"title": title, "redirectUri": redirectUri, "pageType": pageType, "controlType": controlType}
+        self.setInteractions(newInteraction)
 
-        return self.returnJSON({})
+        return self.returnJSON(json.dumps(self.parameters['loginForm']))
 
 
     def handleResetInteraction(self):
@@ -668,10 +691,10 @@ class Test:
         Removes previously collected interaction details
         :return Default response, should be ignored
         """
-        targetStringContent = self.session[self.CONFIG_FILE_KEY]
+        targetStringContent = self.getConfigFile()
         targetDict = ast.literal_eval(targetStringContent)
         targetDict['interaction'] = []
-        self.session[self.CONFIG_FILE_KEY] = str(targetDict)
+        self.setConfigFile(str(targetDict))
 
         return self.returnHTML("<h1>Data</h1>")
 
@@ -690,8 +713,11 @@ class Test:
             testid = None
 
         if self.checkIfIncomingTestIsLegal(testToRun):
+
+            #TODO OICC is not thread safe that is why we are using a thread lock
+
             try:
-                targetStringContent = self.session[self.CONFIG_FILE_KEY]
+                targetStringContent = self.getConfigFile()
                 targetDict = json.loads(targetStringContent)
             except TypeError:
                 return self.serviceError("No configurations available. Add configurations and try again")
@@ -706,9 +732,8 @@ class Test:
             if self.config.VERIFY_CERTIFICATES == False:
                 parameterList.append('-x')
 
-            #TODO OICC is not thread safe that is why we are using a thread lock
             with Test.thread_lock:
-                ok, p_out, p_err = self.runScript(parameterList, self.config.OICTEST_PATH)
+                ok, p_out, p_err = self.runScriptTests(parameterList, self.config.OICTEST_PATH)
 
             outfile.close()
 
@@ -766,11 +791,11 @@ class Test:
         try:
             configString = templateFile.read()
             configDict = json.loads(configString)
-            self.session[self.CONFIG_FILE_KEY] = json.dumps(configDict)
+            self.setConfigFile(json.dumps(configDict))
         finally:
             templateFile.close()
 
-        print "Create: " + self.session[self.CONFIG_FILE_KEY]
+        print "Create: " + self.getConfigFile()
         return self.returnJSON({})
 
 
@@ -779,8 +804,8 @@ class Test:
         Adds a uploaded config file to the session
         :return Default response, should be ignored
         """
-        self.session[self.CONFIG_FILE_KEY] = str(self.parameters['configFileContent'])
-        print "Upload target: " + self.session[self.CONFIG_FILE_KEY]
+        self.setConfigFile(str(self.parameters['configFileContent']))
+        print "Upload target: " + self.getConfigFile()
         return self.returnJSON({})
 
 
@@ -788,11 +813,11 @@ class Test:
         """
         :return Return the configuration file stored in the session
         """
-        configString = self.session[self.CONFIG_FILE_KEY]
+        configString = self.getConfigFile()
         configDict = json.loads(configString)
         fileDict = json.dumps({"configDict": configDict})
 
-        print "Download target: " + self.session[self.CONFIG_FILE_KEY]
+        print "Download target: " + self.getConfigFile()
         return self.returnJSON(fileDict)
 
 
@@ -971,6 +996,28 @@ class Test:
 
 
     def runScript(self, command, working_directory=None):
+        """
+        Runs a script on the server, by creating a new process on the server.
+        :return A tuple where the first element confirms if the script where executed or not. The second is the output
+        on stdout and the third is the output on stderr.
+        """
+        try:
+            p = subprocess.Popen(command,
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE,
+                                 cwd=working_directory)
+            while(True):
+                retcode = p.poll() #returns None while subprocess is running
+                if(retcode is not None):
+                    break
+            p_out = p.stdout.read()
+            p_err = p.stderr.read()
+            return (True, p_out, p_err)
+        except Exception as ex:
+            self.logger.fatal("Can not run command: +" + ex.message)
+            return (False, None, None)
+
+    def runScriptTests(self, command, working_directory=None):
         """
         Runs a script on the server, by creating a new process on the server.
         :return A tuple where the first element confirms if the script where executed or not. The second is the output

@@ -25,12 +25,193 @@ app.factory('opConfigurationFactory', function ($http) {
 
         doesConfigFileExist: function () {
             return $http.get("/does_config_file_exist");
+        },
+
+        verifyConfigFile: function () {
+            return $http.get("/verify_config_file");
         }
     };
 });
 
-app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
+app.factory('verifyConfigFactory', function ($http) {
+    return {
+        verifyConfig: function () {
+            return $http.get("/run_test", {params: { "testname": 'oic-verify'}});
+        }
+    };
+});
+
+app.factory('postBasicInteractionDataFactory', function ($http) {
+    return {
+        postBasicInteractionData: function (title, redirectUri, pageType, controlType, loginForm) {
+            return $http.post("/post_basic_interaction_data", {"title": title, "redirectUri": redirectUri, "pageType": pageType, "controlType": controlType, "loginForm": loginForm});
+        }
+    };
+});
+
+app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, verifyConfigFactory, postBasicInteractionDataFactory) {
     $scope.opConfig;
+
+    var TEST_STATUS  = {
+        'INFORMATION':{value: 0, string:'INFORMATION'},
+        'OK':{value: 1, string:'OK'},
+        'WARNING':{value: 2, string:'WARNING'},
+        'ERROR':{value: 3, string:'ERROR'},
+        'CRITICAL':{value: 4, string:'CRITICAL'},
+        'INTERACTION':{value: 5, string:'INTERACTION'},
+        'EMPTY_STATUS':{value: 6, string:'EMPTY_STATUS'}
+    };
+
+    $scope.runVerifyConfig = function () {
+        $('button').prop('disabled', true);
+
+        verifyConfigFactory.verifyConfig().success(getVerifyConfigSuccessCallback).error(errorCallback);
+    };
+
+    function getVerifyConfigSuccessCallback(data, status, headers, config) {
+
+        statusNumber = data['result']['status'];
+
+        if (statusNumber == TEST_STATUS['INTERACTION'].value) {
+            handleInteraction(data);
+        }
+
+        $('button').prop('disabled', false);
+    }
+
+    /**
+     * Postback function called when an interaction successfully has been stored on the server
+     */
+    window.postBack = function(){
+        setTimeout(function() {
+            $('#modalWindowInteraction').modal('hide');
+            foundInteractionStatus = false;
+            var infoString = "The interaction data was successfully stored on the server. Please rerun the tests, it's possible that more interaction data has to be collected and stored on the server"
+
+            //toaster.pop('success', "Log in", infoString);
+            bootbox.alert(infoString);
+            requestLatestConfigFileFromServer();
+            $scope.$apply();
+        }, 200);
+    }
+
+    var foundInteractionStatus = false;
+
+    /**
+     * Handles an interaction status
+     * @param data - Response returned from the server
+     */
+    function handleInteraction(data) {
+        if (!foundInteractionStatus) {
+            foundInteractionStatus = true;
+
+            var subResults = data['result']['tests'];
+
+            for (var i = 0; i < subResults.length; i++) {
+                if (subResults[i]['status'] == TEST_STATUS['INTERACTION'].value) {
+                    var htmlString = subResults[i]['message'];
+
+                    var unFormatedUrl = subResults[i]['url']
+                    var url = unFormatedUrl.substr(0, unFormatedUrl.indexOf('?'));
+
+                    break;
+                }
+            }
+
+            var htmlElement = document.createElement('html');
+            htmlElement.innerHTML = htmlString;
+
+            var title = htmlElement.getElementsByTagName('title')[0].innerHTML;
+
+            //TODO I don't know how to identify the property
+            var pageType = "login";
+
+            var formTags = htmlElement.getElementsByTagName('form');
+            if (formTags.length > 0) {
+                var controlType = "form"
+            }
+
+            postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType, data).success(postBasicInteractionSuccessCallback).error(errorCallback);
+        }
+    }
+
+    function postBasicInteractionSuccessCallback(data, status, headers, config) {
+        bootbox.dialog({
+            message: "The server are missing some interaction configurations. Do you want the system to try insert the interaction configuration?",
+            title: "Interaction information required",
+            buttons: {
+                danger: {
+                    label: "No",
+                    className: "btn-default"
+                },
+                success: {
+                    label: "Yes",
+                    className: "btn-primary",
+                    callback: function () {
+                        createIframeAndShowInModelWindow(data);
+                    }
+                }
+            }
+        });
+    };
+
+    /**
+     * Creates an iframe and shows to modal window containing the login screen
+     * @param data - Result sent from the server
+     */
+    var createIframeAndShowInModelWindow = function(data) {
+        var subTestList = data['result']['tests'];
+        var lastElementIndex = subTestList.length -1;
+
+        $('#modalWindowInteraction').modal('show');
+        $('#modalWindowInteractionContent').empty();
+
+        //Resets the foundInteractionStatus to false if the user exit the log in window
+        $('#modalWindowInteraction').on('hidden.bs.modal', function (e) {
+            foundInteractionStatus = false;
+        });
+
+        var loginPage = setupLoginPage(data);
+
+        //Create a iframe and present the login screen inside the iframe
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('width', '100%');
+        iframe.setAttribute('height', '750px');
+
+        $('#modalWindowInteractionContent').append("<h1>Information</h1><span>In order to use this application you need to log in to the IDP. Information, like username and password, will be stored on the server which means that you only have to do this once  </span>");
+        $('#modalWindowInteractionContent').append(iframe);
+
+        iframe.contentWindow.document.open();
+        iframe.contentWindow.document.write(loginPage.innerHTML);
+        iframe.contentWindow.document.close();
+    };
+
+    /**
+     * Setup the login page by adding two hidden input fields and sets a submit action on the login form
+     * @param data - Data returned from the server containing the login page
+     * @returns {HTMLElement} login page
+     */
+    function setupLoginPage(data) {
+        var loginPage = document.createElement('html');
+        loginPage.innerHTML = data['result']['htmlbody'];
+        var formtag = loginPage.getElementsByTagName('form')[0];
+
+        usernameNameTag = document.createElement('input');
+        usernameNameTag.setAttribute('name', 'usernameNameTag');
+        usernameNameTag.setAttribute('type', 'hidden');
+        usernameNameTag.setAttribute('value', data['usernameName']);
+
+        passwordNameTag = document.createElement('input');
+        passwordNameTag.setAttribute('name', 'passwordNameTag');
+        passwordNameTag.setAttribute('type', 'hidden');
+        passwordNameTag.setAttribute('value', data['passwordName']);
+
+        formtag.appendChild(usernameNameTag);
+        formtag.appendChild(passwordNameTag);
+
+        formtag.setAttribute('action', '/post_final_interaction_data');
+        return loginPage;
+    }
 
     /**
      * Shows the appropriate input fields depending on which value which has been selected in the
@@ -67,7 +248,30 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
      * @param config - The configuration on the response from the server
      */
     function postOpConfigurationsSuccessCallback(data, status, headers, config) {
-        alert("Op Configurations successfully SAVED");
+        showVerifyConfigDialog();
+    }
+
+    function showVerifyConfigDialog(){
+        bootbox.dialog({
+            message: "Your configuration was successfully stored on the server. <br><br> Some tests requires the " +
+                "user to be loggin, this could be done by either using interactions or cookies. " +
+                "Do you want to verify that you could run this kinds of tests?",
+            title: "Verify configuration",
+            buttons: {
+                danger: {
+                    label: "No",
+                    className: "btn-default"
+                },
+                success: {
+                    label: "Yes",
+                    className: "btn-primary",
+                    callback: function () {
+                        $scope.runVerifyConfig();
+                        $scope.$apply();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -105,9 +309,9 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
      * @param config - The configuration on the response from the server
      */
     function uploadConfigFileSuccessCallback(data, status, headers, config) {
-        alert("Target json successfully UPLOADED");
         $("#modalWindowUploadConfigurationFile").modal('toggle');
         requestLatestConfigFileFromServer();
+        showVerifyConfigDialog();
     }
 
     /**
@@ -298,7 +502,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
      * @returns {boolean} - Returns true if required input fields are not empty else false
      */
     function hasEnteredRequeredInformation(){
-        if ($scope.opConfig['requiredInfoDropDown']['value'] == "no"){
+        if ($scope.opConfig['dynamicClientRegistrationDropDown']['value'] == "no"){
             return hasEnteredClientIdAndClientSecret();
         }
 
@@ -315,6 +519,10 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory) {
         }else{
             alert("Please enter all the required information")
         }
+    };
+
+    $scope.saveConfigurations = function(){
+        opConfigurationFactory.postOpConfig($scope.opConfig).success(postOpConfigurationsSuccessCallback).error(errorCallback);
     };
 
     /**
