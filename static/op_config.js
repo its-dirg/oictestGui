@@ -74,6 +74,8 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
 
         if (statusNumber == TEST_STATUS['INTERACTION'].value) {
             handleInteraction(data);
+        }else{
+           bootbox.alert("Your configurations are verified you should now be able to run the tests requiring a user to be logged in");
         }
 
         $('button').prop('disabled', false);
@@ -86,11 +88,10 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         setTimeout(function() {
             $('#modalWindowInteraction').modal('hide');
             foundInteractionStatus = false;
-            var infoString = "The interaction data was successfully stored on the server. Please rerun the tests, it's possible that more interaction data has to be collected and stored on the server"
-
-            //toaster.pop('success', "Log in", infoString);
+            var infoString = "One interaction data was successfully stored on the server. The verification will restart in order to see if more interactions needs to be collected"
             bootbox.alert(infoString);
             requestLatestConfigFileFromServer();
+            $scope.runVerifyConfig();
             $scope.$apply();
         }, 200);
     }
@@ -485,8 +486,8 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
      * @returns {boolean} - Returns true if client id and client secret input fields are not empty else false
      */
     function hasEnteredClientIdAndClientSecret(){
-        clientId = $scope.opConfig['requiredInfoTextFields'][0]['textFieldContent']
-        clientSecret = $scope.opConfig['requiredInfoTextFields'][1]['textFieldContent']
+        clientId = $scope.opConfig['supportsStaticClientRegistrationTextFields'][0]['textFieldContent']
+        clientSecret = $scope.opConfig['supportsStaticClientRegistrationTextFields'][1]['textFieldContent']
 
         if (clientId == "")
             return false;

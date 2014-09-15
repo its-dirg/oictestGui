@@ -52,6 +52,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
     $scope.instructionVisible = false;
 //    var addedIds = [];
     var subTestList;
+    var loginContainsUnsupportedFeatures;
 
     $scope.resultSummary = {'success': 0, 'failed': 0};
 
@@ -59,6 +60,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         SINGLE_TEST : "singleTest",
         MULTIPLE_TESTS : "multipleTests",
         ALL_TESTS : "allTests"
+    }
+
+    function getLoginContainsUnsupportedFeaturesSuccessCallback(data, status, headers, config) {
+        loginContainsUnsupportedFeatures = data['loginContainsUnsupportedFeatures']
     }
 
     /**
@@ -574,10 +579,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
 
         statusNumber = data['result']['status'];
 
-        if (statusNumber == TEST_STATUS['INTERACTION'].value) {
-            handleInteraction(data);
-        }
-        else if (statusNumber == TEST_STATUS['ERROR'].value) {
+//        if (statusNumber == TEST_STATUS['INTERACTION'].value) {
+//            handleInteraction(data);
+//        }
+        if (statusNumber == TEST_STATUS['ERROR'].value) {
             handleError();
         }
     }

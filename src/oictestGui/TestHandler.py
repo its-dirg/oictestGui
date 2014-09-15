@@ -125,7 +125,6 @@ class Test:
         elif path == "info":
             return self.handleShowPage(self.urls[path])
 
-
     def convertRequiredInfoFromOpConfigToConfigFile(self, configGuiStructure, configFileDict):
         """
         Converts required information in the web interface to the
@@ -139,7 +138,7 @@ class Test:
         configFileDict['features']['registration'] = support_dynamic_client_registration
 
         if not support_dynamic_client_registration:
-            for attribute in configGuiStructure['requiredInfoTextFields']:
+            for attribute in configGuiStructure['supportsStaticClientRegistrationTextFields']:
                 if attribute['id'] == 'client_id':
                     configFileDict['client']['client_id'] = attribute['textFieldContent']
                 elif attribute['id'] == 'client_secret':
@@ -155,6 +154,8 @@ class Test:
                 del configFileDict['client']['client_secret']
             except KeyError:
                 pass
+
+        configFileDict['containsUnsupportedLoginFeatures'] = configGuiStructure['unsupportedLoginFeatures']
 
         return configFileDict
 
@@ -318,9 +319,17 @@ class Test:
                 "values": [{"type": "yes", "name": "yes"},
                            {"type": "no", "name": "no"}]
             },
-            "requiredInfoTextFields":[
+            "supportsStaticClientRegistrationTextFields":[
                 {"id": "client_id", "label": "Client id", "textFieldContent": ""},
                 {"id": "client_secret", "label": "Client secret", "textFieldContent": ""}],
+
+            "unsupportedLoginFeatures": {
+                "label": "Do the OP login page contain javascript, caption or other unsupported features?",
+                "value": "no",
+                "values": [{"type": "yes", "name": "yes"},
+                           {"type": "no", "name": "no"}]
+            },
+
             "interactionsBlocks": []
         }
         return opConfigurations
@@ -396,7 +405,7 @@ class Test:
             containsRequiredInfo = False
             configGuiStructure["dynamicClientRegistrationDropDown"]["value"] = "no"
 
-            for textFiled in configGuiStructure["requiredInfoTextFields"]:
+            for textFiled in configGuiStructure["supportsStaticClientRegistrationTextFields"]:
                 if textFiled["id"] == "client_id":
                     textFiled["textFieldContent"] = configFileDict["client"]["client_id"]
 
@@ -404,12 +413,15 @@ class Test:
             containsRequiredInfo = False
             configGuiStructure["dynamicClientRegistrationDropDown"]["value"] = "no"
 
-            for textFiled in configGuiStructure["requiredInfoTextFields"]:
+            for textFiled in configGuiStructure["supportsStaticClientRegistrationTextFields"]:
                 if textFiled["id"] == "client_secret":
                     textFiled["textFieldContent"] = configFileDict["client"]["client_secret"]
 
         if containsRequiredInfo:
             configGuiStructure["dynamicClientRegistrationDropDown"]["value"] = "yes"
+
+        if "containsUnsupportedLoginFeatures" in configFileDict:
+            configGuiStructure['unsupportedLoginFeatures'] = configFileDict['containsUnsupportedLoginFeatures']
 
         return configGuiStructure
 

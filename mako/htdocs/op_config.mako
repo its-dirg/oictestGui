@@ -148,7 +148,7 @@
                 </div>
 
                 <div ng-show="opConfig.dynamicClientRegistrationDropDown.value == 'no'">
-                    <div class="row" ng-repeat="textField in opConfig.requiredInfoTextFields">
+                    <div class="row" ng-repeat="textField in opConfig.supportsStaticClientRegistrationTextFields">
                         <div class="col-sm-4">
                             {{textField.label}}
                         </div>
@@ -157,6 +157,18 @@
                                 <input type="text" ng-model="textField.textFieldContent">
                             </form>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span>
+                            {{opConfig.unsupportedLoginFeatures.label}}
+                        </span>
+
+                        <select ng-model="opConfig.unsupportedLoginFeatures.value"
+                                ng-options="v.type as v.name for v in opConfig.unsupportedLoginFeatures.values">
+                        </select>
                     </div>
                 </div>
 
