@@ -18,6 +18,11 @@ else:
 
 OICC_PATH = '/usr/local/bin/oicc.py'
 
+STATIC_PROVIDER_SCRIPT_DIR = OICTEST_PATH
+
+#Note: This has to be the same urls as specified in the oictest configuration
+STATIC_PROVIDER_URL = "http://localhost:8090"
+
 VERIFY_CERTIFICATES = False
 
 #Full URL to the OP server
