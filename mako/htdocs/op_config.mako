@@ -138,17 +138,17 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <span>
-                            {{opConfig.requiredInfoDropDown.label}}
+                            {{opConfig.dynamicClientRegistrationDropDown.label}}
                         </span>
 
-                        <select ng-model="opConfig.requiredInfoDropDown.value"
-                                ng-options="v.type as v.name for v in opConfig.requiredInfoDropDown.values">
+                        <select ng-model="opConfig.dynamicClientRegistrationDropDown.value"
+                                ng-options="v.type as v.name for v in opConfig.dynamicClientRegistrationDropDown.values">
                         </select>
                     </div>
                 </div>
 
-                <div ng-show="opConfig.requiredInfoDropDown.value == 'no'">
-                    <div class="row" ng-repeat="textField in opConfig.requiredInfoTextFields">
+                <div ng-show="opConfig.dynamicClientRegistrationDropDown.value == 'no'">
+                    <div class="row" ng-repeat="textField in opConfig.supportsStaticClientRegistrationTextFields">
                         <div class="col-sm-4">
                             {{textField.label}}
                         </div>
@@ -157,6 +157,18 @@
                                 <input type="text" ng-model="textField.textFieldContent">
                             </form>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span>
+                            {{opConfig.unsupportedLoginFeatures.label}}
+                        </span>
+
+                        <select ng-model="opConfig.unsupportedLoginFeatures.value"
+                                ng-options="v.type as v.name for v in opConfig.unsupportedLoginFeatures.values">
+                        </select>
                     </div>
                 </div>
 
@@ -221,6 +233,15 @@
         <div class="modal-content">
             <input type="file" name="file" id="targetFile">
             <button class="btn btn-primary btn-sm" ng-click="requestUploadConfigFile();">Upload configurations</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal window containg iframe-->
+<div class="modal fade" id="modalWindowInteraction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalWindowInteractionContent">
+
         </div>
     </div>
 </div>

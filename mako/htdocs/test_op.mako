@@ -141,7 +141,7 @@
                 <div id="level{{data.level}}">
 
                     <span class="glyphicon glyphicon-info-sign" title="{{data.descr}}" id="infoIcon"
-                          data-toggle="tooltip" data-placement="left" directive-callback="{{$last}}"></span>
+                          data-toggle="tooltip" data-placement="right" directive-callback="{{$last}}"></span>
 
                     <img src="static/pitures/arrowRight.png" ng-show="data.hasChildren == true">
 

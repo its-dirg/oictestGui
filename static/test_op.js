@@ -21,14 +21,6 @@ app.factory('runTestFactory', function ($http) {
     };
 });
 
-app.factory('postBasicInteractionDataFactory', function ($http) {
-    return {
-        postBasicInteractionData: function (title, redirectUri, pageType, controlType) {
-            return $http.post("/post_basic_interaction_data", {"title": title, "redirectUri": redirectUri, "pageType": pageType, "controlType": controlType});
-        }
-    };
-});
-
 app.factory('postResetInteractionFactory', function ($http) {
     return {
         postResetInteraction: function () {
@@ -45,13 +37,13 @@ app.factory('errorReportFactory', function ($http) {
     };
 });
 
-app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postBasicInteractionDataFactory, postResetInteractionFactory, errorReportFactory, toaster) {
+app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postResetInteractionFactory, errorReportFactory, toaster) {
     $scope.testResult = "";
     $scope.currentFlattenedTree = "None";
     $scope.numberOfTestsRunning = 0;
     $scope.instructionVisible = false;
-    var addedIds = [];
     var subTestList;
+    var loginContainsUnsupportedFeatures;
 
     $scope.resultSummary = {'success': 0, 'failed': 0};
 
@@ -59,6 +51,10 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         SINGLE_TEST : "singleTest",
         MULTIPLE_TESTS : "multipleTests",
         ALL_TESTS : "allTests"
+    }
+
+    function getLoginContainsUnsupportedFeaturesSuccessCallback(data, status, headers, config) {
+        loginContainsUnsupportedFeatures = data['loginContainsUnsupportedFeatures']
     }
 
     /**
@@ -70,7 +66,21 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         $scope.currentOriginalTree = $scope.bottomUpTree;
         $scope.currentFlattenedTree = buildFlatTree($scope.bottomUpTree);
 
+        $scope.allTests = getAllTests($scope.currentFlattenedTree);
+
         $("[data-toggle='tooltip']").tooltip();
+    }
+
+    function getAllTests(flatTree){
+        var allTestIds = []
+
+        for (var i = 0; i < flatTree.length; i++){
+            var testId = flatTree[i]['id'];
+            if (allTestIds.indexOf(testId) == -1) {
+                allTestIds.push(testId)
+            }
+        }
+        return allTestIds
     }
 
     var isRunningAllTests = false;
@@ -90,20 +100,19 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         $scope.numberOfTestsRunning--;
 
         if ($scope.numberOfTestsRunning <= 0){
-            resetFlags();
-
             var resultString = "Successful tests: " + $scope.resultSummary.success + "\n" + " Failed tests: " + $scope.resultSummary.failed
             toaster.pop('note', "Result summary", resultString);
-            addedIds = []
+            resetFlags();
         }
     };
 
     function resetFlags(){
         $('button').prop('disabled', false);
         isRunningAllTests = false;
-        hasShownInteractionConfigDialog = false;
         hasShownWrongPasswordDialog = false;
         isShowingErrorMessage = false;
+        //Reset test summary or else the result of multiply runs for the same test will be presented
+        $scope.resultSummary = {'success': 0, 'failed': 0};
     }
 
     /**
@@ -164,8 +173,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
      *  @param testRunningMode - Used to identify which method calling "runOneTest".
      */
     $scope.runOneTest = function (id, testUid, testRunningMode) {
-        //Reset test summary or else the result of multiply runs for the same test will be presented
-        $scope.resultSummary = {'success': 0, 'failed': 0};
         $('button').prop('disabled', true);
 
         if (testRunningMode == $scope.TestRunningModesEnum.SINGLE_TEST){
@@ -184,17 +191,15 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
      *  Runs all tests in the test table
      */
     $scope.runAllTest = function () {
-        var treeSize = $scope.currentFlattenedTree.length;
-        var executedIdList = []
+        var numberOfTests = $scope.allTests.length;
         $scope.resetAllResult();
 
-        for (var i = 0; i < treeSize; i++){
-            var id = $scope.currentFlattenedTree[i].id;
-            var testUid = $scope.currentFlattenedTree[i].testid;
-            $scope.runOneTest(id, testUid, $scope.TestRunningModesEnum.ALL_TESTS);
+        for (var i = 0; i < numberOfTests; i++){
+            var id = $scope.allTests[i];
+            $scope.runOneTest(id, null, $scope.TestRunningModesEnum.ALL_TESTS);
         }
 
-        $scope.numberOfTestsRunning = treeSize;
+        $scope.numberOfTestsRunning = numberOfTests;
     };
 
     /**
@@ -322,152 +327,14 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
             tests[i].status = null;
             tests[i].traceLog = null;
         }
-    }
+    };
 
     /**
      * Toggles the visibility of the instructions
      */
     $scope.toggleInstructionVisibility = function () {
         $scope.instructionVisible = !$scope.instructionVisible;
-    }
-
-    var latestExecutedTestUid;
-
-    /**
-     * Setup the login page by adding two hidden input fields and sets a submit action on the login form
-     * @param data - Data returned from the server containing the login page
-     * @returns {HTMLElement} login page
-     */
-    function setupLoginPage(data) {
-        var loginPage = document.createElement('html');
-        loginPage.innerHTML = data['result']['htmlbody'];
-        var formtag = loginPage.getElementsByTagName('form')[0];
-
-        usernameNameTag = document.createElement('input');
-        usernameNameTag.setAttribute('name', 'usernameNameTag');
-        usernameNameTag.setAttribute('type', 'hidden');
-        usernameNameTag.setAttribute('value', data['usernameName']);
-
-        passwordNameTag = document.createElement('input');
-        passwordNameTag.setAttribute('name', 'passwordNameTag');
-        passwordNameTag.setAttribute('type', 'hidden');
-        passwordNameTag.setAttribute('value', data['passwordName']);
-
-        formtag.appendChild(usernameNameTag);
-        formtag.appendChild(passwordNameTag);
-
-        formtag.setAttribute('action', '/post_final_interaction_data');
-        return loginPage;
-    }
-
-    /**
-     * Creates an iframe and shows to modal window containing the login screen
-     * @param data - Result sent from the server
-     */
-    var createIframeAndShowInModelWindow = function(data) {
-
-        var subTestList = data['result']['tests'];
-        var lastElementIndex = subTestList.length -1;
-
-        $('#modalWindowIframe').modal('show');
-        $('#modalIframeContent').empty();
-
-        //Resets the foundInteractionStatus to false if the user exit the log in window
-        $('#modalWindowIframe').on('hidden.bs.modal', function (e) {
-            foundInteractionStatus = false;
-        });
-
-        var loginPage = setupLoginPage(data);
-
-        //Create a iframe and present the login screen inside the iframe
-        var iframe = document.createElement('iframe');
-        iframe.setAttribute('width', '100%');
-        iframe.setAttribute('height', '750px');
-
-        $('#modalIframeContent').append("<h1>Information</h1><span>In order to use this application you need to log in to the IDP. Information, like username and password, will be stored on the server which means that you only have to do this once  </span>");
-        $('#modalIframeContent').append(iframe);
-
-        iframe.contentWindow.document.open();
-        iframe.contentWindow.document.write(loginPage.innerHTML);
-        iframe.contentWindow.document.close();
-
-    }
-
-    var foundInteractionStatus = false;
-    var hasShownInteractionConfigDialog = false;
-
-    /**
-     * Creates the interaction confirmation dialog
-     * @param data - Response returned from the server
-     */
-    function createInteractionConfigDialog(data) {
-        bootbox.dialog({
-            message: "The server are missing some interaction configurations. Do you want the system to try insert the interaction configuration?",
-            title: "Interaction information required",
-            buttons: {
-                danger: {
-                    label: "No",
-                    className: "btn-default"
-                },
-                success: {
-                    label: "Yes",
-                    className: "btn-primary",
-                    callback: function () {
-                        createIframeAndShowInModelWindow(data);
-                    }
-                }
-            }
-        });
-    }
-
-    /**
-     * Handles an interaction status
-     * @param data - Response returned from the server
-     */
-    function handleInteraction(data) {
-        if (!foundInteractionStatus) {
-            foundInteractionStatus = true;
-
-            if (isRunningAllTests){
-                var test = findTestInTreeByID($scope.currentFlattenedTree, data['result']['id']);
-            }else{
-                var test = findTestInTreeByTestUid($scope.currentFlattenedTree, data['testid']);
-            }
-
-            var subResults = test['result'];
-
-            for (var i = 0; i < subResults.length; i++) {
-                if (subResults[i]['status'] == "INTERACTION") {
-                    var htmlString = subResults[i]['message'];
-
-                    var unFormatedUrl = subResults[i]['url']
-                    var url= unFormatedUrl.substr(0, unFormatedUrl.indexOf('?'));
-
-                    break;
-                }
-            }
-
-            var htmlElement = document.createElement('html');
-            htmlElement.innerHTML = htmlString;
-
-            var title = htmlElement.getElementsByTagName('title')[0].innerHTML;
-
-            //TODO I don't know how to identify the property
-            var pageType = "login";
-
-            var formTags = htmlElement.getElementsByTagName('form');
-            if (formTags.length > 0){
-                var controlType = "form"
-            }
-
-            postBasicInteractionDataFactory.postBasicInteractionData(title, url, pageType, controlType).success(emptySuccessCallback).error(errorCallback);
-
-            if (!hasShownInteractionConfigDialog){
-                hasShownInteractionConfigDialog = true;
-                createInteractionConfigDialog(data);
-            }
-        }
-    }
+    };
 
     var hasShownWrongPasswordDialog = false;
 
@@ -507,7 +374,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         }
     }
 
-    var exportResult = []
+    var exportResult = [];
 
     /**
      * Enter the result of a single test to the export result list.
@@ -555,32 +422,15 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         enterTestResultToExportResult($scope.currentFlattenedTree[testIndex].id, data['result']['tests'], data['traceLog']);
 
         $scope.currentFlattenedTree[testIndex].status = convertStatusToText(data['result']['status']);
-        countSuccessAndFails(data['result']['status']);
-
 
         statusNumber = data['result']['status'];
 
-        if (statusNumber == TEST_STATUS['INTERACTION'].value) {
-            handleInteraction(data);
-        }
-        else if (statusNumber == TEST_STATUS['ERROR'].value) {
+//        if (statusNumber == TEST_STATUS['INTERACTION'].value) {
+//            handleInteraction(data);
+//        }
+        if (statusNumber == TEST_STATUS['ERROR'].value) {
             handleError();
         }
-    }
-
-    /**
-     * Postback function called when an interaction successfully has been stored on the server
-     */
-    window.postBack = function(){
-        //TODO A bug appers when interactions without login screen
-        setTimeout(function() {
-            $('#modalWindowIframe').modal('hide');
-            foundInteractionStatus = false;
-            var infoString = "The interaction data was successfully stored on the server. Please rerun the tests, it's possible that more interaction data has to be collected and stored on the server"
-
-            //toaster.pop('success', "Log in", infoString);
-            bootbox.alert(infoString);
-        }, 200);
     }
 
     /**
@@ -594,9 +444,13 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
         for (var i = 0; i < $scope.currentFlattenedTree.length; i++) {
             if ($scope.currentFlattenedTree[i].testid == testid) {
                 enterResultToTree(data, i);
+
+                countSuccessAndFails(data['result']['status']);
             }
         }
     }
+
+    var countedTestIds = []
 
     /**
      * Writes the test result to the tree based on the tests id (not uniqe for every test in the test table).
@@ -608,12 +462,14 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
 
         for (var i = 0; i < $scope.currentFlattenedTree.length; i++) {
             if ($scope.currentFlattenedTree[i].id == id) {
-                if ($.inArray(id, addedIds) == -1){
-                    enterResultToTree(data, i);
+                enterResultToTree(data, i);
+
+                if ($.inArray(id, countedTestIds) == -1) {
+                    countSuccessAndFails(data['result']['status']);
+                    countedTestIds.push(id)
                 }
             }
         }
-        addedIds.push(id);
     }
 
     /**
@@ -637,8 +493,7 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
      * @returns {Array} Returns a flat representation of the incoming nested tree
      */
     function buildFlatTree(nestedTree){
-        //TODO Sort currentFlattenedTree elements by name or test result
-
+        //TODO Blir väl inte platt på riktigt
         var flatTree = [];
 
         for (var i = 0; i < nestedTree.length; i++) {
@@ -670,31 +525,6 @@ app.controller('IndexCtrl', function ($scope, testFactory, runTestFactory, postB
             }
             else if (matchingTest == null && numberOfChildren != 0){
                 matchingTest =  findTestInTreeByTestUid(tree[i].children, targetTestUid);
-            }
-
-        }
-        return matchingTest;
-    }
-
-    /**
-     * Finds a test in tree based on the tests id
-     * @param tree - The tree in which to search for a given test.
-     * @param targetID - The id of the test which is presented in the test table in the first column
-     * @returns {*} Returns the test with the matching id. If no test is found null is returned
-     */
-    function findTestInTreeByID(tree, targetID) {
-        var matchingTest = null;
-
-        for (var i = 0; i < tree.length; i++){
-            numberOfChildren = tree[i].children.length
-
-
-            if (tree[i].id == targetID){
-                matchingTest =  tree[i];
-                break;
-            }
-            else if (matchingTest == null && numberOfChildren != 0){
-                matchingTest =  findTestInTreeByID(tree[i].children, targetID);
             }
 
         }
