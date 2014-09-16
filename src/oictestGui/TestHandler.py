@@ -29,6 +29,7 @@ from oic.oauth2.message import REQUIRED_LIST_OF_STRINGS
 
 from bs4 import BeautifulSoup
 import sys
+from oictest import start_key_server
 
 __author__ = 'haho0032'
 
@@ -77,6 +78,9 @@ class Test:
             "info" : "info.mako",
         }
         self.cache = cache
+
+        self.key_provider = start_key_server(self.config.STATIC_PROVIDER_URL, self.config.STATIC_PROVIDER_SCRIPT_DIR)
+
 
     def verify(self, path):
         for url, file in self.urls.iteritems():
@@ -739,19 +743,21 @@ class Test:
             json.dump(targetDict, outfile)
             outfile.flush()
 
-            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', outfile.name, '-d', '-i', testToRun]
+            parameterList = [self.config.OICC_PATH,'-H', self.config.HOST, '-J', outfile.name, '-d', '-e', testToRun]
 
             if self.config.VERIFY_CERTIFICATES == False:
                 parameterList.append('-x')
 
-            with Test.thread_lock:
-                ok, p_out, p_err = self.runScriptTests(parameterList, self.config.OICTEST_PATH)
+            ok, p_out, p_err = self.runScriptTests(parameterList, self.config.OICTEST_PATH)
 
             outfile.close()
 
             try:
                 if (ok):
-                    result = json.loads(p_out)
+                    try:
+                        result = json.loads(p_out)
+                    except ValueError as ve:
+                        return self.serviceError("Result for test " + testToRun + " could not be loaded: <br>" + p_out)
 
 
                     response = {

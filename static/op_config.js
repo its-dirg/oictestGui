@@ -88,8 +88,6 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         setTimeout(function() {
             $('#modalWindowInteraction').modal('hide');
             foundInteractionStatus = false;
-            var infoString = "One interaction data was successfully stored on the server. The verification will restart in order to see if more interactions needs to be collected"
-            bootbox.alert(infoString);
             requestLatestConfigFileFromServer();
             $scope.runVerifyConfig();
             $scope.$apply();
