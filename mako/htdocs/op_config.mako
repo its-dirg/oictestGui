@@ -130,8 +130,9 @@
             <hr>
 
             <!-- ################################################################################################# -->
-            <div ng-show="opConfig.fetchInfoFromServerDropDown.value != ''">
-                <h3>
+##            <div ng-show="opConfig.fetchInfoFromServerDropDown.value != ''">
+            <div>
+            <h3>
                     Required information:
                 </h3>
 
@@ -201,6 +202,14 @@
                     </div>
                 </div>
 
+
+                <h3>Cookies</h3>
+
+                Enter cookies in Netscapt format:
+                <button class="btn btn-default btn-xs" ng-click="toggleNetscapeCookieExample()">Example</button>
+
+                <textarea class="form-control" rows="10" wrap="off" id="cookieInputTextbox" style="margin-bottom: 5px" ng-model="opConfig.loginCookies"></textarea>
+
                 <br>
 
                 <button class="btn btn-primary btn-sm" ng-click="saveConfigurations();">Save configurations</button>
@@ -246,23 +255,15 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalWindowUploadCookies" tabindex="-1" role="dialog"
+<div class="modal fade" id="modalWindowNetscapeCookieExample" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog large">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeUploadCookies()">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="toggleNetscapeCookieExample()">&times;</button>
                 <h4 class="modal-title">Upload cookies</h4>
             </div>
             <div class="modal-body">
-
-                Enter cookies in Netscapt format:
-                <textarea class="form-control" rows="10" wrap="off" id="cookieInputTextbox" style="margin-bottom: 5px"></textarea>
-
-                <button class="btn btn-primary btn-sm" ng-click="requestUploadCookies();">
-                    <span class="glyphicon glyphicon-open"></span>
-                    Upload cookies
-                </button>
 
                 <div class="highlight">
                     <h4>Example of a valid cookie in Netscape format:</h4>

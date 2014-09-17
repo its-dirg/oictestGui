@@ -51,16 +51,14 @@ app.factory('postBasicInteractionDataFactory', function ($http) {
 
 app.factory('cooikeFactory', function ($http) {
     return {
-        requestUploadCookies: function (cookies) {
-            return $http.post("/upload_cookies", {"cookies": cookies});
+        validateCookies: function (cookies) {
+            return $http.post("/validate_cookies", {"cookies": cookies});
         }
     }
 });
 
 app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, verifyConfigFactory, postBasicInteractionDataFactory, cooikeFactory) {
     $scope.opConfig;
-
-    $("#modalWindowUploadCookies").modal('toggle');
 
     var TEST_STATUS  = {
         'INFORMATION':{value: 0, string:'INFORMATION'},
@@ -238,21 +236,13 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         }
     };
 
-    $scope.closeUploadCookies = function(){
-        $("#modalWindowUploadCookies").modal('toggle');
-    }
+    $scope.toggleNetscapeCookieExample = function(){
+        $("#modalWindowNetscapeCookieExample").modal('toggle');
+    };
 
-    $scope.requestUploadCookies = function(){
-        var textboxContent = $("#cookieInputTextbox").val();
-        cooikeFactory.requestUploadCookies(textboxContent).success(getRequestUploadCookieSuccessCallback).error(errorCallback);
-    }
 
     function getRequestUploadCookieSuccessCallback(data, status, headers, config) {
-        alert(data['ResponseMessage'])
-
-        if(data['isSuccess']){
-            $("#modalWindowUploadCookies").modal('toggle');
-        }
+        opConfigurationFactory.postOpConfig($scope.opConfig).success(postOpConfigurationsSuccessCallback).error(errorCallback);
     }
 
     /**
@@ -548,7 +538,8 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
     };
 
     $scope.saveConfigurations = function(){
-        opConfigurationFactory.postOpConfig($scope.opConfig).success(postOpConfigurationsSuccessCallback).error(errorCallback);
+        var cookies = $scope.opConfig['loginCookies']
+        cooikeFactory.validateCookies(cookies).success(getRequestUploadCookieSuccessCallback).error(errorCallback);
     };
 
     /**

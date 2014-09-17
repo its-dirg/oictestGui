@@ -77,7 +77,7 @@ class Test:
             "does_config_file_exist": None,
             "get_op_config": None,
             "post_op_config": None,
-            "upload_cookies": None,
+            "validate_cookies": None,
 
             "" : "op_config.mako",
             "info" : "info.mako",
@@ -128,8 +128,8 @@ class Test:
             return self.handleGetConfigGuiStructure()
         elif path == "post_op_config":
             return self.handlePostOpConfigurations()
-        elif path == "upload_cookies":
-            return self.handleUploadCookies()
+        elif path == "validate_cookies":
+            return self.handleValidateCookies()
 
         elif path == "":
             return self.handleShowPage(self.urls[path])
@@ -268,6 +268,9 @@ class Test:
 
         configDict = self.convertRequiredInfoFromOpConfigToConfigFile(configGuiStructure, configDict);
         configDict = self.convertInteractionsFromOpConfigToConfigFile(configGuiStructure, configDict);
+
+        configDict['login_cookies'] = configGuiStructure['loginCookies']
+
         return json.dumps(configDict)
 
     def handlePostOpConfigurations(self):
@@ -280,7 +283,7 @@ class Test:
         self.setConfigFile(self.convertOpConfigToConfigFile(opConfigurations))
         return self.returnJSON({})
 
-    def handleUploadCookies(self):
+    def handleValidateCookies(self):
         cookies = self.parameters['cookies']
 
         cookies = "# Netscape HTTP Cookie File\n" + cookies
@@ -291,20 +294,13 @@ class Test:
         cj = MyMozillaCookieJar(cookie_temp_file.name)
         cookie_temp_file.flush()
 
-        responseDict = {"ResponseMessage": "Successfully uploaded the cookies", "isSuccess": True}
-
         try:
             cj.load()
             cookie_temp_file.close()
-            self.session[self.COOKIE_FILE_KEY] = cookies
-            responseDict = {"ResponseMessage": "Successfully uploaded the cookies", "isSuccess": True}
-        except LoadError as le:
-            cookie = le.message.split(":")
-            responseDict = {"ResponseMessage": "This cookie does not follow Netscape format:" + cookie[1], "isSuccess": False}
-        except ValueError as ve:
-            responseDict = {"ResponseMessage": ve.message, "isSuccess": False}
+        except Exception as ve:
+            return self.serviceError(ve.message)
 
-        return self.returnJSON(json.dumps(responseDict))
+        return self.returnJSON({})
 
     def isPyoidcMessageList(self, fieldType):
         if fieldType == REQUIRED_LIST_OF_SP_SEP_STRINGS:
@@ -367,7 +363,9 @@ class Test:
                            {"type": "no", "name": "no"}]
             },
 
-            "interactionsBlocks": []
+            "interactionsBlocks": [],
+
+            "loginCookies": ""
         }
         return opConfigurations
 
@@ -513,6 +511,9 @@ class Test:
 
         configStructureDict = self.convertRequiredInfo(configFileDict, configStructureDict)
         configStructureDict = self.convertInteractionBlocksToGuiStructure(configFileDict, configStructureDict)
+
+        if 'login_cookies' in configFileDict:
+            configStructureDict['loginCookies'] = configFileDict['login_cookies']
 
         return configStructureDict
 
