@@ -269,6 +269,8 @@ class Test:
         configDict = self.convertRequiredInfoFromOpConfigToConfigFile(configGuiStructure, configDict);
         configDict = self.convertInteractionsFromOpConfigToConfigFile(configGuiStructure, configDict);
 
+        configDict['client']['preferences']['subject_type'] = configGuiStructure["clientSubjectType"]["value"]
+
         configDict['login_cookies'] = configGuiStructure['loginCookies']
 
         return json.dumps(configDict)
@@ -361,6 +363,13 @@ class Test:
                 "value": "no",
                 "values": [{"type": "yes", "name": "yes"},
                            {"type": "no", "name": "no"}]
+            },
+
+            "clientSubjectType":{
+                "label": "Select subject identifier type which the client should use: ",
+                "value": "",
+                "values": [{"type": "public", "name": "public"},
+                           {"type": "pairwise", "name": "pairwise"}]
             },
 
             "interactionsBlocks": [],
@@ -511,6 +520,8 @@ class Test:
 
         configStructureDict = self.convertRequiredInfo(configFileDict, configStructureDict)
         configStructureDict = self.convertInteractionBlocksToGuiStructure(configFileDict, configStructureDict)
+
+        configStructureDict["clientSubjectType"]["value"] = configFileDict['client']['preferences']['subject_type'];
 
         if 'login_cookies' in configFileDict:
             configStructureDict['loginCookies'] = configFileDict['login_cookies']

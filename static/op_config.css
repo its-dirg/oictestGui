@@ -66,6 +66,10 @@ input[type='text']{
     font-size: 17px;
 }
 
+.modal-body {
+    overflow-y: auto;
+}
+
 .modal-dialog.large {
     min-width: 800px;
     width: 80%;

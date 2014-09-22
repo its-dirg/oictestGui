@@ -130,11 +130,23 @@
             <hr>
 
             <!-- ################################################################################################# -->
-##            <div ng-show="opConfig.fetchInfoFromServerDropDown.value != ''">
-            <div>
-            <h3>
-                    Required information:
+            <div ng-show="opConfig.fetchInfoFromServerDropDown.value != ''">
+                <h3>
+                    Client configuration:
                 </h3>
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <span>
+                            {{opConfig.clientSubjectType.label}}
+                        </span>
+
+                        <select ng-model="opConfig.clientSubjectType.value"
+                            ng-options="v.type as v.name for v in opConfig.clientSubjectType.values">
+                        </select>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -161,26 +173,20 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <span>
-                            {{opConfig.unsupportedLoginFeatures.label}}
-                        </span>
-
-                        <select ng-model="opConfig.unsupportedLoginFeatures.value"
-                                ng-options="v.type as v.name for v in opConfig.unsupportedLoginFeatures.values">
-                        </select>
-                    </div>
-                </div>
-
                 <hr>
 
                 <!-- ################################################################################################# -->
 
                 <h3>
+                    Login information
+                </h3>
+
+                In order to run some tests you need to be logged in to the OP, this could be done by either using interactions or cookies.
+
+                <h4>
                     Interaction:
                     <button class="btn btn-default btn-sm" ng-click="addInteractionBlock();">+</button>
-                </h3>
+                </h4>
 
                 <div class="block" ng-repeat="block in opConfig.interactionsBlocks">
                     <div class="row" ng-repeat="textField in block.inputFields">
@@ -203,7 +209,7 @@
                 </div>
 
 
-                <h3>Cookies</h3>
+                <h4>Cookies</h4>
 
                 Enter cookies in Netscapt format:
                 <button class="btn btn-default btn-xs" ng-click="toggleNetscapeCookieExample()">Example</button>
@@ -214,6 +220,14 @@
 
                 <button class="btn btn-primary btn-sm" ng-click="saveConfigurations();">Save configurations</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalWindowCookieError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalWindowCookieErrorContent">
+            {{cookieErrorMessage}}
         </div>
     </div>
 </div>

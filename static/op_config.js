@@ -185,7 +185,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '750px');
 
-        $('#modalWindowInteractionContent').append("<h1>Information</h1><span>In order to use this application you need to log in to the IDP. Information, like username and password, will be stored on the server which means that you only have to do this once  </span>");
+        $('#modalWindowInteractionContent').append("<h1>Information</h1><span>In order to use this application you need to log in to the OP. Information, like username and password, will be stored on the server which means that you only have to do this once  </span>");
         $('#modalWindowInteractionContent').append(iframe);
 
         iframe.contentWindow.document.open();
@@ -270,7 +270,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
     function showVerifyConfigDialog(){
         bootbox.dialog({
             message: "Your configuration was successfully stored on the server. <br><br> Some tests requires the " +
-                "user to be loggin, this could be done by either using interactions or cookies. " +
+                "user to be logged in, this could be done by either using interactions or cookies. " +
                 "Do you want to verify that you could run this kinds of tests?",
             title: "Verify configuration",
             buttons: {
@@ -541,6 +541,12 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         var cookies = $scope.opConfig['loginCookies']
         cooikeFactory.validateCookies(cookies).success(getRequestUploadCookieSuccessCallback).error(errorCallback);
     };
+
+    function showCookieErrorDialog(data, status, headers, config) {
+        $("#modalWindowCookieError").modal('toggle');
+
+        $scope.cookieErrorMessage = data.ExceptionMessage;
+    }
 
     /**
      * Tries to download the configuration file from the server
