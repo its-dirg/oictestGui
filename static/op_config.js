@@ -70,12 +70,23 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         'EMPTY_STATUS':{value: 6, string:'EMPTY_STATUS'}
     };
 
+    /**
+     * Is responsible for verifying that the configuration contains enough login information to be able to run tests which
+     * requires interactions or cookies
+     */
     $scope.runVerifyConfig = function () {
         $('button').prop('disabled', true);
 
         verifyConfigFactory.verifyConfig().success(getVerifyConfigSuccessCallback).error(errorCallback);
     };
 
+    /**
+     * Confirms that the configuration will be able to run tests which requires logging in
+     * @param data - The result returned from the server
+     * @param status - The status on the response from the server
+     * @param headers - The header on the response from the server
+     * @param config - The configuration on the response from the server
+     */
     function getVerifyConfigSuccessCallback(data, status, headers, config) {
 
         statusNumber = data['result']['status'];
@@ -142,6 +153,13 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         }
     }
 
+    /**
+     * Confirms that the basic interaction information has successfully has been stored on the server
+     * @param data - The result returned from the server
+     * @param status - The status on the response from the server
+     * @param headers - The header on the response from the server
+     * @param config - The configuration on the response from the server
+     */
     function postBasicInteractionSuccessCallback(data, status, headers, config) {
         bootbox.dialog({
             message: "The server are missing some interaction configurations. Do you want the system to try insert the interaction configuration?",
@@ -166,7 +184,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
      * Creates an iframe and shows to modal window containing the login screen
      * @param data - Result sent from the server
      */
-    var createIframeAndShowInModelWindow = function(data) {
+    function createIframeAndShowInModelWindow(data) {
         var subTestList = data['result']['tests'];
         var lastElementIndex = subTestList.length -1;
 
@@ -240,8 +258,14 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         $("#modalWindowNetscapeCookieExample").modal('toggle');
     };
 
-
-    function getRequestUploadCookieSuccessCallback(data, status, headers, config) {
+    /**
+     * Confirms that the configuration will be able to run tests which requires logging in
+     * @param data - The result returned from the server
+     * @param status - The status on the response from the server
+     * @param headers - The header on the response from the server
+     * @param config - The configuration on the response from the server
+     */
+    function validateCookieSuccessCallback(data, status, headers, config) {
         opConfigurationFactory.postOpConfig($scope.opConfig).success(postOpConfigurationsSuccessCallback).error(errorCallback);
     }
 
@@ -539,12 +563,13 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
 
     $scope.saveConfigurations = function(){
         var cookies = $scope.opConfig['loginCookies']
-        cooikeFactory.validateCookies(cookies).success(getRequestUploadCookieSuccessCallback).error(errorCallback);
+
+        /* Checks if the entered cookies follows the netscape format */
+        cooikeFactory.validateCookies(cookies).success(validateCookieSuccessCallback).error(errorCallback);
     };
 
     function showCookieErrorDialog(data, status, headers, config) {
         $("#modalWindowCookieError").modal('toggle');
-
         $scope.cookieErrorMessage = data.ExceptionMessage;
     }
 

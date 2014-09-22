@@ -131,6 +131,50 @@
 
             <!-- ################################################################################################# -->
             <div ng-show="opConfig.fetchInfoFromServerDropDown.value != ''">
+
+                <h3>
+                    Login information
+                </h3>
+
+                In order to run some tests you need to be logged in to the OP, this could be done by either using interactions or cookies.
+
+                <h4>
+                    Interaction:
+                    <button class="btn btn-default btn-sm" ng-click="addInteractionBlock();">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </h4>
+
+                <div class="block" ng-repeat="block in opConfig.interactionsBlocks">
+                    <div class="row" ng-repeat="textField in block.inputFields">
+                        <div class="col-sm-2">
+                            {{textField.label}}:
+                        </div>
+
+                        <div class="col-sm-10">
+                            <form>
+                                <input type="text" ng-model="textField.textFieldContent">
+                            </form>
+                        </div>
+                        <br>
+                    </div>
+
+                    <div class="close">
+                        <button class="btn btn-danger btn-sm" ng-click="createConfirmRemoveInteractionBlockDialog(block.id);">X
+                        </button>
+                    </div>
+                </div>
+
+
+                <h4>Cookies</h4>
+
+                Enter cookies in Netscapt format:
+                <button class="btn btn-default btn-xs" ng-click="toggleNetscapeCookieExample()">Example</button>
+
+                <textarea class="form-control" rows="10" wrap="off" id="cookieInputTextbox" style="margin-bottom: 5px" ng-model="opConfig.loginCookies"></textarea>
+
+                <hr>
+
                 <h3>
                     Client configuration:
                 </h3>
@@ -176,47 +220,6 @@
                 <hr>
 
                 <!-- ################################################################################################# -->
-
-                <h3>
-                    Login information
-                </h3>
-
-                In order to run some tests you need to be logged in to the OP, this could be done by either using interactions or cookies.
-
-                <h4>
-                    Interaction:
-                    <button class="btn btn-default btn-sm" ng-click="addInteractionBlock();">+</button>
-                </h4>
-
-                <div class="block" ng-repeat="block in opConfig.interactionsBlocks">
-                    <div class="row" ng-repeat="textField in block.inputFields">
-                        <div class="col-sm-2">
-                            {{textField.label}}:
-                        </div>
-
-                        <div class="col-sm-10">
-                            <form>
-                                <input type="text" ng-model="textField.textFieldContent">
-                            </form>
-                        </div>
-                        <br>
-                    </div>
-
-                    <div class="close">
-                        <button class="btn btn-danger btn-sm" ng-click="createConfirmRemoveInteractionBlockDialog(block.id);">X
-                        </button>
-                    </div>
-                </div>
-
-
-                <h4>Cookies</h4>
-
-                Enter cookies in Netscapt format:
-                <button class="btn btn-default btn-xs" ng-click="toggleNetscapeCookieExample()">Example</button>
-
-                <textarea class="form-control" rows="10" wrap="off" id="cookieInputTextbox" style="margin-bottom: 5px" ng-model="opConfig.loginCookies"></textarea>
-
-                <br>
 
                 <button class="btn btn-primary btn-sm" ng-click="saveConfigurations();">Save configurations</button>
             </div>
