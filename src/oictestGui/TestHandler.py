@@ -288,8 +288,6 @@ class Test:
     def handleValidateCookies(self):
         cookies = self.parameters['cookies']
 
-        cookies = "# Netscape HTTP Cookie File\n" + cookies
-
         cookie_temp_file = tempfile.NamedTemporaryFile()
         cookie_temp_file.write(cookies)
 
