@@ -67,7 +67,7 @@ class MyMozillaCookieJar(cookielib.MozillaCookieJar):
         except IOError:
             raise
         except AssertionError:
-            raise AssertionError("Cookie does not follow Netscape format." + self._parse_failed_cookie_message(line))
+            raise AssertionError("Cookie does not follow Netscape format. Check that the values only are seperated by tab (\\t)" + self._parse_failed_cookie_message(line))
         except Exception as ex:
             raise Exception(ex.message + self._parse_failed_cookie_message(line))
 

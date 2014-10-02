@@ -195,6 +195,11 @@ class Test:
                 if inputField['label'] == 'type':
                     type = inputField['textFieldContent']
 
+            if set != "":
+                set = json.loads(set)
+            else:
+                set = {}
+
             newInteractionBlock = {
                 "matches":{
                     "url" : url,
@@ -202,7 +207,7 @@ class Test:
                 },
                 "page-type": pageType,
                 "control" : {
-                    "set" : json.loads(set),
+                    "set" : set,
                     "type" : type,
                     "index" : index
                 }
@@ -271,7 +276,8 @@ class Test:
 
         configDict['client']['preferences']['subject_type'] = configGuiStructure["clientSubjectType"]["value"]
 
-        configDict['login_cookies'] = configGuiStructure['loginCookies']
+        if configGuiStructure['loginCookies'] != "":
+            configDict['login_cookies'] = configGuiStructure['loginCookies']
 
         return json.dumps(configDict)
 

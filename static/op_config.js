@@ -564,8 +564,12 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
     $scope.saveConfigurations = function(){
         var cookies = $scope.opConfig['loginCookies']
 
-        /* Checks if the entered cookies follows the netscape format */
-        cooikeFactory.validateCookies(cookies).success(validateCookieSuccessCallback).error(errorCallback);
+        if (cookies != "") {
+            /* Checks if the entered cookies follows the netscape format */
+            cooikeFactory.validateCookies(cookies).success(validateCookieSuccessCallback).error(errorCallback);
+        }else{
+            opConfigurationFactory.postOpConfig($scope.opConfig).success(postOpConfigurationsSuccessCallback).error(errorCallback);
+        }
     };
 
     function showCookieErrorDialog(data, status, headers, config) {
