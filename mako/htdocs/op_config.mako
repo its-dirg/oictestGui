@@ -257,8 +257,14 @@
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <input type="file" name="file" id="targetFile">
-            <button class="btn btn-primary btn-sm" ng-click="requestUploadConfigFile();">Upload configurations</button>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Upload configuration</h4>
+            </div>
+            <div class="modal-body">
+                <input type="file" name="file" id="targetFile">
+                <button class="btn btn-primary btn-sm" ng-click="requestUploadConfigFile();">Upload configurations</button>
+            </div>
         </div>
     </div>
 </div>
@@ -268,7 +274,7 @@
     <div class="modal-dialog">
         <div class="modal-content" id="modalWindowHTMLContent">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="toggleNetscapeCookieExample()">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Show html dialog</h4>
             </div>
         </div>
