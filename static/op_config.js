@@ -70,15 +70,41 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         'EMPTY_STATUS':{value: 6, string:'EMPTY_STATUS'}
     };
 
+    function verifyConfigErrorCallback(data, status, headers, config){
+
+        enableGUI();
+        $('#modalWindowInteraction').modal('show');
+        $('#modalWindowHTMLContent').append(data.ExceptionMessage);
+
+        if (data.HTML != null){
+            var loginPage = document.createElement('html');
+            loginPage.innerHTML = data['HTML'];
+
+            //Create a iframe and present the login screen inside the iframe
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('width', '100%');
+            iframe.setAttribute('height', '750px');
+
+            $('#modalWindowHTMLContent').append(iframe);
+
+            iframe.contentWindow.document.open();
+            iframe.contentWindow.document.write(loginPage.innerHTML);
+            iframe.contentWindow.document.close();
+        }
+    }
+
     /**
      * Is responsible for verifying that the configuration contains enough login information to be able to run tests which
      * requires interactions or cookies
      */
     $scope.runVerifyConfig = function () {
         $('button').prop('disabled', true);
-
-        verifyConfigFactory.verifyConfig().success(getVerifyConfigSuccessCallback).error(errorCallback);
+        verifyConfigFactory.verifyConfig().success(getVerifyConfigSuccessCallback).error(verifyConfigErrorCallback);
     };
+
+    function enableGUI(){
+        $('button').prop('disabled', false);
+    }
 
     /**
      * Confirms that the configuration will be able to run tests which requires logging in
@@ -97,7 +123,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
            bootbox.alert("Your configurations are verified you should now be able to run the tests requiring a user to be logged in");
         }
 
-        $('button').prop('disabled', false);
+        enableGUI();
     }
 
     /**
@@ -189,7 +215,7 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         var lastElementIndex = subTestList.length -1;
 
         $('#modalWindowInteraction').modal('show');
-        $('#modalWindowInteractionContent').empty();
+        $('#modalWindowHTMLContent').empty();
 
         //Resets the foundInteractionStatus to false if the user exit the log in window
         $('#modalWindowInteraction').on('hidden.bs.modal', function (e) {
@@ -203,8 +229,8 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '750px');
 
-        $('#modalWindowInteractionContent').append("<h1>Information</h1><span>In order to use this application you need to log in to the OP. Information, like username and password, will be stored on the server which means that you only have to do this once  </span>");
-        $('#modalWindowInteractionContent').append(iframe);
+        $('#modalWindowHTMLContent').append("<h1>Information</h1><span>In order to use this application you need to log in to the OP. Information, like username and password, will be stored on the server which means that you only have to do this once  </span>");
+        $('#modalWindowHTMLContent').append(iframe);
 
         iframe.contentWindow.document.open();
         iframe.contentWindow.document.write(loginPage.innerHTML);
@@ -414,6 +440,8 @@ app.controller('IndexCtrl', function ($scope, toaster, opConfigurationFactory, v
      */
     function errorCallback(data, status, headers, config) {
         bootbox.alert(data.ExceptionMessage);
+
+        enableGUI();
     }
 
     /**

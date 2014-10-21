@@ -827,6 +827,10 @@ class Test:
                             response['passwordName'] = passwordName
                         except TypeError:
                             pass
+                        except IndexError:
+                            return self.serviceError("Could not identify a login form on page:", result['htmlbody'])
+                        except Exception as ex:
+                            return self.serviceError("Something went wrong when trying to identify username and password input fields")
 
                     return self.returnJSON(json.dumps(response))
                 else:
@@ -1058,11 +1062,11 @@ class Test:
         return resp(self.environ, self.start_response)
 
 
-    def serviceError(self, message):
+    def serviceError(self, message, html=None):
         """
         :return A error response which is used to show error messages in the client
         """
-        message = {"ExceptionMessage": message}
+        message = {"ExceptionMessage": message, "HTML": html}
         resp = ServiceError(json.dumps(message))
         return resp(self.environ, self.start_response)
 
